@@ -15,21 +15,38 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
 
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: {
-    nixosConfigurations = {
-      # Ganti "hostname" dengan nama host sistem Anda
-      nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        system = "x86_64-linux"; # Sesuaikan dengan arsitektur sistem
-        modules = [
-          ./hardware-configuration.nix
-          # Impor konfigurasi sistem yang ada
-          ./configuration.nix
-          # Tambahkan modul tambahan di sini
-        ];
+  outputs = { self, nixpkgs, flake-parts, ... }@inputs:
+
+    flake-parts.lib.mkFlake { inherit inputs; }
+      {
+        systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+
+        perSystem = { config, self', inputs', pkgs, system, ... }: {
+          # Per-system attributes can be defined here. The self' and inputs'
+          # module parameters provide easy access to attributes of the same
+          # system.
+
+          # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
+          # packages.default = pkgs.hello;
+        };
+
+        flake = {
+          nixosConfigurations = {
+            nixos = nixpkgs.lib.nixosSystem {
+              specialArgs = { inherit inputs; };
+              system = "x86_64-linux"; # Sesuaikan dengan arsitektur sistem
+              modules = [
+                ./hardware-configuration.nix
+                # Impor konfigurasi sistem yang ada
+                ./configuration.nix
+                # Tambahkan modul tambahan di sini
+              ];
+            };
+
+          };
+        };
       };
-    };
-  };
 }

@@ -61,6 +61,8 @@
     jetbrains-mono
     openjdk21
 
+    go
+
   ];
 
   # Install firefox.
