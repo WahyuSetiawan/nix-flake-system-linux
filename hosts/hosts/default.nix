@@ -11,23 +11,21 @@ let
   });
 
   mkDarwinSystem =
-    hostname: params@{ system ? "aarch64-darwin"
-              , stateVersion ? 4
-              ,
-              }: withSystem system (
+    hostname:
+    { system ? "aarch64-darwin"
+    , stateVersion ? 4
+    ,
+    }: withSystem system (
       { pkgs, config, ... }: inputs.nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit inputs params; };
+        specialArgs = { inherit inputs; };
 
-        modules = [
-        ] ++ builtins.attrValues self.commonModules
-        ++ builtins.attrValues self.darwinModules
-        ++ [
+        modules = builtins.attrValues self.commonModules
+          ++ builtins.attrValues self.darwinModules
+          ++ [
           inputs.home-manager.darwinModules.home-manager
           (mkCommonConfiguration { system = system; stateVersion = stateVersion; })
           ({ pkgs, ... }: {
-
             system.configurationRevision = self.rev or self.dirtyRev or null;
-
           })
         ];
       }
@@ -37,25 +35,6 @@ let
 in
 {
   flake = {
-    # nixosConfigurations = {
-    #   nixos = inputs.nixpkgs.lib.nixosSystem {
-    #     specialArgs = {
-    #       inherit inputs;
-    #     };
-    #
-    #     system = "x86_64-linux";
-    #
-    #     modules =
-    #       builtins.attrValues self.commonModules
-    #       ++ builtins.attrValues self.nixosModules
-    #       ++ [
-    #         inputs.home-manager.nixosModules.home-manager
-    #         ./hardware
-    #         ./configuration.nix
-    #       ];
-    #   };
-    # };
-
     darwinConfigurations = mkDarwinConfiguration {
       "JuraganKoding-2" = { };
     };
