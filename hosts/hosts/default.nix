@@ -24,8 +24,12 @@ let
           ++ [
           inputs.home-manager.darwinModules.home-manager
           (mkCommonConfiguration { system = system; stateVersion = stateVersion; })
+          (
+            import ./home-configuration.nix { user = "wahyu"; }
+          )
           ({ pkgs, ... }: {
             system.configurationRevision = self.rev or self.dirtyRev or null;
+
           })
         ];
       }
