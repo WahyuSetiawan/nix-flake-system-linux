@@ -1,6 +1,7 @@
 { self, inputs, withSystem, ... }:
 let
-  mkCommonConfiguration = params@{ system, stateVersion }: ({ pkgs, ... }: {
+  mkHomeConfiguration = import ./home-configuration.nix;
+  mkCommonConfiguration = params@{ system, stateVersion }: ({ self, pkgs, ... }: {
     nix.settings.experimental-features = [
       "nix-command"
       "flakes"
@@ -24,9 +25,7 @@ let
           ++ [
           inputs.home-manager.darwinModules.home-manager
           (mkCommonConfiguration { system = system; stateVersion = stateVersion; })
-          (
-            import ./home-configuration.nix { user = "wahyu"; }
-          )
+          # (mkHomeConfiguration { user = "wahyu"; })
           ({ pkgs, ... }: {
             system.configurationRevision = self.rev or self.dirtyRev or null;
 
