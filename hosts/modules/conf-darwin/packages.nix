@@ -1,0 +1,35 @@
+inputs@{ pkgs, ... }: {
+  enviroment.systemPackages = with pkgs;[
+    w3m
+    starship
+    clang
+    nixpkgs-fmt
+    libiconv
+    iconv
+    cargo
+    rustc
+    lsd
+    vim
+    tmux
+    bat
+    neovim
+    lazygit
+    kitty
+    alacritty
+    bat
+    gitflow
+    btop
+    tldr
+    eza
+    tmux
+    htop
+    tree
+    stow
+    curl
+    wget
+    fzf
+    gnumake
+    ripgrep
+    gcc
+  ];
+}
