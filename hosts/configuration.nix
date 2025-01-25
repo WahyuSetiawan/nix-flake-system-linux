@@ -1,10 +1,5 @@
 { inputs, config, pkgs, lib, ... }:
 {
-  imports =
-    [
-      inputs.home-manager.nixosModules.home-manager
-      ./home-manager/juragankoding.nix
-    ];
   nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; # Enable the experimental features
@@ -35,6 +30,21 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
+  users.defaultUserShell = pkgs.zsh;
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "backup";
+  
+  users.users.juragankoding = {
+    isNormalUser = true;
+    description = "Juragan Koding";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+      #  thunderbird
+    ];
+  };
 
 }	
 
