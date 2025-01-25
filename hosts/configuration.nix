@@ -1,27 +1,20 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { inputs, config, pkgs, lib, ... }:
 {
   imports =
     [
-      ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
       ./home-manager/juragankoding.nix
-      ./modules/system.nix
-      ./modules/hardware/nvidia.nix
-      ./modules/networking.nix
-      ./modules/packages.nix
-      ./modules/services.nix
-      ./modules/users.nix
-      ./modules/services/xserver.nix
-      ./modules/services/pipewire.nix
-      ./modules/services/hyperland.nix
-      ./modules/services/virtualbox.nix
+      ./modules
+      # ./modules/system.nix
+      # ./modules/networking.nix
+      # ./modules/packages.nix
+      # ./modules/services.nix
+      # ./modules/users.nix
+      # ./modules/services/xserver.nix
+      # ./modules/services/pipewire.nix
+      # ./modules/services/hyperland.nix
+      # ./modules/services/virtualbox.nix
     ];
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; # Enable the experimental features
