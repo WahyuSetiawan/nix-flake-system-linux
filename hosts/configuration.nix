@@ -5,15 +5,6 @@
       inputs.home-manager.nixosModules.home-manager
       ./home-manager/juragankoding.nix
       ./modules
-      # ./modules/system.nix
-      # ./modules/networking.nix
-      # ./modules/packages.nix
-      # ./modules/services.nix
-      # ./modules/users.nix
-      # ./modules/services/xserver.nix
-      # ./modules/services/pipewire.nix
-      # ./modules/services/hyperland.nix
-      # ./modules/services/virtualbox.nix
     ];
   nixpkgs.config.allowUnfree = true;
 
