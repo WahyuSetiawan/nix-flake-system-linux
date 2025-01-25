@@ -1,35 +1,41 @@
-{ self, inputs, withSytem, ... }:
+{ self, inputs, withSystem, ... }:
 let
-  mkCommonConfiguration = name: {
+  mkCommonConfiguration = params@{ system, stateVersion }: ({ pkgs, ... }: {
     nix.settings.experimental-features = [
       "nix-command"
       "flakes"
     ];
-  };
 
-  mkDarwinConfiguration = hostname: withSytem inputs.system (
-    { self, inputs, ... }: inputs.nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit inputs; };
+    nixpkgs.hostPlatform = system;
+    system.stateVersion = stateVersion;
+  });
 
-      modules = builtins.attrValues self.commonModules
+  mkDarwinSystem =
+    hostname: params@{ system ? "aarch64-darwin"
+              , stateVersion ? 4
+              ,
+              }: withSystem system (
+      { pkgs, config, ... }: inputs.nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit inputs params; };
+
+        modules = [
+        ] ++ builtins.attrValues self.commonModules
         ++ builtins.attrValues self.darwinModules
         ++ [
-        inputs.home-manager.darwinModules.home-manager
-        ({ pkgs, ... }: {
+          inputs.home-manager.darwinModules.home-manager
+          (mkCommonConfiguration { system = system; stateVersion = stateVersion; })
+          ({ pkgs, ... }: {
 
-          nix.settings.experimental-features = "nix-command flakes";
+            system.configurationRevision = self.rev or self.dirtyRev or null;
 
-          system.configurationRevision = self.rev or self.dirtyRev or null;
+          })
+        ];
+      }
+    );
 
-          system.stateVersion = 5;
-          nixpkgs.hostPlatform = "aarch64-darwin";
-        })
-      ];
-    }
-  );
+  mkDarwinConfiguration = configuration: builtins.mapAttrs mkDarwinSystem configuration;
 in
 {
-
   flake = {
     # nixosConfigurations = {
     #   nixos = inputs.nixpkgs.lib.nixosSystem {
@@ -50,30 +56,9 @@ in
     #   };
     # };
 
-    darwinConfigurations = {
-      "JuraganKoding-2" = mkDarwinConfiguration;
+    darwinConfigurations = mkDarwinConfiguration {
+      "JuraganKoding-2" = { };
     };
-
-    # darwinConfigurations = {
-    #   "JuraganKoding-2" = inputs.nix-darwin.lib.darwinSystem {
-    #     specialArgs = { inherit inputs; };
-    #
-    #     modules = builtins.attrValues self.commonModules
-    #       ++ builtins.attrValues self.darwinModules
-    #       ++ [
-    #       inputs.home-manager.darwinModules.home-manager
-    #       ({ pkgs, ... }: {
-    #
-    #         nix.settings.experimental-features = "nix-command flakes";
-    #
-    #         system.configurationRevision = self.rev or self.dirtyRev or null;
-    #
-    #         system.stateVersion = 5;
-    #         nixpkgs.hostPlatform = "aarch64-darwin";
-    #       })
-    #     ];
-    #   };
-    # };
   };
 
 
