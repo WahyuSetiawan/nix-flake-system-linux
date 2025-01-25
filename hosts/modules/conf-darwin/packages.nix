@@ -1,5 +1,5 @@
 inputs@{ pkgs, ... }: {
-  enviroment.systemPackages = with pkgs;[
+  environment.systemPackages = with pkgs;[
     w3m
     starship
     clang
