@@ -4,7 +4,6 @@
     [
       inputs.home-manager.nixosModules.home-manager
       ./home-manager/juragankoding.nix
-      ./modules
     ];
   nixpkgs.config.allowUnfree = true;
 
