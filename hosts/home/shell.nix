@@ -108,7 +108,7 @@
       python = "python3";
       pod = "arch -x86_64 pod";
       ".." = "cd ..";
-      update = "sudo darwin-rebuild switch --flake ~/.config/nix/";
+      update = "sudo nixos-rebuild switch --flake ~/nix/";
     };
     zplug = {
       enable = true;

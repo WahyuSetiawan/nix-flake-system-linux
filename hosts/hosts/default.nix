@@ -5,7 +5,7 @@ let
 
   mkDarwinSystem = hostname: { system ? "aarch64-darwin"
                              , stateVersion ? 4
-                             ,
+                             , homeStateVersion ? "24.11"
                              }: withSystem system ({ pkgs, config, ... }: inputs.nix-darwin.lib.darwinSystem {
     specialArgs = { inherit inputs; };
 
@@ -23,14 +23,14 @@ let
   }
   );
 
-  mkDarwinConfiguration = configuration: builtins.mapAttrs mkDarwinSystem configuration;
 
 
-  mkNixosSystem = hostname: params@{ system ? "x86_64-linux"
+  mkNixosSystem = hostname: { system ? "x86_64-linux"
                             , stateVersion ? "24.11"
+                            , homeStateVersion ? "24.11"
                             }: withSystem system ({ pkgs, config, ... }: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
-      inherit inputs;
+      inherit inputs self;
     };
 
     system = system;
@@ -40,15 +40,17 @@ let
       ++ builtins.attrValues self.nixosModules
       ++ [
         inputs.home-manager.nixosModules.home-manager
+
         (mkCommonConfiguration { system = system; stateVersion = stateVersion; })
+        (mkHomeConfiguration {
+          user = "juragankoding";
+          homeStateVersion = homeStateVersion;
+        })
+
         (
           { inputs, config, pkgs, lib, ... }:
           {
             users.defaultUserShell = pkgs.zsh;
-
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "backup";
 
             users.users.juragankoding = {
               isNormalUser = true;
@@ -60,13 +62,11 @@ let
             };
 
           }
-
-
-
         )
       ];
   });
 
+  mkDarwinConfiguration = configuration: builtins.mapAttrs mkDarwinSystem configuration;
   mkNixosConfigurations = configuration: builtins.mapAttrs mkNixosSystem configuration;
 in
 {
