@@ -7,7 +7,10 @@ let
                              , stateVersion ? 4
                              , homeStateVersion ? "24.11"
                              }: withSystem system ({ pkgs, config, ... }: inputs.nix-darwin.lib.darwinSystem {
-    specialArgs = { inherit inputs; };
+    specialArgs = {
+      inherit inputs;
+      inherit self;
+    };
 
     modules = builtins.attrValues self.commonModules
       ++ builtins.attrValues self.darwinModules
@@ -30,7 +33,8 @@ let
                             , homeStateVersion ? "24.11"
                             }: withSystem system ({ pkgs, config, ... }: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
-      inherit inputs self;
+      inherit inputs;
+      inherit self;
     };
 
     system = system;
