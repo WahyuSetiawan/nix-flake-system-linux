@@ -9,7 +9,7 @@
 
     # Enable the Deepin Desktop Environment.
     xserver.displayManager.lightdm.enable = true;
-    xserver.desktopManager.deepin.enable = true;
+    xserver.desktopManager.plasma5.enable = true;
 
     # Configure keymap in X11
     xserver.xkb = {

@@ -1,5 +1,5 @@
-inputs: {
-  environment.systemPackages = with inputs.pkgs ;[
+{ pkgs, ... }: {
+  environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
     android-studio
 
@@ -11,7 +11,7 @@ inputs: {
     vivaldi-ffmpeg-codecs
 
     home-manager
-    freetype
+    # reetype
     vimPlugins.fzfWrapper
 
     # tools utils
