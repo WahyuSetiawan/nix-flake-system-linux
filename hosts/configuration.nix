@@ -36,7 +36,7 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
-  
+
   users.users.juragankoding = {
     isNormalUser = true;
     description = "Juragan Koding";
