@@ -17,16 +17,17 @@ let
       ++ [
       inputs.home-manager.darwinModules.home-manager
       (mkCommonConfiguration { system = system; stateVersion = stateVersion; })
-      # (mkHomeConfiguration { user = "wahyu"; })
+      (mkHomeConfiguration {
+        user = "wahyu";
+        pathHome = "Users";
+        homeStateVersion = homeStateVersion;
+      })
       ({ pkgs, ... }: {
         system.configurationRevision = self.rev or self.dirtyRev or null;
-
       })
     ];
   }
   );
-
-
 
   mkNixosSystem = hostname: { system ? "x86_64-linux"
                             , stateVersion ? "24.11"

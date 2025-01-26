@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, lib, ... }: {
   # users.defaultUserShell = pkgs.zsh;
 
   home.packages = with pkgs;[
@@ -108,7 +108,11 @@
       python = "python3";
       pod = "arch -x86_64 pod";
       ".." = "cd ..";
-      update = "sudo nixos-rebuild switch --flake ~/nix/";
+      update =
+        if pkgs.stdenv.isDarwin then
+          "sudo darwin-rebuild switch --flake ~/nix/"
+        else
+          "sudo nixos-rebuild switch --flake ~/nix/";
     };
     zplug = {
       enable = true;
@@ -132,7 +136,6 @@
         "archlinux"
         "docker"
         "dnf"
-        # "djanggo"
         "aws"
         "golang"
         "command-not-found"
