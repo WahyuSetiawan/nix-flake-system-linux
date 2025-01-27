@@ -3,8 +3,8 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs;
     [
+      (import ./utils/zsh-bench.nix)
       w3m
-      starship
       clang
       nixpkgs-fmt
       libiconv
