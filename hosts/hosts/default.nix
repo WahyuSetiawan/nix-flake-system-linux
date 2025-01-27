@@ -58,7 +58,7 @@ let
         (
           { inputs, config, pkgs, lib, ... }:
           {
-            users.defaultUserShell = pkgs.zsh;
+            # users.defaultUserShell = pkgs.zsh;
 
             users.users.juragankoding = {
               isNormalUser = true;

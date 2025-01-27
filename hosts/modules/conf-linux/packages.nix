@@ -42,8 +42,6 @@
     glibc
 
     # terminal
-    kitty
-    starship
     ncdu
     flameshot
     git

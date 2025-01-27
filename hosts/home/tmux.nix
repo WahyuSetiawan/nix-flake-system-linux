@@ -71,6 +71,8 @@
       bind-key Z split-window -h "nvim ~/.zshrc"
       bind-key V split-window -h "cd ~/.config/nvim && nvim ~/.config/nvim"
       bind-key N split-window -h "cd ~/.config/nix && nvim ~/nix"
+
+      source-file ~/.tmux.conf
     '';
 
   programs.tmux.plugins = with pkgs.tmuxPlugins; [
