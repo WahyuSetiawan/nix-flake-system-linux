@@ -19,7 +19,6 @@
     curl
     eza
     fzf
-    tmux
     lazygit
 
     libva

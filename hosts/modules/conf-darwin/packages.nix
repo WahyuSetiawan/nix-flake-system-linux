@@ -8,12 +8,9 @@ inputs@{ pkgs, ... }: {
     cargo
     rustc
     lsd
-    vim
-    tmux
     bat
     neovim
     lazygit
-    kitty
     bat
     gitflow
     btop

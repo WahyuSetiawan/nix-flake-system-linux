@@ -1,1 +1,8 @@
-{ ... }: { }
+{ ... }: {
+  programs = {
+    tmux = {
+      enable = true
+      ;
+    };
+  };
+}
