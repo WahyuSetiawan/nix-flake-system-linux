@@ -97,50 +97,55 @@
     export PATH="$PATH:~/result/bin"
     export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
     export PATH="/usr/bin/:$PATH"
-
-    eval "$(starship init zsh)"
   '';
 
-  programs.zsh = {
-    enable = true;
-    shellAliases = {
-      ls = "lsd";
-      cat = "bat";
-      python = "python3";
-      pod = "arch -x86_64 pod";
-      ".." = "cd ..";
-      update =
-        if pkgs.stdenv.isDarwin then
-          "darwin-rebuild switch --flake ~/nix/"
-        else
-          "sudo nixos-rebuild switch --flake ~/nix/";
-    };
-    zplug = {
+  programs = {
+    zsh = {
       enable = true;
-      plugins = [
-        { name = "zsh-users/zsh-autosuggestions"; }
-      ];
-    };
-    oh-my-zsh = {
-      enable = true;
-      theme = "cloud";
-      extraConfig = ''
+      shellAliases = {
+        ls = "lsd";
+        cat = "bat";
+        python = "python3";
+        pod = "arch -x86_64 pod";
+        ".." = "cd ..";
+        update =
+          if pkgs.stdenv.isDarwin then
+            "darwin-rebuild switch --flake ~/nix/"
+          else
+            "sudo nixos-rebuild switch --flake ~/nix/";
+      };
+      zplug = {
+        enable = true;
+        plugins = [
+          { name = "zsh-users/zsh-autosuggestions"; }
+        ];
+      };
+      oh-my-zsh = {
+        enable = true;
+        theme = "cloud";
+        extraConfig = ''
 
       '';
-      plugins = [
-        "git"
-        "heroku"
-        "pip"
-        "lein"
-        "laravel"
-        "gradle"
-        "archlinux"
-        "docker"
-        "dnf"
-        "aws"
-        "golang"
-        "command-not-found"
-      ];
+        plugins = [
+          "git"
+          "heroku"
+          "pip"
+          "lein"
+          "laravel"
+          "gradle"
+          "archlinux"
+          "docker"
+          "dnf"
+          "aws"
+          "golang"
+          "command-not-found"
+        ];
+      };
+    };
+
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
     };
   };
 }

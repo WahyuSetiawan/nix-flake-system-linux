@@ -2,6 +2,7 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
+  home-manager.extraSpecialArgs = { };
 
   home-manager.users.${user} = {
     imports = builtins.attrValues self.homeManagerModules

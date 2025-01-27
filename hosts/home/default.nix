@@ -4,6 +4,6 @@ input: {
     home-terminal = import ./terminal.nix;
     home-git = import ./git.nix;
     home-packages = import ./packages.nix;
-    home-tmux = import ./home-tmux;
+    home-tmux = import ./tmux.nix;
   };
 }
