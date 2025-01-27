@@ -1,7 +1,6 @@
 inputs@{ pkgs, ... }: {
   environment.systemPackages = with pkgs;[
     w3m
-    starship
     clang
     nixpkgs-fmt
     libiconv
@@ -15,7 +14,6 @@ inputs@{ pkgs, ... }: {
     neovim
     lazygit
     kitty
-    alacritty
     bat
     gitflow
     btop
