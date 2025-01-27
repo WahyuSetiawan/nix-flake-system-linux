@@ -111,7 +111,7 @@
       ".." = "cd ..";
       update =
         if pkgs.stdenv.isDarwin then
-          "sudo darwin-rebuild switch --flake ~/nix/"
+          "darwin-rebuild switch --flake ~/nix/"
         else
           "sudo nixos-rebuild switch --flake ~/nix/";
     };
