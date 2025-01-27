@@ -11,7 +11,7 @@ in
     starship
   ];
 
-  home.file.".zshenv".text =
+  home.file.".zshrc".text =
     if pkgs.stdenv.isDarwin then ''
       export FVM_CACHE_PATH="$HOME/.fvm"
       export ANDROID_HOME="$HOME/Library/Android/sdk"
@@ -136,7 +136,7 @@ in
   };
 
   programs = {
-    fish = { };
+    fish = { enable = true; };
 
     zsh = {
       enable = true;
