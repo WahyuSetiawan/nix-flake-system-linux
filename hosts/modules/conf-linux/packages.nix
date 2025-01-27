@@ -1,4 +1,11 @@
 { pkgs, ... }: {
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.symbols-only
+  ];
+
   environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
     android-studio
