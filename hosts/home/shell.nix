@@ -1,14 +1,15 @@
-{ inputs, pkgs, lib, ... }: {
-  # users.defaultUserShell = pkgs.zsh;
-
+{ inputs, pkgs, lib, ... }:
+let
+  nixConfigDirectory = "~/nix";
+  concatString = lib.strings.concatMapStrings (x: "${x} && ");
+in
+{
   home.packages = with pkgs;[
     zsh
     oh-my-zsh
     zsh-autosuggestions
     starship
   ];
-
-  ZDOTDIR = ~/.config/zsh;
 
   home.file.".zshenv".text =
     if pkgs.stdenv.isDarwin then ''
@@ -103,6 +104,7 @@
     ''
     else '''';
 
+
   home = {
     shellAliases = {
       ls = "lsd";
@@ -110,11 +112,26 @@
       python = "python3";
       pod = "arch -x86_64 pod";
       ".." = "cd ..";
-      update =
-        if pkgs.stdenv.isDarwin then
-          "darwin-rebuild switch --flake ~/nix/"
-        else
-          "sudo nixos-rebuild switch --flake ~/nix/";
+      # allias for nix
+      nixclean = concatString [
+        "nix profile wipe-history"
+        "nix-collect-garbage"
+        "nix-collect-garbage -d"
+        "nix-collect-garbage --delete-old"
+        "nix store gc"
+        "nix store optimise"
+        "nix-store --verify --repair --check-contents"
+      ];
+      nixda = "direnv allow";
+      nixdr = "direnv reload";
+      nixbuild =
+        if pkgs.stdenv.isDarwin
+        then "darwin-rebuild build --flake ${nixConfigDirectory}" else
+          "sudo nixos-rebuild build --flake ${nixConfigDirectory}";
+      nixswitch =
+        if pkgs.stdenv.isDarwin
+        then "darwin-rebuild switch --flake ${nixConfigDirectory}" else
+          "sudo nixos-rebuild switch --flake ${nixConfigDirectory}";
     };
   };
 
