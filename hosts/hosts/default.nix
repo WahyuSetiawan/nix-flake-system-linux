@@ -23,6 +23,9 @@ let
         homeStateVersion = homeStateVersion;
       })
       ({ pkgs, ... }: {
+        users.users.${"wahyu"} = {
+          home = "/Users/wahyu";
+        };
         system.configurationRevision = self.rev or self.dirtyRev or null;
       })
     ];

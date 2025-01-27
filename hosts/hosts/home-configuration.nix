@@ -3,18 +3,16 @@
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
 
-  home-manager.users = {
-    ${user} = {
-      imports = builtins.attrValues self.homeManagerModules
-        ++ [
+  home-manager.users.${user} = {
+    imports = builtins.attrValues self.homeManagerModules
+      ++ [
 
-      ];
+    ];
 
-      home.username = user;
-      home.homeDirectory = "/${pathHome}/${user}";
+    home.username = user;
+    home.homeDirectory = "/${pathHome}/${user}";
 
     home.stateVersion = homeStateVersion;
-      programs.home-manager.enable = true;
-    };
+    programs.home-manager.enable = true;
   };
 })

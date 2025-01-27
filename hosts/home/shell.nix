@@ -5,6 +5,7 @@
     zsh
     oh-my-zsh
     zsh-autosuggestions
+    starship
   ];
 
   home.file.".zshrc".text = ''
