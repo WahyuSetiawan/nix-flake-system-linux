@@ -13,7 +13,11 @@
         font = {
           size = 8;
           normal = {
-            family = "MesloLGLDZNerdFont";
+            family =
+              if pkgs.stdenv.isDarwin then
+                "MesloLGLDZ Nerd Font"
+              else
+                "MesloLGLDZNerdFont";
             style = "Regular";
           };
         };
