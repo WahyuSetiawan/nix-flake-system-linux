@@ -11,8 +11,8 @@ in
     starship
   ];
 
-  home.file.".zshrc".text = 
-    if pkgs.stdenv.isDarwin then 
+  home.file.".zshrc".text =
+    if pkgs.stdenv.isDarwin then
       ''
         export FVM_CACHE_PATH="$HOME/.fvm"
         export ANDROID_HOME="$HOME/Library/Android/sdk"
