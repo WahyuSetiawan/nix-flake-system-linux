@@ -13,7 +13,6 @@
       rustc
       lsd
       vim
-      tmux
       bat
       neovim
       lazygit
@@ -24,7 +23,6 @@
       btop
       tldr
       eza
-      tmux
       htop
       tree
       stow

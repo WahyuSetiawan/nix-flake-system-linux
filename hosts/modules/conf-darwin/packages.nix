@@ -16,7 +16,6 @@ inputs@{ pkgs, ... }: {
     btop
     tldr
     eza
-    tmux
     htop
     tree
     stow
