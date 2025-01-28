@@ -63,6 +63,9 @@
     openjdk21
 
     go
+
+    # package for better audio
+    easyeffects
   ];
 
   programs.firefox.enable = true;
