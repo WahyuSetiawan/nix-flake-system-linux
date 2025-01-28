@@ -123,7 +123,13 @@
           set -g @continuum-save-interval '60' # minutes
         '';
     }
+    {
+      plugin = catppuccin;
+      extraConfig = #tmux
+        ''
+          set -g @catppuccin_flavor "mocha"
+          set -g @catppuccin_window_status_style "rounded"
+        '';
+    }
   ];
-
-
 }

@@ -9,6 +9,7 @@
           title = "Juragan Koding";
           blur = true;
           padding = { x = 5; y = 5; };
+          option_as_alt = "Both";
         };
         font = {
           size = 8;

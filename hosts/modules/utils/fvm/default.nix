@@ -1,15 +1,27 @@
 # pkgs/fvm/default.nix
 { pkgs, lib, stdenv }:
+let
+  # Tentukan platform dan arsitektur
+  platform = if stdenv.isDarwin then "macos" else "linux";
+  arch = if stdenv.isAarch64 then "arm64" else "x64";
 
-stdenv.mkDerivation rec {
-  pname = "fvm";
+  # Versi spesifik yang akan digunakan
   version = "2.4.1";
 
-  src = pkgs.fetchFromGitHub {
-    owner = "leoafarias";
-    repo = "fvm";
-    rev = version;
-    sha256 = "lib.fakeSha256"; # Update setelah error pertama
+  # Konstruksi nama file berdasarkan platform
+  filename = "fvm-${version}-${platform}-${arch}.tar.gz";
+
+  # URL download yang sesuai
+  downloadUrl = "https://github.com/leoafarias/fvm/releases/download/${version}/${filename}";
+in
+stdenv.mkDerivation {
+  pname = "fvm";
+  inherit version;
+
+  src = pkgs.fetchurl {
+    url = downloadUrl;
+    # Anda perlu mengganti hash ini setelah mencoba build pertama kali
+    sha256 = "sha256-hs55tyYJFyQZGSdLf0pBhoO4F/2hd8aUySeCqHYTyhU=";
   };
 
   nativeBuildInputs = with pkgs; [
@@ -23,39 +35,31 @@ stdenv.mkDerivation rec {
     bash
   ];
 
-  dontUnpack = true;
+  sourceRoot = ".";
 
   installPhase = ''
     mkdir -p $out/bin
     mkdir -p $out/libexec/fvm
-
-    curl -fsSL https://fvm.app/install.sh > installer.sh
     
-    substituteInPlace installer.sh \
-      --replace 'FVM_DIR="$HOME/.fvm"' 'FVM_DIR="$out/libexec/fvm"' \
-      --replace 'SYMLINK_TARGET="$HOME/bin"' 'SYMLINK_TARGET="$out/bin"'
-
-    chmod +x installer.sh
-
-    export HOME=$out
-    export PATH="${lib.makeBinPath nativeBuildInputs}:$PATH"
+    # Extract archive ke direktori yang sesuai
+    tar xzf $src -C $out/libexec/fvm
     
-    ./installer.sh
-
+    # Buat wrapper script
     cat > $out/bin/fvm <<EOF
     #!${pkgs.bash}/bin/bash
     export FVM_DIR="$out/libexec/fvm"
-    export PATH="${lib.makeBinPath nativeBuildInputs}:\$PATH"
-    exec $out/libexec/fvm/bin/fvm "\$@"
+    export PATH="${lib.makeBinPath (with pkgs; [ git curl unzip ])}:\$PATH"
+    exec $out/libexec/fvm/fvm "\$@"
     EOF
-
+    
     chmod +x $out/bin/fvm
   '';
 
   meta = with lib; {
     description = "Flutter Version Manager";
-    homepage = "https://fvm.app";
+    homepage = "https://github.com/leoafarias/fvm";
     license = licenses.mit;
     platforms = platforms.unix;
+    maintainers = [ ];
   };
 }
