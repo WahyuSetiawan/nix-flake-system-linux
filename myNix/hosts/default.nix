@@ -6,7 +6,7 @@ let
   mkDarwinSystem = hostname: { system ? "aarch64-darwin"
                              , stateVersion ? 4
                              , homeStateVersion ? "24.11"
-                             }: withSystem system ({ pkgs, config, ... }: inputs.nix-darwin.lib.darwinSystem {
+                             }: withSystem system ({ pkgs, config, ... }@ctx: inputs.nix-darwin.lib.darwinSystem {
     specialArgs = {
       inherit inputs;
       inherit self;
@@ -23,6 +23,7 @@ let
         homeStateVersion = homeStateVersion;
       })
       ({ pkgs, ... }: {
+        nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
         users.users.${"wahyu"} = {
           home = "/Users/wahyu";
         };
@@ -47,18 +48,19 @@ let
       builtins.attrValues self.commonModules
       ++ builtins.attrValues self.nixosModules
       ++ [
-        inputs.home-manager.nixosModules.home-manager
-
         (mkCommonConfiguration { system = system; stateVersion = stateVersion; })
         (mkHomeConfiguration {
           user = "juragankoding";
           homeStateVersion = homeStateVersion;
         })
-
+      ]
+      ++ [
+        inputs.home-manager.nixosModules.home-manager
         (
           { inputs, config, pkgs, lib, ... }:
           {
             nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
+
             users.users.juragankoding = {
               isNormalUser = true;
               description = "Juragan Koding";

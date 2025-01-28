@@ -1,7 +1,7 @@
 { inputs, pkgs, lib, ... }:
 let
   nixConfigDirectory = "~/nix";
-  concatString = lib.strings.concatMapStrings (x: "${x} && ");
+  concatString' = lib.strings.concatStringsSep " && ";
 in
 {
   home.packages = with pkgs;[
@@ -114,7 +114,7 @@ in
       pod = "arch -x86_64 pod";
       ".." = "cd ..";
       # allias for nix
-      nixclean = concatString [
+      nixclean = concatString' [
         "nix profile wipe-history"
         "nix-collect-garbage"
         "nix-collect-garbage -d"

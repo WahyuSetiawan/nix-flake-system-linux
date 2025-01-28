@@ -7,7 +7,6 @@
     ./modules
     ./home
     ./hosts
-    ./pkgs
     ./overlays
   ];
 
