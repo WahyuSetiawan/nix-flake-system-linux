@@ -25,5 +25,6 @@ inputs@{ pkgs, ... }: {
     gnumake
     ripgrep
     gcc
+    fvm
   ];
 }

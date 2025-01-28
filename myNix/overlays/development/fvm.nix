@@ -16,7 +16,11 @@ stdenv.mkDerivation {
 
   src = pkgs.fetchurl {
     url = downloadUrl;
-    sha256 = if stdenv.isDarwin then "sha256-hs55tyYJFyQZGSdLf0pBhoO4F/2hd8aUySeCqHYTyhU=" else "sha256-Oejr20a5PeHCrtv6mqdRA+8Wyb9QBIqSjvcKu7RW9Pg=";
+    sha256 =
+      if stdenv.isDarwin then
+        "sha256-N1zm4P4F54MEDDiGC0FfrYtAVIv+B3h57Djk/IhTsVo="
+      else
+        "sha256-Oejr20a5PeHCrtv6mqdRA+8Wyb9QBIqSjvcKu7RW9Pg=";
   };
 
   nativeBuildInputs = with pkgs; [
