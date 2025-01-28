@@ -9,14 +9,6 @@
   environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
     android-studio
-
-    (vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = false;
-    })
-    # browser
-    vivaldi-ffmpeg-codecs
-
     home-manager
     # reetype
     vimPlugins.fzfWrapper
@@ -65,11 +57,9 @@
     go
 
     # package for better audio
-    easyeffects
     fvm
   ];
 
-  programs.firefox.enable = true;
   programs.nix-ld.enable = true;
 
   programs.nix-ld.libraries = with pkgs; [

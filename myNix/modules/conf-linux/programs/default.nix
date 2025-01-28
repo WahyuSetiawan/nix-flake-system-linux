@@ -4,5 +4,7 @@
     ./pipewire.nix
     ./hyperland.nix
     ./virtualbox.nix
+    ./browser.nix
+    ./multimedia.nix
   ];
 }
