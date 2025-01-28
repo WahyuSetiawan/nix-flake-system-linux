@@ -3,6 +3,7 @@
     ./modules
     ./home
     ./hosts
+    ./pkgs
   ];
 
   perSystem = { lib, system, input', ... }: {

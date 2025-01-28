@@ -1,10 +1,10 @@
-{ config, pkgs, lib, ... }:
+{ self, config, pkgs, lib, ... }:
 let
-  fvm = pkgs.callPackage ./utils/fvm { };
+  myPkgs = self.myPackages;
 in
 {
   environment.systemPackages = with pkgs; [
     (import ./utils/zsh-bench.nix pkgs)
-    fvm
+    myPkgs.fvm
   ];
 }
