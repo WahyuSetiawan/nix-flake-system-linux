@@ -28,7 +28,7 @@
         perSystem = { config, self', inputs', pkgs, system, ... }: { };
 
         imports = [
-          ./hosts
+          ./myNix
         ];
       };
 }
