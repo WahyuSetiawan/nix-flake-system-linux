@@ -66,6 +66,7 @@
 
     # package for better audio
     easyeffects
+    fvm
   ];
 
   programs.firefox.enable = true;

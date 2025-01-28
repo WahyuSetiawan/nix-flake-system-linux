@@ -15,8 +15,7 @@
     system-nixos-system = import ./conf-linux/system.nix;
     system-nixos-services = import ./conf-linux/services.nix;
     system-nixos-packages = import ./conf-linux/packages.nix;
-    system-nixos-programs = import ./services;
-
+    system-nixos-programs = import ./conf-linux/programs;
     system-nixos-hardware = import ./conf-linux/hardware;
   };
 }
