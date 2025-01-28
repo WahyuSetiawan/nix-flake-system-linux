@@ -1,11 +1,11 @@
-{ pkgs, ... }: pkgs.stdenv.mkDerivation {
+{ pkgs
+, lib
+, stdenv
+, ...
+}: pkgs.stdenv.mkDerivation {
   pname = "zsh-bench";
   version = "v1.0.0";
 
-  # src = fetchGit {
-  #   url = "https://github.com/romkatv/zsh-bench";
-  #   hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-  # };
   src = pkgs.fetchFromGitHub {
     owner = "romkatv";
     repo = "zsh-bench";

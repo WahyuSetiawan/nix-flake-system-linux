@@ -35,7 +35,7 @@ let
   mkNixosSystem = hostname: { system ? "x86_64-linux"
                             , stateVersion ? "24.11"
                             , homeStateVersion ? "24.11"
-                            }: withSystem system ({ pkgs, config, ... }: inputs.nixpkgs.lib.nixosSystem {
+                            }: withSystem system ({ pkgs, config, ... }@ctx: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
       inherit inputs;
       inherit self;
@@ -58,8 +58,7 @@ let
         (
           { inputs, config, pkgs, lib, ... }:
           {
-            # users.defaultUserShell = pkgs.zsh;
-
+            nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
             users.users.juragankoding = {
               isNormalUser = true;
               description = "Juragan Koding";

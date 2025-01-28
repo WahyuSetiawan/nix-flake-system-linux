@@ -15,10 +15,10 @@
     {
       _module.args =
         let
-          overlays = [ ] ++ lib.attrValues self.overlays;
+          selfOverlays = lib.attrValues self.overlays;
+          overlays = [ ] ++ selfOverlays;
         in
         rec {
-
           nixpkgs = {
             config = {
               lib.mkForce = {
@@ -31,8 +31,7 @@
             };
 
             hostPlatform = system;
-
-            overlays = lib.mkForce overlays;
+            inherit overlays;
           };
 
           pkgs = import inputs.nixpkgs {

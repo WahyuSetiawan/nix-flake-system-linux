@@ -4,6 +4,8 @@
     ./development
   ];
 
-  flake.overlays.default = { };
+  flake.overlays.default = final: prev: {
+    fvm = prev.callPackage ./development/fvm.nix { };
+  };
 }
 
