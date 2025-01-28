@@ -1,17 +1,10 @@
 # pkgs/fvm/default.nix
 { pkgs, lib, stdenv }:
 let
-  # Tentukan platform dan arsitektur
   platform = if stdenv.isDarwin then "macos" else "linux";
   arch = if stdenv.isAarch64 then "arm64" else "x64";
-
-  # Versi spesifik yang akan digunakan
-  version = "2.4.1";
-
-  # Konstruksi nama file berdasarkan platform
+  version = "3.2.1";
   filename = "fvm-${version}-${platform}-${arch}.tar.gz";
-
-  # URL download yang sesuai
   downloadUrl = "https://github.com/leoafarias/fvm/releases/download/${version}/${filename}";
 in
 stdenv.mkDerivation {
@@ -20,8 +13,7 @@ stdenv.mkDerivation {
 
   src = pkgs.fetchurl {
     url = downloadUrl;
-    # Anda perlu mengganti hash ini setelah mencoba build pertama kali
-    sha256 = "sha256-hs55tyYJFyQZGSdLf0pBhoO4F/2hd8aUySeCqHYTyhU=";
+    sha256 = if stdenv.isDarwin then "sha256-hs55tyYJFyQZGSdLf0pBhoO4F/2hd8aUySeCqHYTyhU=" else "sha256-Oejr20a5PeHCrtv6mqdRA+8Wyb9QBIqSjvcKu7RW9Pg=";
   };
 
   nativeBuildInputs = with pkgs; [
@@ -39,10 +31,10 @@ stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/bin
-    mkdir -p $out/libexec/fvm
+    mkdir -p $out/libexec
     
     # Extract archive ke direktori yang sesuai
-    tar xzf $src -C $out/libexec/fvm
+    tar xzf $src -C $out/libexec
     
     # Buat wrapper script
     cat > $out/bin/fvm <<EOF
