@@ -2,7 +2,6 @@
   flake.commonModules = {
     system-shell = import ./shells.nix;
     system-packages = import ./packages.nix;
-    system-users = import ./users.nix;
   };
 
   flake.darwinModules = {
