@@ -39,6 +39,7 @@ let
 
           users.users.${user.username} = {
             home = "/${user.pathHome}/${user.username}";
+            shell = pkgs.fish;
           };
           system.configurationRevision = self.rev or self.dirtyRev or null;
         })
@@ -77,6 +78,8 @@ let
             packages = with pkgs; [
               #  thunderbird
             ];
+
+            shell = pkgs.fish;
           };
 
         }

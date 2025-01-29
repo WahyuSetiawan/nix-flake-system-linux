@@ -4,13 +4,6 @@ let
   concatString' = lib.strings.concatStringsSep " && ";
 in
 {
-  home.packages = with pkgs;[
-    zsh
-    oh-my-zsh
-    zsh-autosuggestions
-    starship
-  ];
-
   home.file.".zshrc".text =
     if pkgs.stdenv.isDarwin then
       ''
@@ -105,6 +98,12 @@ in
       ''
     else '''';
 
+  home.packages = with pkgs;[
+    zsh
+    oh-my-zsh
+    zsh-autosuggestions
+    starship
+  ];
 
   home = {
     shellAliases = {
@@ -137,6 +136,7 @@ in
   };
 
   programs = {
+    bash = { enable = true; };
     fish = { enable = true; };
 
     zsh = {
@@ -173,6 +173,8 @@ in
     starship = {
       enable = true;
       enableZshIntegration = true;
+      enableFishIntegration = true;
+      enableBashIntegration = true;
     };
   };
 }
