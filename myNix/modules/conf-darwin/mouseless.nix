@@ -3,8 +3,7 @@ let
   inherit (lib) mkEnableOption mdDoc
     mkOption
     types
-    mkIf
-    ;
+    mkIf;
 
   cfg = config.mouseless;
 
