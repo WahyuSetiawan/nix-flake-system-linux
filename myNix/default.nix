@@ -18,6 +18,14 @@
           overlays = [ ] ++ selfOverlays;
         in
         rec {
+          nix = {
+            gc = {
+              automatic = true;
+              dates = "weekly";
+              options = "--delete-older-than 7d";
+            };
+          };
+
           nixpkgs = {
             config = {
               lib.mkForce = {

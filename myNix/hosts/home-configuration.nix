@@ -1,4 +1,4 @@
-{ user, pathHome ? "home", homeStateVersion ? "24.11", ... }: ({ inputs, self, pkgs, ... }: {
+{ username, pathHome ? "home", homeStateVersion ? "24.11", ... }: ({ inputs, self, pkgs, ... }: {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
@@ -9,14 +9,14 @@
       inputs.mac-app-util.homeManagerModules.default
     ] else [ ];
 
-  home-manager.users.${user} = {
+  home-manager.users.${username} = {
     imports = builtins.attrValues self.homeManagerModules
       ++ [
 
     ];
 
-    home.username = user;
-    home.homeDirectory = "/${pathHome}/${user}";
+    home.username = username;
+    home.homeDirectory = "/${pathHome}/${username}";
 
     home.stateVersion = homeStateVersion;
     programs.home-manager.enable = true;

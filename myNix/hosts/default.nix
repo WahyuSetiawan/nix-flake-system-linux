@@ -11,6 +11,7 @@ let
   mkDarwinSystem = hostname: { system ? "aarch64-darwin"
                              , stateVersion ? 4
                              , homeStateVersion ? "24.11"
+                             , user ? self.users.default
                              }: withSystem system ({ pkgs, config, ... }@ctx: inputs.nix-darwin.lib.darwinSystem {
     specialArgs = { inherit inputs self homeStateVersion; };
 
@@ -23,18 +24,19 @@ let
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
           (mkCommonConfiguration { inherit system stateVersion; })
-          (mkHomeConfiguration { user = "wahyu"; pathHome = "Users"; inherit homeStateVersion; })
+          (mkHomeConfiguration { inherit (user) username pathHome; inherit homeStateVersion; })
         ]
       ]
       ++ [
         ({ pkgs, ... }: {
+          inherit (ctx) nix;
           mouseless.enable = true;
 
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
           environment.systemPackages = ctx.basePackageFor pkgs;
 
-          users.users.${"wahyu"} = {
-            home = "/Users/wahyu";
+          users.users.${user.username} = {
+            home = "/${user.pathHome}/${user.username}";
           };
           system.configurationRevision = self.rev or self.dirtyRev or null;
         })
@@ -44,6 +46,7 @@ let
   mkNixosSystem = hostname: { system ? "x86_64-linux"
                             , stateVersion ? "24.11"
                             , homeStateVersion ? "24.11"
+                            , user ? self.users.default
                             }: withSystem system ({ pkgs, config, ... }@ctx: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs self; };
 
@@ -55,18 +58,20 @@ let
       [
         inputs.home-manager.nixosModules.home-manager
         (mkCommonConfiguration { inherit system stateVersion; })
-        (mkHomeConfiguration { user = "juragankoding"; inherit homeStateVersion; })
+        (mkHomeConfiguration { inherit (user) username pathHome; inherit homeStateVersion; })
       ]
     ]
     ++ [
       (
         { inputs, config, pkgs, lib, ... }:
         {
+          inherit (ctx) nix;
+
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
           users.users.juragankoding = {
             isNormalUser = true;
-            description = "Juragan Koding";
+            description = user.fullName;
             extraGroups = [ "networkmanager" "wheel" ];
             packages = with pkgs; [
               #  thunderbird
@@ -82,9 +87,27 @@ let
   mkNixosConfigurations = configuration: builtins.mapAttrs mkNixosSystem configuration;
 in
 {
+  flake.users = {
+    default = rec{
+      username = "juragankoding";
+      fullName = "Juragan Koding";
+      email = "wahyu.creator911@gmail.com";
+      pathHome = "home";
+      nixConfigDirectory = "/home/${username}/.nix";
+    };
+  };
+
   flake = {
     darwinConfigurations = mkDarwinConfiguration {
-      "JuraganKoding-2" = { };
+      "JuraganKoding-2" = {
+        user = rec{
+          username = "wahyu";
+          fullname = "wahyu setiawan";
+          email = "wahyu.creator911@gmail.com";
+          pathHome = "Users";
+          nixConfigDirectory = "/Users/${username}/.nix";
+        };
+      };
     };
 
     nixosConfigurations = mkNixosConfigurations {
