@@ -132,6 +132,22 @@ in
         if pkgs.stdenv.isDarwin
         then "darwin-rebuild switch --flake ${nixConfigDirectory}" else
           "sudo nixos-rebuild switch --flake ${nixConfigDirectory}";
+
+      # git 
+      gia = "git add";
+      gico = "git commit -m";
+      gibe = "git branch ";
+      gice = "git checkout";
+      giceb = "git checkout -b ";
+      gipull = "git pull";
+      gipas = "git push -u origin --all";
+      gipus = "git push -u origin";
+      gitas = "git status";
+      gifi = "git flow init";
+      gifsf = "git flow start feature";
+      gifsr = "git flow start release";
+      gifff = "git flow finish feature";
+      giffr = "git flow finish release";
     };
   };
 
