@@ -1,7 +1,6 @@
 inputs@{ pkgs, ... }: {
   environment.systemPackages = with pkgs;[
     w3m
-    starship
     clang
     nixpkgs-fmt
     libiconv
@@ -9,19 +8,14 @@ inputs@{ pkgs, ... }: {
     cargo
     rustc
     lsd
-    vim
-    tmux
     bat
     neovim
     lazygit
-    kitty
-    alacritty
     bat
     gitflow
     btop
     tldr
     eza
-    tmux
     htop
     tree
     stow
@@ -31,5 +25,6 @@ inputs@{ pkgs, ... }: {
     gnumake
     ripgrep
     gcc
+    fvm
   ];
 }

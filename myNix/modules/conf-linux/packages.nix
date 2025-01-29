@@ -1,15 +1,14 @@
 { pkgs, ... }: {
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.symbols-only
+  ];
+
   environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
     android-studio
-
-    (vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = false;
-    })
-    # browser
-    vivaldi-ffmpeg-codecs
-
     home-manager
     # reetype
     vimPlugins.fzfWrapper
@@ -19,7 +18,6 @@
     curl
     eza
     fzf
-    tmux
     lazygit
 
     libva
@@ -43,8 +41,6 @@
     glibc
 
     # terminal
-    kitty
-    starship
     ncdu
     flameshot
     git
@@ -59,9 +55,11 @@
     openjdk21
 
     go
+
+    # package for better audio
+    fvm
   ];
 
-  programs.firefox.enable = true;
   programs.nix-ld.enable = true;
 
   programs.nix-ld.libraries = with pkgs; [
