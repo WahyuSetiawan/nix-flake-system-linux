@@ -35,6 +35,8 @@ let
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
           environment.systemPackages = ctx.basePackageFor pkgs;
 
+          nix-homebrew.user = user.username;
+
           users.users.${user.username} = {
             home = "/${user.pathHome}/${user.username}";
           };
@@ -62,8 +64,7 @@ let
       ]
     ]
     ++ [
-      (
-        { inputs, config, pkgs, lib, ... }:
+      ({ inputs, config, pkgs, lib, ... }:
         {
           inherit (ctx) nix;
 
