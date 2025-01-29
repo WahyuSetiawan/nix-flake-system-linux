@@ -42,8 +42,7 @@ in
               do shell script "open -a Alacritty"
               '
             '';
-          alt-space = "layout floating";
-          alt-t = "layout tiling";
+          alt-space = "layout floating tiling";
 
           alt-z = "resize smart +10";
           alt-shift-z = "resize smart -10";
