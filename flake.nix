@@ -2,24 +2,25 @@
   description = "Konfigurasi NixOS saya";
 
   inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # util for linux only
     hyprland.url = "github:hyprwm/Hyprland";
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
 
-
+    # util for macbbook user
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    mac-app-util.url = "github:hraban/mac-app-util";
 
     # Optional: Declarative tap management
     homebrew-core = {
@@ -34,6 +35,7 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
+
   };
 
   outputs = { self, nixpkgs, flake-parts, ... }@inputs:

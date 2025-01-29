@@ -38,6 +38,17 @@
             inherit (nixpkgs) config;
             inherit overlays;
           };
+
+          basePackageFor = pkgs: builtins.attrValues {
+            inherit (pkgs)
+              vim curl
+              neovim
+              wget
+              git
+              ;
+
+
+          };
         };
     };
 }

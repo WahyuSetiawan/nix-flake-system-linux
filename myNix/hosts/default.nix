@@ -12,13 +12,14 @@ let
                              , stateVersion ? 4
                              , homeStateVersion ? "24.11"
                              }: withSystem system ({ pkgs, config, ... }@ctx: inputs.nix-darwin.lib.darwinSystem {
-    specialArgs = { inherit inputs self; };
+    specialArgs = { inherit inputs self homeStateVersion; };
 
     modules =
       concatLists [
         commonModules
         darwinModules
         [
+          inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
           (mkCommonConfiguration { inherit system stateVersion; })
@@ -27,7 +28,11 @@ let
       ]
       ++ [
         ({ pkgs, ... }: {
+          mouseless.enable = true;
+
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
+          environment.systemPackages = ctx.basePackageFor pkgs;
+
           users.users.${"wahyu"} = {
             home = "/Users/wahyu";
           };
