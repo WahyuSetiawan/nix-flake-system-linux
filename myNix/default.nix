@@ -8,6 +8,7 @@
     ./home
     ./hosts
     ./overlays
+    ./devShell.nix
   ];
 
   perSystem = { lib, system, input', ... }:

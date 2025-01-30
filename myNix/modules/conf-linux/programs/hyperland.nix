@@ -1,6 +1,8 @@
-{ inputs, pkgs, ... }: let
+{ inputs, pkgs, ... }:
+let
   hostname = pkgs.stdenv.hostPlatform.system;
-in {
+in
+{
   programs.hyprland = {
     enable = true;
     # nvidiaPatches = true;
@@ -11,37 +13,46 @@ in {
     portalPackage = inputs.hyprland.packages.${hostname}.xdg-desktop-portal-hyprland;
   };
 
+  programs.waybar = {
+    enable = true;
+  };
+
+  programs.xwayland.enable = true;
+  # programs.sway.enable = true;
+
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
     QT_QPA_PLATFORMTHEME = "gtk2";
   };
 
-  environment.systemPackages = [
-    pkgs.waybar
-    pkgs.eww
+  environment.systemPackages = with pkgs; [
+    hyprland
+    eww
 
     (pkgs.waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
     }))
 
-    pkgs.dunst
+    dunst
     # nixpkgs.libnotify
 
-    # nixpkgs.hyprpaper
+    hyprpaper
     # nixpkgs.swaybg
     # nixpkgs.wpaperd
     # nixpkgs.wpvpaper
     # nixpkgs.swww
 
     # pkgs.rofy-wayland
-    pkgs.wofi
+    rofi-wayland
+    firefox-wayland
+    wofi
     pkgs.bemenu
     pkgs.fuzzel
     pkgs.tofi
 
 
-    pkgs.xkeyboard_config
+    xkeyboard_config
     # pkgs.xorg.xinit
   ];
 

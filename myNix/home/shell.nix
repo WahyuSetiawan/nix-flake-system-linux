@@ -111,6 +111,7 @@ in
       python = "python3";
       pod = "arch -x86_64 pod";
       ".." = "cd ..";
+
       # allias for nix
       nixclean = concatString' [
         "nix profile wipe-history"
@@ -126,11 +127,13 @@ in
       nixbuild =
         if pkgs.stdenv.isDarwin
         then "darwin-rebuild build --flake ${nixConfigDirectory}" else
-          "sudo nixos-rebuild build --flake ${nixConfigDirectory}";
+          "nixos-rebuild build --flake ${nixConfigDirectory} --use-remote-sudo";
       nixswitch =
         if pkgs.stdenv.isDarwin
         then "darwin-rebuild switch --flake ${nixConfigDirectory}" else
-          "sudo nixos-rebuild switch --flake ${nixConfigDirectory}";
+          "nixos-rebuild switch --flake ${nixConfigDirectory} --use-remote-sudo";
+
+      nix-dev = "nix-develop ${nixConfigDirectory}#";
 
       # git 
       gia = "git add";
