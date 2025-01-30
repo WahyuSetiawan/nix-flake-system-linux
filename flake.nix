@@ -13,7 +13,6 @@
     # util for linux only
     hyprland.url = "github:hyprwm/Hyprland";
 
-
     # util for macbbook user
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
