@@ -71,7 +71,7 @@ let
 
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
-          users.users.juragankoding = {
+          users.users.${user.username} = {
             isNormalUser = true;
             description = user.fullName;
             extraGroups = [ "networkmanager" "wheel" ];
