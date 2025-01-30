@@ -99,7 +99,6 @@ in
     else '''';
 
   home.packages = with pkgs;[
-    zsh
     oh-my-zsh
     zsh-autosuggestions
     starship
@@ -153,10 +152,16 @@ in
 
   programs = {
     bash = { enable = true; };
-    fish = { enable = true; };
+    fish = {
+      enable = true;
+      shellInit = ''
+
+
+      '';
+    };
 
     zsh = {
-      enable = true;
+      enable = false;
       zplug = {
         enable = true;
         plugins = [

@@ -19,22 +19,70 @@ in
   };
 
   config = mkIf cfg.enable {
+    services.sketchybar = {
+      enable = cfg.enable;
+      # package = branches.master.sketchybar;
+      extraPackages = with pkgs; [
+        # sbar_menus
+        # sbar_events
+      ];
+
+      # config = # lua
+      #   ''
+      #     #!${lua}/bin/lua
+      #     package.cpath = package.cpath .. ";${lua}/lib/?.so"
+      #     require("init")
+      #   '';
+    };
+
     services.aerospace = {
       enable = cfg.wm == "aerospace";
       settings = {
         exec-on-workspace-change = [
           "/bin/bash"
           "-c"
-          # "${lib.getExe pkgs.sketchybar} --trigger space_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE"
+          "${lib.getExe pkgs.sketchybar} --trigger space_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE"
         ];
         gaps = {
-          outer.top = 12;
+          outer.top = 30;
           outer.bottom = 12;
           outer.left = 12;
           outer.right = 12;
           inner.horizontal = 12;
           inner.vertical = 12;
         };
+        on-window-detected = [
+          {
+            check-further-callbacks = false;
+            ${"if"} = {
+              app-id = "com.apple.iphonesimulator";
+            };
+            run = [
+              "layout floating"
+            ];
+          }
+          {
+            check-further-callbacks = false;
+            ${"if"} = {
+              app-id = "ru.keepcoder.Telegram";
+            };
+            run = [
+              "move-node-to-workspace 2"
+            ];
+          }
+          {
+            check-further-callbacks = false;
+            ${"if"} = {
+              app-id = "net.whatsapp.WhatsApp";
+            };
+            run = [
+              "move-node-to-workspace 2"
+            ];
+          }
+
+
+
+        ];
         mode.main.binding = {
           alt-enter = #sh
             ''
@@ -86,6 +134,16 @@ in
       };
     };
 
+    services.jankyborders = {
+      # package = branches.master.jankyborders;
+      enable = cfg.enable;
+      width = 6.5;
+      hidpi = false;
+      active_color = "0xfffeeff0";
+      inactive_color = "0xc02c2e34";
+      background_color = "0x302c2e34";
+      style = "round";
+    };
   };
 }
 

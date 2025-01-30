@@ -1,6 +1,6 @@
-{}: 
+{...}: 
 {
-  services.nix-deamon.enable =true;
+  # services.nix-deamon.enable =true;
 
   #dock
   system.defaults.dock.autohide = true;
