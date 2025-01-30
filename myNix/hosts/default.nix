@@ -69,7 +69,7 @@ let
         {
           inherit (ctx) nix;
 
-          nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
+          nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ]; 
 
           users.users.juragankoding = {
             isNormalUser = true;

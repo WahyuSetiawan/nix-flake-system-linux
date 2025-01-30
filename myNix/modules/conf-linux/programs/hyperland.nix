@@ -1,6 +1,8 @@
-{ inputs, pkgs, ... }: let
+{ inputs, pkgs, ... }:
+let
   hostname = pkgs.stdenv.hostPlatform.system;
-in {
+in
+{
   programs.hyprland = {
     enable = true;
     # nvidiaPatches = true;
@@ -11,8 +13,12 @@ in {
     portalPackage = inputs.hyprland.packages.${hostname}.xdg-desktop-portal-hyprland;
   };
 
+  programs.waybar = {
+    enable = true;
+  };
+
   programs.xwayland.enable = true;
-  programs.sway.enable = true;
+  # programs.sway.enable = true;
 
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
@@ -22,7 +28,6 @@ in {
 
   environment.systemPackages = with pkgs; [
     hyprland
-    waybar
     eww
 
     (pkgs.waybar.overrideAttrs (oldAttrs: {
