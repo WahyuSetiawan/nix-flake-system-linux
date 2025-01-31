@@ -1,7 +1,6 @@
-{ lib,config, ... }:
+{ lib, config, ... }:
 let
-  hyprlandEnable = true;
-  a = config.home.user-info.within.hyprland.enable;
+  hyprlandEnable = config.home.user-info.within.hyprland.enable;
 in
 {
   imports =
