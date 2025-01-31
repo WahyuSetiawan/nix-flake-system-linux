@@ -24,7 +24,7 @@ let
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
           (mkCommonConfiguration { inherit system stateVersion; })
-          (mkHomeConfiguration { inherit (user) username pathHome; inherit homeStateVersion; })
+          (mkHomeConfiguration { inherit user homeStateVersion; })
         ]
       ]
       ++ [
@@ -61,7 +61,7 @@ let
       [
         inputs.home-manager.nixosModules.home-manager
         (mkCommonConfiguration { inherit system stateVersion; })
-        (mkHomeConfiguration { inherit (user) username pathHome; inherit homeStateVersion; })
+        (mkHomeConfiguration { inherit user homeStateVersion; })
       ]
     ]
     ++ [
