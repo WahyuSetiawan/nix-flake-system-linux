@@ -54,6 +54,9 @@ in
       pkgs.fuzzel
       pkgs.tofi
 
+      swaylock
+      wlogout
+
 
       xkeyboard_config
       # pkgs.xorg.xinit

@@ -7,21 +7,58 @@ rec {
     programs.waybar = {
       enable = true;
       settings = {
+
         mainBar = {
+          default = {
+            font = "JetBrainsMono Nerd Font 12";
+          };
           layer = "top";
+
           position = "top";
-          height = 30;
+          # height = 30;
           output = [
             "DP-1"
           ];
-          modules-left = [ "hyprland/workspaces" "sway/mode" "wlr/taskbar" ];
+          modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "hyprland/window" "custom/hello-from-waybar" ];
-          modules-right = [ "mpd" "custom/mymodule#with-css-id" "temperature" ];
+          modules-right = [
+            "cpu"
+            "memory"
+            "bluetooth"
+            "network"
+            "mpd"
+            "temperature"
+            "clock"
+            "tray"
+            "custom/lock"
+            "custom/power"
+          ];
+
+          "tray" = {
+            "icon-size" = 21;
+            "spacing" = 10;
+          };
+
+          "hyprland/workspaces" = {
+            "sort-by-name" = true;
+            "format" = " {icon} ";
+            "format-icons" = {
+              "default" = "";
+            };
+          };
+
+          "clock" = {
+            "timezone" = "Asia/Jakarta";
+            "tooltip-format" = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+            "format-alt" = "󰥔 {:%d/%m/%Y}";
+            "format" = "󰥔 {:%H:%M}";
+          };
 
           "hyprland/workspaces" = {
             disable-scroll = true;
             all-outputs = true;
           };
+
           "custom/hello-from-waybar" = {
             format = "hello {}";
             max-length = 40;
@@ -29,6 +66,18 @@ rec {
             exec = pkgs.writeShellScript "hello-from-waybar" ''
               echo "from within waybar"
             '';
+          };
+
+          "custom/lock" = {
+            "tooltip" = false;
+            "on-click" = "sh -c '(sleep 0.5s; swaylock --grace 0)' & disown";
+            "format" = "";
+          };
+
+          "custom/power" = {
+            "tooltip" = false;
+            "on-click" = "wlogout &";
+            "format" = "󰐥";
           };
         };
       };
@@ -41,15 +90,74 @@ rec {
             color: @text;
             border: none;
             border-radius: 0;
-            font-family: Source Code Pro;
+            font-family: JetBrainsMono Nerd Font;
           }
+
           window#waybar {
-            background: #16191C;
-            color: #AAB2BF;
+            /* you can also GTK3 CSS functions! */
+            background-color: shade(@base, 0.9);
+            border: 2px solid alpha(@crust, 0.3);
+          }
+          #workspaces {
+            border-radius: 1rem;
+            margin: 5px;
+            background-color: @surface0;
+            margin-left: 1rem;
           }
           #workspaces button {
-            padding: 0 5px;
+            color: @lavender;
+            border-radius: 1rem;
+            padding: 0.4rem;
           }
+
+          #custom-music,
+          #tray,
+          #cpu,
+          #memory,
+          #backlight,
+          #clock,
+          #bluetooth,
+          #network,
+          #battery,
+          #pulseaudio,
+          #temperature,
+          #custom-lock,
+          #custom-power {
+                background-color: @surface0;
+                padding: 0.5rem 1rem;
+                margin: 5px 0;
+          }
+
+
+          #clock {
+            color: @blue;
+            border-radius: 0px 1rem 1rem 0px;
+            margin-right: 1rem;
+          }
+
+          #cpu {
+            color: @green;
+            border-radius: 1rem 0rem 0rem 1rem;
+            margin-left: 1rem;
+          }
+
+
+          #custom-lock {
+            border-radius: 1rem 0px 0px 1rem;
+            color: @lavender;
+          }
+          
+          #custom-power {
+              margin-right: 1rem;
+              border-radius: 0px 1rem 1rem 0px;
+              color: @red;
+          }
+          
+          #tray {
+            margin-right: 1rem;
+            border-radius: 1rem;
+          }
+
         '';
     };
 

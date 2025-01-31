@@ -2,11 +2,6 @@
 let
   nixConfigDirectory = "~/nix";
   concatString' = lib.strings.concatStringsSep " && ";
-
-  function = ''
-
-
-  '';
 in
 {
   home.file.".zshrc".text =
