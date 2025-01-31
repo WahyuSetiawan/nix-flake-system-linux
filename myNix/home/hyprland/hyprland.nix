@@ -1,12 +1,15 @@
-{ lib, config, ... }:
+{ pkgs, lib, config, ... }:
 let
   hyprlandEnable = config.home.user-info.within.hyprland.enable;
+  theme = "mocha";
 in
 {
   config = lib.mkIf hyprlandEnable {
 
     home.file.".config/hypr/hyprland.conf".text = #sh
       ''
+        source = ~/.config/hypr/${theme}.conf
+
         # This is an example Hyprland config file.
         # Refer to the wiki for more information.
         # https://wiki.hyprland.org/Configuring/
@@ -65,8 +68,10 @@ in
         border_size = 2
 
         # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
-        col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-        col.inactive_border = rgba(595959aa)
+        # col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+        # col.inactive_border = rgba(595959aa)
+        col.active_border = $blue
+        col.inactive_border = $surface0
 
         # Set to true enable resizing windows by clicking and dragging on borders and gaps
         resize_on_border = false
@@ -287,5 +292,14 @@ in
         # Fix some dragging issues with XWayland
         windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
       '';
+
+    home.file.".config/hypr/${theme}.conf".source = pkgs.fetchFromGitHub
+      {
+        owner = "catppuccin";
+        repo = "hyprland";
+        rev = "main";
+        hash = "sha256-xSa/z0Pu+ioZ0gFH9qSo9P94NPkEMovstm1avJ7rvzM=";
+      } + "/themes/${theme}.conf";
+
   };
 }
