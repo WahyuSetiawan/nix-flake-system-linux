@@ -117,6 +117,7 @@ in
       python = "python3";
       pod = "arch -x86_64 pod";
       ".." = "cd ..";
+      vivaldi = "vivaldi --ozone-platform=x11";
 
       # allias for nix
       nixclean = concatString' [

@@ -57,7 +57,6 @@ in
         #####################
 
         # Refer to https://wiki.hyprland.org/Configuring/Variables/
-
         # https://wiki.hyprland.org/Configuring/Variables/#general
         general {
         gaps_in = 5
