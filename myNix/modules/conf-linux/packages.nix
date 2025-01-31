@@ -3,13 +3,12 @@
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.hack
-    fantasque-sans-mono
+ fantasque-sans-mono
     nerd-fonts.symbols-only
   ];
 
   environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
-    android-studio
     home-manager
     # reetype
     vimPlugins.fzfWrapper
@@ -53,12 +52,13 @@
     bat
 
     jetbrains-mono
-    openjdk21
+    # openjdk21
 
     go
+    android-studio
 
     # package for better audio
-    fvm
+    # fvm
   ];
 
   programs.nix-ld.enable = true;

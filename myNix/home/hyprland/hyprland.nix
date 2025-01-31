@@ -37,6 +37,7 @@
       # exec-once = $terminal
       # exec-once = nm-applet &
       # exec-once = waybar & hyprpaper & firefox
+      exec-once = waybar & hyprpaper
 
 
       #############################
@@ -202,7 +203,7 @@
       bind = $mainMod, M, exit,
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,
-      bind = $mainMod, R, exec, $menu
+      bind = $mainMod, D, exec, $menu
       bind = $mainMod, P, pseudo, # dwindle
       bind = $mainMod SHIFT, J, togglesplit, # dwindle
 

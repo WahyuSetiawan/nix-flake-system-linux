@@ -2,6 +2,11 @@
 let
   nixConfigDirectory = "~/nix";
   concatString' = lib.strings.concatStringsSep " && ";
+
+  function = ''
+
+
+  '';
 in
 {
   home.file.".zshrc".text =
@@ -134,8 +139,6 @@ in
         then "darwin-rebuild switch --flake ${nixConfigDirectory}" else
           "nixos-rebuild switch --flake ${nixConfigDirectory} --use-remote-sudo";
 
-      nix-dev = "nix-develop ${nixConfigDirectory}#";
-
       # git 
       gia = "git add";
       gico = "git commit -m";
@@ -155,15 +158,37 @@ in
   };
 
   programs = {
-    bash = { enable = true; };
-    fish = { enable = true; };
+    zoxide.enable = true;
+    zoxide.enableFishIntegration = true;
+
+    dircolors.enable = true;
+    dircolors.enableFishIntegration = true;
+
+    thefuck.enable = true;
+    thefuck.enableInstantMode = true;
+    thefuck.enableFishIntegration = true;
+    thefuck.enableBashIntegration = false;
+
+    fish = {
+      enable = true;
+      functions = {
+        nix-dev = ''
+          if test (count $argv) -gt 0
+              set package $argv[1]
+          else
+              set package "flutter"
+          end
+          nix develop ${nixConfigDirectory}#$package -c $SHELL
+        '';
+      };
+    };
 
     zsh = {
-      enable = true;
+      enable = false;
       zplug = {
         enable = true;
         plugins = [
-          { name = "zsh-users/zsh-autosuggestions"; }
+          { name = "zsh-users/zsh-autosuggesrions"; }
         ];
       };
       oh-my-zsh = {

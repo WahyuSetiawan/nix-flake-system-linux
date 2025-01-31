@@ -68,16 +68,14 @@ let
       ({ inputs, config, pkgs, lib, ... }:
         {
           inherit (ctx) nix;
+          users.primaryUser = user;
 
-          nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ]; 
+          nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
           users.users.juragankoding = {
             isNormalUser = true;
             description = user.fullName;
             extraGroups = [ "networkmanager" "wheel" ];
-            packages = with pkgs; [
-              #  thunderbird
-            ];
 
             shell = pkgs.fish;
           };
@@ -98,6 +96,9 @@ in
       email = "wahyu.creator911@gmail.com";
       pathHome = "home";
       nixConfigDirectory = "/home/${username}/.nix";
+      within = {
+        hyprland.enable = true;
+      };
     };
   };
 
