@@ -1,8 +1,13 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, lib, ... }:
 let
+  inherit (lib) mkEnableOption mdDoc;
   hostname = pkgs.stdenv.hostPlatform.system;
 in
 {
+  options.linux.tiling.enable = mkEnableOption;
+
+  options.linux.
+
   programs.hyprland = {
     enable = true;
     # nvidiaPatches = true;

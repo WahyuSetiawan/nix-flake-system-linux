@@ -1,6 +1,7 @@
 { username, pathHome ? "home", homeStateVersion ? "24.11", ... }: ({ inputs, self, pkgs, ... }: {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+
   home-manager.backupFileExtension = "backup";
   home-manager.extraSpecialArgs = { };
 

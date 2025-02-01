@@ -69,7 +69,7 @@ let
         {
           inherit (ctx) nix;
 
-          nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ]; 
+          nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
           users.users.${user.username} = {
             isNormalUser = true;
@@ -116,6 +116,7 @@ in
 
     nixosConfigurations = mkNixosConfigurations {
       nixos = { };
+
     };
   };
 }

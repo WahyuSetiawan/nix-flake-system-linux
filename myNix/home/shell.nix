@@ -6,6 +6,7 @@ in
 {
   home.file.".zshrc".text =
     if pkgs.stdenv.isDarwin then
+    #sh
       ''
         export FVM_CACHE_PATH="$HOME/.fvm"
         export ANDROID_HOME="$HOME/Library/Android/sdk"
@@ -25,17 +26,17 @@ in
         export _JAVA_OPTIONS="-Xmx2g"
         # >>> conda initialize >>>
         # !! Contents within this block are managed by 'conda init' !!
-        __conda_setup="$('/Users/wahyu/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-        if [ $? -eq 0 ]; then
-        #    eval "$__conda_setup"
-        else
-            if [ -f "/Users/wahyu/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-                . "/Users/wahyu/opt/anaconda3/etc/profile.d/conda.sh"
-            else
-                export PATH="/Users/wahyu/opt/anaconda3/bin:$PATH"
-            fi
-        fi
-        unset __conda_setup
+        # __conda_setup="$('/Users/wahyu/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+        # if [ $? -eq 0 ]; then
+        # #    eval "$__conda_setup"
+        # else
+        #     if [ -f "/Users/wahyu/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        #         . "/Users/wahyu/opt/anaconda3/etc/profile.d/conda.sh"
+        #     else
+        #         export PATH="/Users/wahyu/opt/anaconda3/bin:$PATH"
+        #     fi
+        # fi
+        # unset __conda_setup
         # <<< conda initialize <<<
 
         # pnpm
@@ -71,23 +72,18 @@ in
 
         ## [Completion]
         ## Completion scripts setup. Remove the following line to uninstall
-        [[ -f /Users/wahyu/.dart-cli-completion/zsh-config.zsh ]] && . /Users/wahyu/.dart-cli-completion/zsh-config.zsh || true
+        # [[ -f /Users/wahyu/.dart-cli-completion/zsh-config.zsh ]] && . /Users/wahyu/.dart-cli-completion/zsh-config.zsh || true
         ## [/Completion]
-
 
         #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
         export SDKMAN_DIR="$HOME/.sdkman"
         [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-
         # Herd injected PHP 8.3 configuration.
         export HERD_PHP_83_INI_SCAN_DIR="/Users/wahyu/Library/Application Support/Herd/config/php/83/"
 
-
         # Herd injected PHP binary.
         export PATH="/Users/wahyu/Library/Application Support/Herd/bin/":$PATH
-
-        [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
         # Created by `pipx` on 2024-12-20 22:27:06
         export PATH="$PATH:/Users/wahyu/.local/bin"
@@ -97,12 +93,6 @@ in
         export PATH="/usr/bin/:$PATH"
       ''
     else '''';
-
-  home.packages = with pkgs;[
-    oh-my-zsh
-    zsh-autosuggestions
-    starship
-  ];
 
   home = {
     shellAliases = {
@@ -154,7 +144,6 @@ in
   };
 
   programs = {
-    bash = { enable = true; };
     fish = {
       enable = true;
       shellInit = ''
@@ -162,41 +151,40 @@ in
 
       '';
     };
-
-    zsh = {
-      enable = false;
-      zplug = {
-        enable = true;
-        plugins = [
-          { name = "zsh-users/zsh-autosuggestions"; }
-        ];
-      };
-      oh-my-zsh = {
-        enable = true;
-        theme = "cloud";
-        extraConfig = ''
-
-      '';
-        plugins = [
-          "git"
-          "heroku"
-          "pip"
-          "lein"
-          "laravel"
-          "gradle"
-          "archlinux"
-          "docker"
-          "dnf"
-          "aws"
-          "golang"
-          "command-not-found"
-        ];
-      };
-    };
+    #
+    # zsh = {
+    #   enable = false;
+    #   zplug = {
+    #     enable = true;
+    #     plugins = [
+    #       { name = "zsh-users/zsh-autosuggestions"; }
+    #     ];
+    #   };
+    #   oh-my-zsh = {
+    #     enable = true;
+    #     theme = "cloud";
+    #     extraConfig = ''
+    #
+    #   '';
+    #     plugins = [
+    #       "git"
+    #       "heroku"
+    #       "pip"
+    #       "lein"
+    #       "laravel"
+    #       "gradle"
+    #       "archlinux"
+    #       "docker"
+    #       "dnf"
+    #       "aws"
+    #       "golang"
+    #       "command-not-found"
+    #     ];
+    #   };
+    # };
 
     starship = {
       enable = true;
-      enableZshIntegration = true;
       enableFishIntegration = true;
       enableBashIntegration = true;
     };

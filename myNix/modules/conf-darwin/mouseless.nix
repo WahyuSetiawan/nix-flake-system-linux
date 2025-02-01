@@ -44,7 +44,7 @@ in
           "${lib.getExe pkgs.sketchybar} --trigger space_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE"
         ];
         gaps = {
-          outer.top = 30;
+          outer.top = 12;
           outer.bottom = 12;
           outer.left = 12;
           outer.right = 12;
@@ -68,14 +68,14 @@ in
             };
             run = [
               "move-node-to-workspace 2"
-            ];
-          }
+            ]; }
           {
             check-further-callbacks = false;
             ${"if"} = {
               app-id = "net.whatsapp.WhatsApp";
             };
             run = [
+
               "move-node-to-workspace 2"
             ];
           }
@@ -87,7 +87,7 @@ in
           alt-enter = #sh
             ''
               exec-and-forget osascript -e '
-              do shell script "open -a Alacritty"
+              do shell script "open -n -a Alacritty"
               '
             '';
           alt-space = "layout floating tiling";

@@ -1,6 +1,6 @@
 input: {
   imports = [
-    ./hyprland.nix
-    ./waybar.nix
+    # ./hyprland.nix
+    # ./waybar.nix
   ];
 }
