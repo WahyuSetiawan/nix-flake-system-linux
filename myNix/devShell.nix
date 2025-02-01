@@ -9,7 +9,7 @@
         ];
         shellHook = #sh
           ''
-            export FVM_CACHE_PATH=$HOME/.fvm;
+            export FVM_CACHE_PATH=$HOME/fvm;
             export FVM_CACHE_PATH_BIN="$FVM_CACHE_PATH/default/bin";
 
             export FLUTTER_HOME="$FVM_CACHE_PATH/default";
