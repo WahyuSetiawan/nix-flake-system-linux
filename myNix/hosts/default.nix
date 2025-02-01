@@ -24,7 +24,7 @@ let
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
           (mkCommonConfiguration { inherit system stateVersion; })
-          (mkHomeConfiguration { inherit (user) username pathHome; inherit homeStateVersion; })
+          (mkHomeConfiguration { inherit user homeStateVersion; })
         ]
       ]
       ++ [
@@ -61,13 +61,14 @@ let
       [
         inputs.home-manager.nixosModules.home-manager
         (mkCommonConfiguration { inherit system stateVersion; })
-        (mkHomeConfiguration { inherit (user) username pathHome; inherit homeStateVersion; })
+        (mkHomeConfiguration { inherit user homeStateVersion; })
       ]
     ]
     ++ [
       ({ inputs, config, pkgs, lib, ... }:
         {
           inherit (ctx) nix;
+          users.primaryUser = user;
 
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
@@ -75,9 +76,6 @@ let
             isNormalUser = true;
             description = user.fullName;
             extraGroups = [ "networkmanager" "wheel" ];
-            packages = with pkgs; [
-              #  thunderbird
-            ];
 
             shell = pkgs.fish;
           };
@@ -98,6 +96,9 @@ in
       email = "wahyu.creator911@gmail.com";
       pathHome = "home";
       nixConfigDirectory = "/home/${username}/.nix";
+      within = {
+        hyprland.enable = true;
+      };
     };
   };
 

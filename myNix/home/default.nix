@@ -1,4 +1,4 @@
-input: {
+{ self, ... }: {
   flake.homeManagerModules = {
     home-activation = import ./activations.nix;
     home-shell = import ./shell.nix;
@@ -8,5 +8,11 @@ input: {
     home-tmux = import ./tmux.nix;
     home-mouseless = import ./mouseless.nix;
     home-hyprland = import ./hyprland;
+    home-user-info =
+      { lib, ... }:
+      {
+        options.home.user-info =
+          (self.commonModules.system-user { inherit lib; }).options.users.primaryUser;
+      };
   };
 }
