@@ -10,7 +10,7 @@ rec {
 
         mainBar = {
           default = {
-            font = "JetBrainsMono Nerd Font 12";
+            font = "JetBrainsMono Nerd Font 10";
           };
           layer = "top";
 
@@ -43,7 +43,7 @@ rec {
             "sort-by-name" = true;
             "format" = " {icon} ";
             "format-icons" = {
-              "default" = "";
+              "default" = "󰮯";
             };
           };
 
@@ -76,7 +76,7 @@ rec {
 
           "custom/power" = {
             "tooltip" = false;
-            "on-click" = "wlogout &";
+            "on-click" = "~/.config/rofi/bin/powermenu &";
             "format" = "󰐥";
           };
         };
@@ -91,13 +91,22 @@ rec {
             border: none;
             border-radius: 0;
             font-family: JetBrainsMono Nerd Font;
+            font-size: 11;
           }
 
           window#waybar {
-            /* you can also GTK3 CSS functions! */
             background-color: shade(@base, 0.9);
             border: 2px solid alpha(@crust, 0.3);
+            border-radius: 10px; /* Membuat sudut melengkung */
+            margin-top: 10px; /* Margin atas */
+              margin-left: 10px; /* Margin kiri */
+              margin-right: 10px; /* Margin kanan */
           }
+
+          window#waybar.hidden{
+            opacity: 0.2;
+          }
+
           #workspaces {
             border-radius: 1rem;
             margin: 5px;

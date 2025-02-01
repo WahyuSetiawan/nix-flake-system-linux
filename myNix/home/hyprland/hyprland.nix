@@ -25,16 +25,16 @@ in
         ################
         ### MONITORS ###
         ################
-        $scale = 1
+        $scale = 0.8
         monitor = DP-1, 2560x1440,  0x0, $scale
-        monitor = HDMI-A-1, 1920x1080, -1080x0, $scale, transform, 1
+        monitor = HDMI-A-1, 1920x1080, -1350x0, $scale, transform, 1
 
         ###################
         ### MY PROGRAMS ###
         ###################
         $terminal = alacritty
         $fileManager = dolphin
-        $menu = rofi -show run
+        $menu = ~/.config/rofi/bin/launcher
 
         #################
         ### AUTOSTART ###

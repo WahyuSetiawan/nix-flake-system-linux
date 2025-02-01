@@ -10,7 +10,7 @@ in
         owner = "catppuccin";
         repo = "rofi";
         rev = "main";
-        hash = "";
+        hash = "sha256-zA8Zum19pDTgn0KdQ0gD2kqCOXK4OCHBidFpGwrJOqg=";
       } + "/deathemonic";
   };
 }
