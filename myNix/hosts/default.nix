@@ -33,6 +33,9 @@ let
 
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
           environment.systemPackages = ctx.basePackageFor pkgs;
+          environment.variables = {
+            DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer";
+          };
 
           users.users.${user.username} = {
             home = "/${user.pathHome}/${user.username}";

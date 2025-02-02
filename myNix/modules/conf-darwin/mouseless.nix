@@ -6,6 +6,12 @@ let
     mkIf;
 
   cfg = config.mouseless;
+
+  lua = pkgs.lua54Packages.lua.withPackages (ps: [
+    ps.lua
+    pkgs.sbarLua
+    pkgs.sketchybarConfigLua
+  ]);
 in
 {
   options.mouseless.enable = mkEnableOption (mdDoc "enable mode mouseless");
@@ -27,7 +33,7 @@ in
         # sbar_events
       ];
 
-      # config = # lua
+      # config = # lu
       #   ''
       #     #!${lua}/bin/lua
       #     package.cpath = package.cpath .. ";${lua}/lib/?.so"
@@ -44,7 +50,7 @@ in
           "${lib.getExe pkgs.sketchybar} --trigger space_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE"
         ];
         gaps = {
-          outer.top = 12;
+          outer.top = 40;
           outer.bottom = 12;
           outer.left = 12;
           outer.right = 12;
@@ -68,7 +74,8 @@ in
             };
             run = [
               "move-node-to-workspace 2"
-            ]; }
+            ];
+          }
           {
             check-further-callbacks = false;
             ${"if"} = {
