@@ -1,5 +1,6 @@
 { inputs, pkgs, config, lib, ... }:
 let
+  inherit (lib) mkEnableOption mdDoc;
   hostname = pkgs.stdenv.hostPlatform.system;
   # hyprlandEnable = true;
   hyprlandEnable = config.users.primaryUser.within.hyprland.enable;

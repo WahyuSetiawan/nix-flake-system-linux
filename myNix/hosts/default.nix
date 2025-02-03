@@ -22,7 +22,6 @@ let
         [
           inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
-          inputs.nix-homebrew.darwinModules.nix-homebrew
           (mkCommonConfiguration { inherit system stateVersion; })
           (mkHomeConfiguration { inherit user homeStateVersion; })
         ]
@@ -34,8 +33,9 @@ let
 
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
           environment.systemPackages = ctx.basePackageFor pkgs;
-
-          nix-homebrew.user = user.username;
+          environment.variables = {
+            DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer";
+          };
 
           users.users.${user.username} = {
             home = "/${user.pathHome}/${user.username}";
@@ -72,7 +72,7 @@ let
 
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
-          users.users.juragankoding = {
+          users.users.${user.username} = {
             isNormalUser = true;
             description = user.fullName;
             extraGroups = [ "networkmanager" "wheel" ];
@@ -107,7 +107,7 @@ in
       "JuraganKoding-2" = {
         user = rec{
           username = "wahyu";
-          fullname = "wahyu setiawan";
+          fullName = "wahyu setiawan";
           email = "wahyu.creator911@gmail.com";
           pathHome = "Users";
           nixConfigDirectory = "/Users/${username}/.nix";
@@ -117,6 +117,7 @@ in
 
     nixosConfigurations = mkNixosConfigurations {
       nixos = { };
+
     };
   };
 }

@@ -9,6 +9,7 @@
     system-darwin-packages = import ./conf-darwin/packages.nix;
     system-darwin-homebrew = import ./conf-darwin/homebrew.nix;
     system-darwin-mouseless = import ./conf-darwin/mouseless.nix;
+    system-darwin-system = import ./conf-darwin/system.nix;
   };
 
   flake.nixosModules = {

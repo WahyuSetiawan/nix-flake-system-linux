@@ -6,6 +6,7 @@
     home-git = import ./git.nix;
     home-packages = import ./packages.nix;
     home-tmux = import ./tmux.nix;
+    home-mouseless = import ./mouseless;
     home-hyprland = import ./hyprland;
     home-user-info =
       { lib, ... }:

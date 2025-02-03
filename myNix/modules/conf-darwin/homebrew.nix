@@ -1,24 +1,36 @@
-{ inputs, pkgs, ... }: {
-  nix-homebrew = {
-    # Install Homebrew under the default prefix
-    enable = true;
+{ config
+, lib
+, pkgs
+, ...
+}:
 
-    # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-    enableRosetta = true;
+let
+  inherit (lib) mkIf;
+in
+{
+  environment.shellInit =
+      ''
+        eval "$(${config.homebrew.brewPrefix}/brew shellenv)"
+      '';
 
-    # User owning the Homebrew prefix
-    user = "wahyu";
+  system.activationScripts.preUserActivation.text =
+      ''
+        if [ ! -f ${config.homebrew.brewPrefix}/brew ]; then
+          ${pkgs.bash}/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
+      '';
 
-    # Optional: Declarative tap management
-    taps = {
-      "homebrew/homebrew-core" = inputs.homebrew-core;
-      "homebrew/homebrew-cask" = inputs.homebrew-cask;
-      "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
-    };
+  homebrew.enable = true;
+  homebrew.brews = [
+  ];
+  homebrew.onActivation.cleanup = "zap";
+  homebrew.global.brewfile = true;
 
-    # Optional: Enable fully-declarative tap management
-    #
-    # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
-    mutableTaps = false;
+  homebrew.masApps = {
+    xCode = 497799835;
   };
+
+  homebrew.casks = [
+  ];
+
 }

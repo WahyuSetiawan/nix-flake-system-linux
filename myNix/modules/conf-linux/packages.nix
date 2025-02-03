@@ -1,13 +1,4 @@
 { pkgs, ... }: {
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.fira-code
-    nerd-fonts.hack
-    nerd-fonts.iosevka
-    fantasque-sans-mono
-    nerd-fonts.symbols-only
-  ];
-
   environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
     home-manager
@@ -51,9 +42,6 @@
     unzip
     lsd
     bat
-
-    jetbrains-mono
-    # openjdk21
 
     go
     android-studio

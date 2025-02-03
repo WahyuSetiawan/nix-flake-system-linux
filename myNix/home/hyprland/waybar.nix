@@ -7,20 +7,23 @@ rec {
     programs.waybar = {
       enable = true;
       settings = {
-
         mainBar = {
           default = {
             font = "JetBrainsMono Nerd Font 10";
           };
           layer = "top";
-
           position = "top";
-          # height = 30;
+          height = 20;
           output = [
             "DP-1"
           ];
-          modules-left = [ "hyprland/workspaces" ];
-          modules-center = [ "hyprland/window" "custom/hello-from-waybar" ];
+          modules-left = [
+            "hyprland/workspaces"
+          ];
+          modules-center = [
+            "hyprland/window"
+            "custom/hello-from-waybar"
+          ];
           modules-right = [
             "cpu"
             "memory"
@@ -98,9 +101,10 @@ rec {
             background-color: shade(@base, 0.9);
             border: 2px solid alpha(@crust, 0.3);
             border-radius: 10px; /* Membuat sudut melengkung */
+            padding: 10px;
             margin-top: 10px; /* Margin atas */
-              margin-left: 10px; /* Margin kiri */
-              margin-right: 10px; /* Margin kanan */
+            margin-left: 10px; /* Margin kiri */
+            margin-right: 10px; /* Margin kanan */
           }
 
           window#waybar.hidden{
@@ -113,10 +117,11 @@ rec {
             background-color: @surface0;
             margin-left: 1rem;
           }
+
           #workspaces button {
             color: @lavender;
             border-radius: 1rem;
-            padding: 0.4rem;
+            padding: 0.2rem;
           }
 
           #custom-music,
