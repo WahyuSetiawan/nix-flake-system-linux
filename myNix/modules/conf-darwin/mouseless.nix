@@ -8,9 +8,9 @@ let
   cfg = config.mouseless;
 
   lua = pkgs.lua54Packages.lua.withPackages (ps: [
-    ps.lua
-    pkgs.sbarLua
-    pkgs.sketchybarConfigLua
+    # ps.lua
+    # pkgs.sbarLua
+    # pkgs.sketchybarConfigLua
   ]);
 in
 {
@@ -33,12 +33,12 @@ in
         # sbar_events
       ];
 
-      # config = # lu
-      #   ''
-      #     #!${lua}/bin/lua
-      #     package.cpath = package.cpath .. ";${lua}/lib/?.so"
-      #     require("init")
-      #   '';
+      config = # lua
+        ''
+          #!${lua}/bin/lua
+          package.cpath = package.cpath .. ";${lua}/lib/?.so"
+          require("init")
+        '';
     };
 
     services.aerospace = {

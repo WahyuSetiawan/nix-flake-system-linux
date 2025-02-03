@@ -16,7 +16,7 @@ in
         export PATH="$PATH:$BUN_PATH"
         export PATH="$PATH:$HOME/Library/Android/sdk/tools/"
         export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
-        export PATH="$PATH:/Users/wahyu/.fvm/default/bin"
+        export PATH="$PATH:$HOME/fvm/default/bin"
 
         export GOPATH="$HOME/.go"
         export GOBIN="$GOPATH/bin"
@@ -93,6 +93,10 @@ in
         export PATH="/usr/bin/:$PATH"
       ''
     else '''';
+
+  home.sessionVariables = {
+    PATH = "$HOME/fvm/default/bin:$PATH";
+  };
 
   home = {
     shellAliases = {
