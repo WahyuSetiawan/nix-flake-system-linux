@@ -21,7 +21,7 @@ in
         type = with types; nullOr str;
         default = null;
       };
-      pathHome = mkOption{
+      pathHome = mkOption {
         type = with types; nullOr str;
         default = null;
       };
@@ -29,6 +29,15 @@ in
         hyprland.enable = mkOption {
           type = with types; bool;
           default = false;
+        };
+        hyprland.theme = mkOption {
+          type = types.enum [
+            "mocha"
+            "frappe"
+            "macchiato"
+            "latte"
+          ];
+          default = "mocha";
         };
         neovim.enable = mkOption {
           type = with types; bool;

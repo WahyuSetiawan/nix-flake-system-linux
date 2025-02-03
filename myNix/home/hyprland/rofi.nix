@@ -1,7 +1,7 @@
 { pkgs, config, lib, ... }:
 let
   hyprlandEnable = config.home.user-info.within.hyprland.enable;
-  theme = "mocha";
+  theme = config.home.user-info.within.hyprland.theme;
 in
 {
   config = lib.mkIf hyprlandEnable {
