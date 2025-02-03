@@ -6,6 +6,7 @@
   };
 
   flake.darwinModules = {
+    system-darwin-shells = import ./conf-darwin/shells.nix;
     system-darwin-packages = import ./conf-darwin/packages.nix;
     system-darwin-homebrew = import ./conf-darwin/homebrew.nix;
     system-darwin-mouseless = import ./conf-darwin/mouseless.nix;
