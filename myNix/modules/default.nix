@@ -14,6 +14,7 @@
   };
 
   flake.nixosModules = {
+    system-nixos-fonts = import ./conf-linux/fonts.nix;
     sysetm-nixos-activations = import ./conf-linux/activations.nix;
     system-nixos-system = import ./conf-linux/system.nix;
     system-nixos-services = import ./conf-linux/services;

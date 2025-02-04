@@ -26,9 +26,9 @@ in
           ################
           ### MONITORS ###
           ################
-          $scale = 0.8
+          $scale = 1
           monitor = DP-1, 2560x1440,  0x0, $scale
-          monitor = HDMI-A-1, 1920x1080, -1350x0, $scale, transform, 1
+          monitor = HDMI-A-1, 1920x1080, -1080x0, $scale, transform, 1
 
           ###################
           ### MY PROGRAMS ###
@@ -48,7 +48,6 @@ in
           # exec-once = nm-applet &
           # exec-once = waybar & hyprpaper & firefox
           exec-once = waybar & hyprpaper
-
 
           #############################
           ### ENVIRONMENT VARIABLES ###
