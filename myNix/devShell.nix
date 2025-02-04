@@ -25,20 +25,60 @@
           xorg.libXrandr
           xorg.libXtst
           xorg.libXcursor
+          xorg.libxcb
+          xorg.libxkbfile
+
+          libpulseaudio
+          libpng
+          nss
+          nspr
+          expat
+          libdrm
+          libbsd
+
+          qt5.qtbase
+          qt5.qtwayland
+
+          fontconfig
+          freetype
+          alsa-lib
+          libpulseaudio
+          libxkbcommon
+          libxcrypt
+          glib
+          networkmanager
         ];
+
+        LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [
+          pkgs.xorg.libX11
+          pkgs.xorg.libXrender
+          pkgs.xorg.libXext
+          pkgs.xorg.libXinerama
+          pkgs.xorg.libXi
+          pkgs.xorg.libXrandr
+          pkgs.xorg.libXtst
+          pkgs.xorg.libXcursor
+          pkgs.xorg.libxkbfile
+
+          pkgs.libpulseaudio
+          pkgs.libpng
+          pkgs.nss
+          pkgs.nspr
+          pkgs.expat
+          pkgs.libdrm
+          pkgs.libbsd
+          pkgs.xorg.libxcb
+          pkgs.libxkbcommon
+
+          pkgs.qt5.qtbase
+        ]}";
+
+        QT_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-5.${pkgs.qt5.qtbase.version}/plugins";
+
+
         shellHook = #sh
           ''
-            export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-                  pkgs.xorg.libX11
-                  pkgs.xorg.libXrender
-                  pkgs.xorg.libXext
-                  pkgs.xorg.libXinerama
-                  pkgs.xorg.libXi
-                  pkgs.xorg.libXrandr
-                  pkgs.xorg.libXtst
-                  pkgs.xorg.libXcursor
-                ]}
-
+            export QT_QPA_PLATFORM=xcb
 
             export ANDROID_AVD_HOME=$HOME/.android/avd
 
