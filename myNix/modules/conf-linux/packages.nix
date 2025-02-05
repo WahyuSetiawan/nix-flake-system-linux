@@ -47,8 +47,21 @@
     android-studio
 
     # package for better audio
-    # fvm
+    fvm
+    flameshot
   ];
+
+  environment.variables = rec{
+    FVM_CACHE_PATH = "$HOME/.fvm";
+    ANDROID_SDK_ROOT = "$HOME/Android/Sdk";
+    PATH = [
+      "${FVM_CACHE_PATH}/default/bin"
+    ];
+  };
+
+  # programs = {
+  #   avd = true;
+  # };
 
   programs.nix-ld.enable = true;
 

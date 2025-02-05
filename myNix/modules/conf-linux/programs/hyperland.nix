@@ -40,6 +40,7 @@ in
 
       dunst
       # nixpkgs.libnotify
+      dolphin
 
       hyprpaper
       # nixpkgs.swaybg
@@ -61,6 +62,11 @@ in
 
       xkeyboard_config
       # pkgs.xorg.xinit
+
+      # image viewer
+      swayimg
+      # file manager
+      nemo
     ];
 
 
