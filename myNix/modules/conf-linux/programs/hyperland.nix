@@ -40,7 +40,6 @@ in
 
       dunst
       # nixpkgs.libnotify
-      dolphin
 
       hyprpaper
       # nixpkgs.swaybg
@@ -66,7 +65,8 @@ in
       # image viewer
       swayimg
       # file manager
-      nemo
+      dolphin
+      nautilus
     ];
 
 
