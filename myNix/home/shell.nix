@@ -1,6 +1,6 @@
-{ inputs, pkgs, lib, ... }:
+{ inputs, pkgs, lib, config, ... }:
 let
-  nixConfigDirectory = "~/nix";
+  nixConfigDirectory = config.home.user-info.nixConfigDirectory;
   concatString' = lib.strings.concatStringsSep " && ";
 in
 {

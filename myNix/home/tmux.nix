@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: let
+  nixConfigDirectory = config.home.user-info.nixConfigDirectory;
+in {
   programs.tmux.enable = true;
   programs.tmux.mouse = true;
   programs.tmux.newSession = true;
@@ -70,7 +72,7 @@
       bind-key r source-file ~/.tmux.conf \; display-message "~/.tmux.conf reloaded"
       bind-key Z split-window -h "nvim ~/.zshrc"
       bind-key V split-window -h "cd ~/.config/nvim && nvim ~/.config/nvim"
-      bind-key N split-window -h "cd ~/nix && nvim ~/nix"
+      bind-key N split-window -h "cd ${nixConfigDirectory} && nvim ${nixConfigDirectory}"
 
       source-file ~/.tmux.conf
     '';
