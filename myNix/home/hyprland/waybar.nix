@@ -97,10 +97,16 @@ rec {
             font-size: 11;
           }
 
-          window#waybar {
+          window > box {
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-top: 5px;
             background-color: shade(@base, 0.9);
             border: 2px solid alpha(@crust, 0.3);
             border-radius: 10px; /* Membuat sudut melengkung */
+          }
+
+          window#waybar {
             padding: 10px;
             margin-top: 10px; /* Margin atas */
             margin-left: 10px; /* Margin kiri */
@@ -122,6 +128,18 @@ rec {
             color: @lavender;
             border-radius: 1rem;
             padding: 0.2rem;
+          }
+
+          #workspaces button.empty {
+            color: @overlay0;
+          }
+
+          #workspaces button.visible {
+            color: @blue;
+          }
+
+          #workspaces button.active{
+            color: @green;
           }
 
           #custom-music,
