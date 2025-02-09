@@ -28,17 +28,17 @@ in
     services.sketchybar = {
       enable = cfg.enable;
       # package = branches.master.sketchybar;
-      extraPackages = with pkgs; [
-        # sbar_menus
-        # sbar_events
-      ];
+      # extraPackages = with pkgs; [
+      # sbar_menus
+      # sbar_events
+      # ];
 
-      config = # lua
-        ''
-          #!${lua}/bin/lua
-          package.cpath = package.cpath .. ";${lua}/lib/?.so"
-          require("init")
-        '';
+      # config = # lua
+      #   ''
+      #     #!${lua}/bin/lua
+      #     package.cpath = package.cpath .. ";${lua}/lib/?.so"
+      #     require("init")
+      #   '';
     };
 
     services.aerospace = {

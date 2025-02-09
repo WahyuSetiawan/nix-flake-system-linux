@@ -125,7 +125,7 @@ in
           "nixos-rebuild build --flake ${nixConfigDirectory} --use-remote-sudo";
       nixswitch =
         if pkgs.stdenv.isDarwin
-        then "darwin-rebuild switch --flake ${nixConfigDirectory}" else
+        then "darwin-rebuild switch --flake ${nixConfigDirectory}#default" else
           "nixos-rebuild switch --flake ${nixConfigDirectory} --use-remote-sudo";
 
       # git 

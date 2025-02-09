@@ -26,5 +26,7 @@ inputs@{ pkgs, ... }: {
     ripgrep
     gcc
     fvm
+
+    stow
   ];
 }
