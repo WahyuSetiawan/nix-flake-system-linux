@@ -28,10 +28,10 @@ in
     services.sketchybar = {
       enable = cfg.enable;
       # package = branches.master.sketchybar;
-      extraPackages = with pkgs; [
+      # extraPackages = with pkgs; [
         # sbar_menus
         # sbar_events
-      ];
+      # ];
 
       config = # lua
         ''
