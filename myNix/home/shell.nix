@@ -105,7 +105,6 @@ in
       python = "python3";
       pod = "arch -x86_64 pod";
       ".." = "cd ..";
-      vivaldi = "vivaldi --ozone-platform=x11";
 
       # allias for nix
       nixclean = concatString' [
@@ -121,12 +120,12 @@ in
       nixdr = "direnv reload";
       nixbuild =
         if pkgs.stdenv.isDarwin
-        then "darwin-rebuild build --flake ${nixConfigDirectory}" else
-          "nixos-rebuild build --flake ${nixConfigDirectory} --use-remote-sudo";
+        then "darwin-rebuild build --flake ${nixConfigDirectory}#default" else
+          "nixos-rebuild build --flake ${nixConfigDirectory}#default --use-remote-sudo";
       nixswitch =
         if pkgs.stdenv.isDarwin
         then "darwin-rebuild switch --flake ${nixConfigDirectory}#default" else
-          "nixos-rebuild switch --flake ${nixConfigDirectory} --use-remote-sudo";
+          "nixos-rebuild switch --flake ${nixConfigDirectory}#default --use-remote-sudo";
 
       # git 
       gia = "git add";
@@ -160,6 +159,9 @@ in
 
     fish = {
       enable = true;
+      shellInit = ''
+
+      '';
       functions = {
         nix-dev = ''
           if test (count $argv) -gt 0
