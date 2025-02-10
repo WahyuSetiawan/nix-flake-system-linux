@@ -19,7 +19,7 @@
     attrsets.genAttrs packages (name: callPackage ./${name}.nix { })
     // {
       sbar_menus = prev.callPackage ../../modules/conf-darwin/sketchybar/helpers/menus { };
-      # sbar_events = prev.callPackage ../../nixosModules/darwin/sketchybar/helpers/event_providers { };
+      sbar_events = prev.callPackage ../../modules/conf-darwin/sketchybar/helpers/event_providers { };
       sbarLua = prev.callPackage ../../modules/conf-darwin/sketchybar/helpers/sbar.nix { };
       sketchybarConfigLua = prev.callPackage ../../modules/conf-darwin/sketchybar { };
       sf-symbols-font = final.sf-symbols.overrideAttrs (old: {

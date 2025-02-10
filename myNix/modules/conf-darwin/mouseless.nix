@@ -30,7 +30,7 @@ in
       # package = branches.master.sketchybar;
       extraPackages = with pkgs; [
         sbar_menus
-        # sbar_events
+        sbar_events
       ];
 
       config = # lua
