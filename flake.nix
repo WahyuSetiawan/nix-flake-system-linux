@@ -28,7 +28,13 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     mac-app-util.url = "github:hraban/mac-app-util";
+
+    sketchybar-app-font = {
+      url = "github:kvndrsslr/sketchybar-app-font";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-parts, ... }@inputs:

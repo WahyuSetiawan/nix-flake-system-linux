@@ -530,7 +530,8 @@
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_3",
         "process-compose-flake": "process-compose-flake",
-        "services-flake": "services-flake"
+        "services-flake": "services-flake",
+        "sketchybar-app-font": "sketchybar-app-font"
       }
     },
     "services-flake": {
@@ -545,6 +546,22 @@
       "original": {
         "owner": "juspay",
         "repo": "services-flake",
+        "type": "github"
+      }
+    },
+    "sketchybar-app-font": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1738526566,
+        "narHash": "sha256-ELe6ZKdNyhHcgktZtWZlgqoHlhagliK4bXw1SH/g9HU=",
+        "owner": "kvndrsslr",
+        "repo": "sketchybar-app-font",
+        "rev": "b2ca812dd1e402aa1eb4b7fa035f2ef2f4436590",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kvndrsslr",
+        "repo": "sketchybar-app-font",
         "type": "github"
       }
     },
