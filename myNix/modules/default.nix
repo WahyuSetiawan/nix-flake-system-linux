@@ -11,6 +11,7 @@
     system-darwin-homebrew = import ./conf-darwin/homebrew.nix;
     system-darwin-mouseless = import ./conf-darwin/mouseless.nix;
     system-darwin-system = import ./conf-darwin/system.nix;
+    system-darwin-browser = import ./conf-darwin/browser.nix;
   };
 
   flake.nixosModules = {

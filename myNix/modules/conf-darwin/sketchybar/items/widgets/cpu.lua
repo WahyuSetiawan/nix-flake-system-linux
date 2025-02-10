@@ -10,7 +10,7 @@ local cpu = sbar.add("graph", "widgets.cpu" , 42, {
   position = "right",
   graph = { color = colors.blue },
   background = {
-    height = 22,
+    height = 18,
     color = { alpha = 0 },
     border_color = { alpha = 0 },
     drawing = true,

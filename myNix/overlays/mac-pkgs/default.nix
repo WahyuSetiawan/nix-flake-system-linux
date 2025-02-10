@@ -13,6 +13,7 @@
         # "iriun-webcam"
         # "clipy"
         "sf-symbols"
+        "vivaldi-dmg"
         # "googlechrome" # see system/darwin/homebrew.nix
       ];
     in
