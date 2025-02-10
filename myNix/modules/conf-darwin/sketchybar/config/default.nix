@@ -8,7 +8,7 @@ buildLuaPackage {
   name = "sketchybar-config";
   pname = "sketchybar-config";
   version = "0.0.0";
-  src = lib.cleanSource ./../../../../dotfiles/.config/sketchybar;
+  src = lib.cleanSource ./.;
   buildPhase = ":";
   installPhase = # bash
     ''
