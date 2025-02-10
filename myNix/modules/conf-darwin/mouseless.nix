@@ -29,7 +29,7 @@ in
       enable = cfg.enable;
       # package = branches.master.sketchybar;
       extraPackages = with pkgs; [
-        # sbar_menus
+        sbar_menus
         # sbar_events
       ];
 
