@@ -20,7 +20,7 @@
       # sbar_menus = prev.callPackage ../../nixosModules/darwin/sketchybar/helpers/menus { };
       # sbar_events = prev.callPackage ../../nixosModules/darwin/sketchybar/helpers/event_providers { };
       sbarLua = prev.callPackage ../../modules/conf-darwin/sketchybar/sbar.nix { };
-      sketchybarConfigLua = prev.callPackage ../../modules/conf-darwin/sketchybar/config.nix { };
+      sketchybarConfigLua = prev.callPackage ../../modules/conf-darwin/sketchybar/config { };
       # sf-symbols-font = final.sf-symbols.overrideAttrs (old: {
       #   pname = "sf-symbols-font";
       #   installPhase = ''

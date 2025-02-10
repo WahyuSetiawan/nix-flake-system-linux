@@ -20,7 +20,7 @@ sbar.exec("aerospace list-workspaces --all", function(spaces)
 				padding_right = 12,
 				color = colors.grey,
 				highlight_color = colors.white,
-				font = "sketchybar-app-font:Regular:16.0",
+				font = "sketchybar-app-font:Regular:12.0",
 				y_offset = -1,
 			},
 			padding_right = 1,
