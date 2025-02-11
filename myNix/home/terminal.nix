@@ -1,8 +1,23 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }:
+let
+  theme = config.home.user-info.within.hyprland.theme;
+in
+{
+  home.file." ~/.config/alacritty/catppuccin-${theme}.toml".source = pkgs.fetchFromGitHub
+    {
+      owner = "catppuccin";
+      repo = "alacritty";
+      rev = "main";
+      hash = "sha256-H8bouVCS46h0DgQ+oYY8JitahQDj0V9p2cOoD4cQX+Q=";
+    } + "catppuccin-${theme}.toml";
+
   programs = {
     alacritty = {
       enable = true;
       settings = {
+        general.import = [
+          "~/.config/alacritty/catppuccin-${theme}.toml"
+        ];
         window = {
           opacity = 0.8;
           startup_mode = "Windowed";

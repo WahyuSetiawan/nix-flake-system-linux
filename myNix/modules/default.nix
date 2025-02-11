@@ -2,15 +2,19 @@
   flake.commonModules = {
     system-shell = import ./shells.nix;
     system-packages = import ./packages.nix;
+    system-user = import ./user.nix;
   };
 
   flake.darwinModules = {
+    system-darwin-shells = import ./conf-darwin/shells.nix;
     system-darwin-packages = import ./conf-darwin/packages.nix;
     system-darwin-homebrew = import ./conf-darwin/homebrew.nix;
     system-darwin-mouseless = import ./conf-darwin/mouseless.nix;
+    system-darwin-system = import ./conf-darwin/system.nix;
   };
 
   flake.nixosModules = {
+    system-nixos-fonts = import ./conf-linux/fonts.nix;
     sysetm-nixos-activations = import ./conf-linux/activations.nix;
     system-nixos-system = import ./conf-linux/system.nix;
     system-nixos-services = import ./conf-linux/services;

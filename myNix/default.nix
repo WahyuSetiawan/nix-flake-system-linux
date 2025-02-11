@@ -8,10 +8,27 @@
     ./home
     ./hosts
     ./overlays
+    ./devShell.nix
   ];
 
   perSystem = { lib, system, input', ... }:
     {
+      process-compose."ai" = {
+        imports = [
+          inputs.services-flake.processComposeModules.default
+        ];
+        services.ollama.ollamaX = let dataDir = "$HOME/.process-compose/ai/data/ollamaX"; in
+          {
+            enable = true;
+            dataDir = dataDir;
+            models = [
+              "qwen2.5-coder"
+              "deepseek-r1:1.5b"
+            ];
+            # open-webui.enable = true;
+          };
+      };
+
       _module.args =
         let
           selfOverlays = lib.attrValues self.overlays;
@@ -21,7 +38,6 @@
           nix = {
             gc = {
               automatic = true;
-              dates = "weekly";
               options = "--delete-older-than 7d";
             };
           };
@@ -54,8 +70,6 @@
               wget
               git
               ;
-
-
           };
         };
     };

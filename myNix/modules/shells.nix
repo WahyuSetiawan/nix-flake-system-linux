@@ -1,15 +1,19 @@
 { pkgs, config, ... }: {
-  environment.systemPackages = with pkgs; [
-    zsh
-    fish
-  ];
+  environment = with pkgs;{
+    systemPackages = [
+      fish
+    ];
+
+    variables = {
+      SHELL = "${fish}/bin/fish";
+      # CC = "${gcc}/bin/gcc";
+    };
+  };
 
   programs = {
-    zsh = {
-      enable = true;
-    };
     fish = {
       enable = true;
+      useBabelfish = true;
     };
   };
 }

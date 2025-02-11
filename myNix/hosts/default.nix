@@ -22,9 +22,8 @@ let
         [
           inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
-          inputs.nix-homebrew.darwinModules.nix-homebrew
           (mkCommonConfiguration { inherit system stateVersion; })
-          (mkHomeConfiguration { inherit (user) username pathHome; inherit homeStateVersion; })
+          (mkHomeConfiguration { inherit user homeStateVersion; })
         ]
       ]
       ++ [
@@ -34,8 +33,9 @@ let
 
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
           environment.systemPackages = ctx.basePackageFor pkgs;
-
-          nix-homebrew.user = user.username;
+          environment.variables = {
+            DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer";
+          };
 
           users.users.${user.username} = {
             home = "/${user.pathHome}/${user.username}";
@@ -61,23 +61,21 @@ let
       [
         inputs.home-manager.nixosModules.home-manager
         (mkCommonConfiguration { inherit system stateVersion; })
-        (mkHomeConfiguration { inherit (user) username pathHome; inherit homeStateVersion; })
+        (mkHomeConfiguration { inherit user homeStateVersion; })
       ]
     ]
     ++ [
       ({ inputs, config, pkgs, lib, ... }:
         {
           inherit (ctx) nix;
+          users.primaryUser = user;
 
           nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
-          users.users.juragankoding = {
+          users.users.${user.username} = {
             isNormalUser = true;
             description = user.fullName;
             extraGroups = [ "networkmanager" "wheel" ];
-            packages = with pkgs; [
-              #  thunderbird
-            ];
 
             shell = pkgs.fish;
           };
@@ -98,24 +96,38 @@ in
       email = "wahyu.creator911@gmail.com";
       pathHome = "home";
       nixConfigDirectory = "/home/${username}/.nix";
+      within = {
+        hyprland.enable = true;
+      };
     };
   };
 
   flake = {
     darwinConfigurations = mkDarwinConfiguration {
-      "JuraganKoding-2" = {
+      # "JuraganKoding-2" = {
+      #   user = rec{
+      #     username = "wahyu";
+      #     fullName = "wahyu setiawan";
+      #     email = "wahyu.creator911@gmail.com";
+      #     pathHome = "Users";
+      #     nixConfigDirectory = "/Users/${username}/.nix";
+      #   };
+      # };
+      default = {
         user = rec{
           username = "wahyu";
-          fullname = "wahyu setiawan";
+          fullName = "wahyu setiawan";
           email = "wahyu.creator911@gmail.com";
           pathHome = "Users";
           nixConfigDirectory = "/Users/${username}/.nix";
         };
       };
+
     };
 
     nixosConfigurations = mkNixosConfigurations {
       nixos = { };
+      default = { };
     };
   };
 }

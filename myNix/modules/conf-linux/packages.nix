@@ -1,14 +1,6 @@
 { pkgs, ... }: {
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.fira-code
-    nerd-fonts.hack
-    nerd-fonts.symbols-only
-  ];
-
   environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
-    android-studio
     home-manager
     # reetype
     vimPlugins.fzfWrapper
@@ -51,14 +43,25 @@
     lsd
     bat
 
-    jetbrains-mono
-    openjdk21
-
     go
+    android-studio
 
     # package for better audio
     fvm
+    flameshot
   ];
+
+  environment.variables = rec{
+    FVM_CACHE_PATH = "$HOME/.fvm";
+    ANDROID_SDK_ROOT = "$HOME/Android/Sdk";
+    PATH = [
+      "${FVM_CACHE_PATH}/default/bin"
+    ];
+  };
+
+  # programs = {
+  #   avd = true;
+  # };
 
   programs.nix-ld.enable = true;
 
