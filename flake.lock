@@ -531,7 +531,8 @@
         "nixpkgs": "nixpkgs_3",
         "process-compose-flake": "process-compose-flake",
         "services-flake": "services-flake",
-        "sketchybar-app-font": "sketchybar-app-font"
+        "sketchybar-app-font": "sketchybar-app-font",
+        "tgt": "tgt"
       }
     },
     "services-flake": {
@@ -592,6 +593,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default-darwin",
+        "type": "github"
+      }
+    },
+    "tgt": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1739174115,
+        "narHash": "sha256-21xPzwGl53FWZ0WQ4DuZL3V51S1rHvWQsJK2Uqz006w=",
+        "owner": "FedericoBruzzone",
+        "repo": "tgt",
+        "rev": "6558824f4e166b012f13b8351305ac2ac9a91922",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FedericoBruzzone",
+        "repo": "tgt",
         "type": "github"
       }
     },

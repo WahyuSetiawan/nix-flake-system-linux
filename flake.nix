@@ -11,6 +11,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    tgt = {
+      url = "github:FedericoBruzzone/tgt";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ### -- nix related tools
     process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";
     services-flake.url = "github:juspay/services-flake";
@@ -38,7 +43,6 @@
   };
 
   outputs = { self, nixpkgs, flake-parts, ... }@inputs:
-
     flake-parts.lib.mkFlake { inherit inputs; }
       {
         systems = [

@@ -12,7 +12,6 @@ ikjjnputs@{ pkgs, ... }: {
   ];
 
   environment.systemPackages = with pkgs;[
-    w3m
     clang
     nixpkgs-fmt
     libiconv
@@ -22,10 +21,8 @@ ikjjnputs@{ pkgs, ... }: {
     lsd
     bat
     neovim
-    lazygit
     bat
     gitflow
-    btop
     tldr
     eza
     htop
