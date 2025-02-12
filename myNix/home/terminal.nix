@@ -45,7 +45,7 @@ in
       themeFile = "Catppuccin-Latte";
       extraConfig = #sh
         ''
-          font_family Fira Code SemiBold
+          font_family JetBrainsMono Nerd Font
           font_size 10.0
           bold_font auto
           italic_font auto

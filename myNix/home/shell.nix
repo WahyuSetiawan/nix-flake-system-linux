@@ -138,10 +138,10 @@ in
       gipus = "git push -u origin";
       gitas = "git status";
       gifi = "git flow init";
-      gifsf = "git flow start feature";
-      gifsr = "git flow start release";
-      gifff = "git flow finish feature";
-      giffr = "git flow finish release";
+      gifsf = "git flow feature start";
+      gifsr = "git flow release start";
+      gifff = "git flow feature finish";
+      giffr = "git flow release finish";
     };
   };
 

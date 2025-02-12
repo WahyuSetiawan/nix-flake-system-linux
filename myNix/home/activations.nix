@@ -8,8 +8,7 @@ in
       echo "Running stow to symlink configuration files..."
 
       echo "Setting configuration nvim with stow"
-      ln -sf ${homePathConfig}/dotfiles/.config/sketchybar $HOME/.config/sketchybar
-      ln -sf ${homePathConfig}/dotfiles/.config/nvim $HOME/.config/nvim
-      ln -sf ${homePathConfig}/dotfiles/.config/rofi $HOME/.config/rofi
+      ln -sf ${homePathConfig}/dotfiles/.config/nvim $HOME/.config
+      ln -sf ${homePathConfig}/dotfiles/.config/rofi $HOME/.config
     '';
 }

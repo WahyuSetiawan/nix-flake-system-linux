@@ -104,15 +104,6 @@ in
 
   flake = {
     darwinConfigurations = mkDarwinConfiguration {
-      # "JuraganKoding-2" = {
-      #   user = rec{
-      #     username = "wahyu";
-      #     fullName = "wahyu setiawan";
-      #     email = "wahyu.creator911@gmail.com";
-      #     pathHome = "Users";
-      #     nixConfigDirectory = "/Users/${username}/.nix";
-      #   };
-      # };
       default = {
         user = rec{
           username = "wahyu";

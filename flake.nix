@@ -11,6 +11,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    tgt = {
+      url = "github:FedericoBruzzone/tgt";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ### -- nix related tools
     process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";
     services-flake.url = "github:juspay/services-flake";
@@ -28,11 +33,16 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     mac-app-util.url = "github:hraban/mac-app-util";
+
+    sketchybar-app-font = {
+      url = "github:kvndrsslr/sketchybar-app-font";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-parts, ... }@inputs:
-
     flake-parts.lib.mkFlake { inherit inputs; }
       {
         systems = [

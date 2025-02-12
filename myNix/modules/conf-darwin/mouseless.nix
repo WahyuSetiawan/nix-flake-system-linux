@@ -29,8 +29,8 @@ in
       enable = cfg.enable;
       # package = branches.master.sketchybar;
       extraPackages = with pkgs; [
-        # sbar_menus
-        # sbar_events
+        sbar_menus
+        sbar_events
       ];
 
       config = # lua
@@ -42,10 +42,7 @@ in
     };
 
     services.aerospace = {
-      enable = cfg.wm == "aerospace";
-      settings = {
-        exec-on-workspace-change = [
-          "/bin/bash"
+      enable = cfg.wm == "aerospace"; settings = { exec-on-workspace-change = [ "/bin/bash"
           "-c"
           "${lib.getExe pkgs.sketchybar} --trigger space_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE"
         ];
@@ -82,12 +79,18 @@ in
               app-id = "net.whatsapp.WhatsApp";
             };
             run = [
-
               "move-node-to-workspace 2"
             ];
           }
-
-
+          {
+            check-further-callbacks = false;
+            ${"if"} = {
+              app-id = "net.whatsapp.WhatsApp";
+            };
+            run = [
+              "move-node-to-workspace 3"
+            ];
+          }
 
         ];
         mode.main.binding = {
