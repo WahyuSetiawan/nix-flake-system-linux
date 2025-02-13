@@ -10,6 +10,11 @@
     ./overlays
     ./devShell.nix
   ];
+  # Open the browser after the Open WebUI service has started
+  flake = {
+    inputs.nixpkgs.config.allowUnfree = true; # Izinkan paket unfree
+  };
+
 
   perSystem = { lib, system, input', pkgs, ... }:
     {
@@ -17,22 +22,23 @@
         imports = [
           inputs.services-flake.processComposeModules.default
         ];
+
         services = let dataDir = "$HOME/.process-compose/ai/data/ollamaX"; in
           {
             ollama.ollamaX =
               {
                 enable = true;
+                # acceleration = "cuda";
                 dataDir = dataDir;
                 models = [
                   "qwen2.5-coder"
                   "deepseek-r1:1.5b"
                 ];
-                # open-webui.enable = true;
               };
 
             open-webui."open-webui1" = {
               enable = true;
-              dataDir = "${dataDir}/open-webui";
+              # dataDir = "${dataDir}/open-webui";
               environment =
                 let
                   inherit (pc.config.services.ollama.ollamaX) host port;
@@ -58,7 +64,6 @@
         # Start the Open WebUI service after the Ollama service has finished initializing and loading the models
         settings.processes.open-webui1.depends_on.ollamaX-models.condition = "process_completed_successfully";
 
-        # Open the browser after the Open WebUI service has started
         settings.processes.open-browser = {
           command =
             let
@@ -92,7 +97,10 @@
                 tarball-ttl = 0;
 
                 contentAddressedByDefault = false;
+
               };
+              android_sdk.accept_license = true;
+              allowUnfree = true;
             };
 
             hostPlatform = system;
@@ -107,8 +115,8 @@
 
           basePackageFor = pkgs: builtins.attrValues {
             inherit (pkgs)
-              vim curl
-              neovim
+              vim
+              curl
               wget
               git
               ;

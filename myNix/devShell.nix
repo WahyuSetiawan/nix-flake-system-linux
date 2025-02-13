@@ -2,7 +2,10 @@
   perSystem = { pkgs, config, system, ... }: with pkgs;   {
     devShells = {
       flutter =
-       mkShell {
+        let
+          androidSdk = pkgs.androidenv.androidPkgs.androidsdk;
+        in 
+        mkShell {
           name = "develop-flutter";
           buildInputs = [
             fvm
@@ -69,6 +72,8 @@
 
             # android-studio
             # android-tools
+
+            androidSdk
           ];
 
           LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [
@@ -97,6 +102,7 @@
           fontconfig.lib
           sqlite.out
           chromium
+
         ]}";
 
           QT_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-5.${pkgs.qt5.qtbase.version}/plugins";
@@ -113,6 +119,7 @@
          
               export PATH=$PATH:$ANDROID_HOME/tools
               export PATH=$PATH:$ANDROID_HOME/platform-tools
+              export ANDROID_HOME="${androidSdk}";
 
               export XCODE_PATH=/Applications/Xcode.app/Contents/Developer
               export SDKROOT=$XCODE_PATH/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk

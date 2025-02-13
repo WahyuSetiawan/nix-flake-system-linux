@@ -39,6 +39,7 @@ in
       }))
 
       dunst
+      hyprshot
       # nixpkgs.libnotify
 
       hyprpaper
