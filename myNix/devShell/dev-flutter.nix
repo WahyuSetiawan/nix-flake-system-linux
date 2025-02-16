@@ -1,4 +1,4 @@
-{ self, inputs, system, pkgs, ... }:
+{ inputs, system, pkgs, ... }:
 with pkgs;
 let
   android-sdk = inputs.android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
@@ -19,13 +19,53 @@ let
   );
   conditionalPackages = if pkgs.system != "aarch64-darwin" then [ android-studio ] else [ ];
 in
-pkgs.devShell.mkShell {
+mkShell {
   name = "Development Flutter";
 
   packages = [
     fvm
+
+    # android tools
     gradle
     jdk
     android-sdk
+
+    #linux tool chain
+    cmake
+    ninja
+    clang
+    pkg-config
+    gtk3
+
+    (writeShellScriptBin "emu"  #bash 
+      ''
+      if [ -z "$1" ]; then
+        echo "Usage: run-emulator <device_id>"
+        exit 1
+      fi
+
+      nohup emulator -avd "$1" -gpu swiftshader_indirect > /dev/null 2>&1 &
+      '')
+  ];
+
+  buildInputs = [
+    # webbrowser tools
+    google-chrome
   ] ++ conditionalPackages;
+
+  env = {
+    "ANDROID_HOME" = "${android-sdk}/share/android-sdk";
+    "ANDROID_SDK_ROOT" = "${android-sdk}/share/android-sdk";
+    "JAVA_HOME" = jdk.home;
+    CHROME_EXECUTABLE = "${google-chrome}/bin/google-chrome-stable";
+  };
+
+  shellHook = #bash
+    ''
+      echo "Welcome into shell development flutter ";
+      echo "\n"
+        
+      echo "Helper :"
+      echo "1. emu param : for launch parameter"
+    '';
 }

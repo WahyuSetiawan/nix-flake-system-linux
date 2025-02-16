@@ -21,19 +21,16 @@
     xclip # Untuk X11
     wl-clipboard # Untuk Wayland
 
-    nodejs
-    nodePackages.pnpm
+    # nodejs
+    # nodePackages.pnpm
 
     #compiler
-    gnumake
-    glib
-    cmake
-    ninja
-    clang
-    pkg-config
-    gtk3
-    gcc
-    glibc
+    # gnumake
+    # glib
+    # pkg-config
+    # gtk3
+    # gcc
+    # glibc
 
     # terminal
     ncdu
@@ -45,8 +42,8 @@
     lsd
     bat
 
-    go
-    android-studio
+    # go
+    # android-studio
 
     # package for better audio
     # fvm

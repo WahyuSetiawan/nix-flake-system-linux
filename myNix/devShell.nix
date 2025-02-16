@@ -1,7 +1,7 @@
 { self, inputs, ... }: {
   perSystem = { pkgs, config, system, inputs', ... }: with pkgs;   {
     devShells = {
-      flutter =
+      flutterold =
         let
           android-sdk = inputs.android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
             cmdline-tools-latest
