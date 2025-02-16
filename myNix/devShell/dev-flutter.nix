@@ -25,6 +25,9 @@ mkShell {
   packages = [
     fvm
 
+    # remote device
+    scrcpy
+
     # android tools
     gradle
     jdk
@@ -39,12 +42,61 @@ mkShell {
 
     (writeShellScriptBin "emu"  #bash 
       ''
-      if [ -z "$1" ]; then
-        echo "Usage: run-emulator <device_id>"
-        exit 1
-      fi
+        if [ -z "$1" ]; then
+          echo "Usage: run-emulator <device_id>"
+          exit 1
+        fi
 
-      nohup emulator -avd "$1" -gpu swiftshader_indirect > /dev/null 2>&1 &
+        nohup emulator -avd "$1" -gpu swiftshader_indirect > /dev/null 2>&1 &
+      '')
+
+    (writeShellScriptBin "generate" #bash
+      ''
+        dart run build_runner build --delete-conflicting-outputs  
+      '')
+
+    (writeShellScriptBin "clean" #bash 
+      ''
+        fvm flutter clean
+        fvm flutter pub get 
+      '')
+    (writeShellScriptBin "buildIos" #bash 
+      ''
+        cleanIos
+        fvm flutter build ipa
+      '')
+
+    (writeShellScriptBin "buildApk" #bash
+      ''
+        clean
+        fvm flutter build apk
+        fvm flutter build appbundle  
+      '')
+
+    (writeShellScriptBin "cleanIos" #bash 
+      ''
+        	clean
+        	fvm flutter precache --ios
+        	cd ./ios && arch -x86_64 pod repo update
+        	cd ./ios && arch -x86_64 pod update
+        	cd ./ios && arch -x86_64 pod install --repo-update
+      '')
+
+    (writeShellScriptBin "helpme" #bash 
+      ''
+         __usage="
+         Welcome into shell development flutter
+
+         helper: 
+        
+        1. emu $\{name emulator} = for running emulator on android
+        2. clean = for clean dependencies project and pull again 
+        3. cleanIos = for clean dependencies project and pull again for ios platform
+        4. buildApk = for build project into apk and appbundle
+        5. buildIos = for build project into ipa 
+        "
+
+         echo "$__usage";
       '')
   ];
 
@@ -62,10 +114,6 @@ mkShell {
 
   shellHook = #bash
     ''
-      echo "Welcome into shell development flutter ";
-      echo "\n"
-        
-      echo "Helper :"
-      echo "1. emu param : for launch parameter"
+      helpme;
     '';
 }
