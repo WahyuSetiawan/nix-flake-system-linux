@@ -217,6 +217,13 @@ in
           bind = $mainMod, P, pseudo, # dwindle
           bind = $mainMod SHIFT, J, togglesplit, # dwindle
 
+          # Screenshot a window
+          bind = $mainMod SHIFT, a, exec, hyprshot -m window
+          # Screenshot a monitor
+          bind = $mainMod SHIFT, s, exec, hyprshot -m output
+          # Screenshot a region
+          bind = $mainMod SHIFT, d, exec, hyprshot -m region
+
           # Move focus with mainMod + arrow keys
           bind = $mainMod, h, movefocus, l
           bind = $mainMod, l, movefocus, r

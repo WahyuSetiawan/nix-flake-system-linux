@@ -7,11 +7,17 @@
   # Load NVIDIA drivers in initrd
   boot.initrd.kernelModules = [ "nvidia" ];
 
-  # Enable OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    # driSupport = true;
-    driSupport32Bit = true; # Enable 32-bit support for Steam games
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      libGL
+      libvdpau
+      mesa
+      vulkan-loader
+      vulkan-tools
+      vulkan-validation-layers
+    ];
   };
 
   # Configure NVIDIA drivers
