@@ -9,6 +9,7 @@
     ./hosts
     ./overlays
     ./devShell.nix
+    ./devShell
   ];
   # Open the browser after the Open WebUI service has started
   flake = {

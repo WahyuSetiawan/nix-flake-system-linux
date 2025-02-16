@@ -18,6 +18,9 @@
 
     # development
     neovim
+    xclip # Untuk X11
+    wl-clipboard # Untuk Wayland
+
     nodejs
     nodePackages.pnpm
 
@@ -34,7 +37,6 @@
 
     # terminal
     ncdu
-    flameshot
     git
     htop
     arandr
@@ -47,8 +49,8 @@
     android-studio
 
     # package for better audio
-    fvm
-    flameshot
+    # fvm
+    postman
   ];
 
   environment.variables = rec{

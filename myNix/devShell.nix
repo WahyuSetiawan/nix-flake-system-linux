@@ -1,10 +1,26 @@
 { self, inputs, ... }: {
-  perSystem = { pkgs, config, system, ... }: with pkgs;   {
+  perSystem = { pkgs, config, system, inputs', ... }: with pkgs;   {
     devShells = {
       flutter =
         let
-          androidSdk = pkgs.androidenv.androidPkgs.androidsdk;
-        in 
+          android-sdk = inputs.android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
+            cmdline-tools-latest
+            build-tools-34-0-0
+            platform-tools
+            platforms-android-34
+            emulator
+          ]
+          ++ lib.optionals (system == "aarch64-darwin") [
+            system-images-android-34-google-apis-arm64-v8a
+            system-images-android-34-google-apis-playstore-arm64-v8a
+          ]
+          ++ lib.optionals (system == "x86_64-darwin" || system == "x86_64-linux") [
+            system-images-android-34-google-apis-x86-64
+            system-images-android-34-google-apis-playstore-x86-64
+          ]
+          );
+
+        in
         mkShell {
           name = "develop-flutter";
           buildInputs = [
@@ -16,8 +32,6 @@
             ninja
             pkg-config
 
-            gtk3
-            gtk3-x11
             pkg-config
             gtk3.dev
             cairo.dev
@@ -29,14 +43,24 @@
             xorg.libXrender
             xorg.libXext
             xorg.libXinerama
-            xorg.libXi
-            xorg.libXrandr
-            xorg.libXtst
-            xorg.libXcursor
             xorg.libxcb
             xorg.libxkbfile
 
+            # lib for graphics emulator
             libpulseaudio
+            gtk3
+            gtk3-x11
+            pkgs.nss
+            pkgs.xorg.libXcomposite
+            xorg.libXcursor
+            xorg.libXi
+            xorg.libXtst
+            xorg.libXrandr
+            pkgs.alsa-lib
+            pkgs.atk
+            pkgs.mesa
+            pkgs.libglvnd
+
             libpng
             nss
             nspr
@@ -69,12 +93,11 @@
             xorg.libXtst.out
             pcre2.dev
 
-
-            # android-studio
-            # android-tools
-
-            androidSdk
-          ];
+            android-sdk
+          ] ++ lib.optionals (system == "x86_64-linux") [
+            android-studio
+          ]
+          ;
 
           LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [
           pkgs.xorg.libX11
@@ -102,7 +125,6 @@
           fontconfig.lib
           sqlite.out
           chromium
-
         ]}";
 
           QT_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-5.${pkgs.qt5.qtbase.version}/plugins";
@@ -119,7 +141,10 @@
          
               export PATH=$PATH:$ANDROID_HOME/tools
               export PATH=$PATH:$ANDROID_HOME/platform-tools
-              export ANDROID_HOME="${androidSdk}";
+              export ANDROID_AVD_HOME="$HOME/.android/avd";
+
+              export ANDROID_HOME="${android-sdk}/share/android-sdk"
+              export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 
               export XCODE_PATH=/Applications/Xcode.app/Contents/Developer
               export SDKROOT=$XCODE_PATH/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
