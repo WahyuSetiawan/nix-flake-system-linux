@@ -20,11 +20,8 @@
     process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";
     services-flake.url = "github:juspay/services-flake";
 
-    android-nixpkgs = {
-      url = "github:tadfisher/android-nixpkgs";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
-    #
+    android-nixpkgs.url = "github:tadfisher/android-nixpkgs";
+
     # util for linux only
     hyprland.url = "github:hyprwm/Hyprland";
 
