@@ -30,13 +30,45 @@ let
     system-images-android-35-google-apis-playstore-x86-64
   ]
   );
-  conditionalPackages = if pkgs.system != "aarch64-darwin" then [ android-studio ] else [ ];
+
+  conditionalPackages =
+    if pkgs.system != "aarch64-darwin" then [
+      android-studio
+    ] else [
+      ruby
+      xcodebuild
+      xcbuild
+      cocoapods
+    ];
+
+  extranShellHook =
+    if pkgs.stdenv.isDarwin then #bash 
+      ''
+        # Set Xcode path
+        export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
+        export XCODE_PATH="/Applications/Xcode.app"
+    
+        # Set iOS SDK path
+        export SDKROOT="$DEVELOPER_DIR/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
+    
+        # Add Xcode tools to PATH
+        export PATH=$PATH:$DEVELOPER_DIR/usr/bin
+        export PATH=$PATH:$DEVELOPER_DIR/Tools
+    
+        # Set up CocoaPods environment
+        export GEM_HOME=$PWD/.gem
+        export PATH=$GEM_HOME/bin:$PATH
+      '' else #bash 
+      ''
+
+    '';
 in
 mkShell {
   name = "Development Flutter";
 
   packages = [
-    fvm
+    flutter
+    # fvm
 
     # remote device
     scrcpy
@@ -45,13 +77,14 @@ mkShell {
     gradle
     jdk
     android-sdk
-
     #linux tool chain
     cmake
     ninja
     clang
     pkg-config
     gtk3
+
+    google-chrome
 
     (writeShellScriptBin "emu"  #bash 
       ''
@@ -111,11 +144,6 @@ mkShell {
 
          echo "$__usage";
       '')
-  ];
-
-  buildInputs = [
-    # webbrowser tools
-    google-chrome
   ] ++ conditionalPackages;
 
   env = {
@@ -123,11 +151,13 @@ mkShell {
     "ANDROID_SDK_ROOT" = "${android-sdk}/share/android-sdk";
     "JAVA_HOME" = jdk.home;
     CHROME_EXECUTABLE = "${google-chrome}/bin/google-chrome-stable";
+    DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer";
+    XCODE_PATH = "/Applications/Xcode.app/Contents/Developer";
   };
 
   shellHook = #bash
     ''
-      fvm flutter config --android-sdk $ANDROID_HOME;
+      ${extranShellHook}
 
       helpme;
     '';

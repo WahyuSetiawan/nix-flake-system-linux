@@ -12,7 +12,6 @@ ikjjnputs@{ pkgs, ... }: {
   ];
 
   environment.systemPackages = with pkgs;[
-    clang
     nixpkgs-fmt
     libiconv
     iconv
@@ -34,8 +33,9 @@ ikjjnputs@{ pkgs, ... }: {
     gnumake
     ripgrep
     gcc
-    fvm
+    # fvm
 
     stow
+    cachix
   ];
 }
