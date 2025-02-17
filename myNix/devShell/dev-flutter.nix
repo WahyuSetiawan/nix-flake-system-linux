@@ -67,16 +67,16 @@ mkShell {
   name = "Development Flutter";
 
   packages = [
-    flutter
-    # fvm
+    # flutter
+    fvm
 
     # remote device
     scrcpy
 
     # android tools
-    gradle
-    jdk
+    jdk17
     android-sdk
+
     #linux tool chain
     cmake
     ninja
@@ -84,7 +84,9 @@ mkShell {
     pkg-config
     gtk3
 
-    google-chrome
+    firebase-tools
+
+    chromium
 
     (writeShellScriptBin "emu"  #bash 
       ''
@@ -149,8 +151,8 @@ mkShell {
   env = {
     "ANDROID_HOME" = "${android-sdk}/share/android-sdk";
     "ANDROID_SDK_ROOT" = "${android-sdk}/share/android-sdk";
-    "JAVA_HOME" = jdk.home;
-    CHROME_EXECUTABLE = "${google-chrome}/bin/google-chrome-stable";
+    "JAVA_HOME" = "${pkgs.jdk17}";
+    CHROME_EXECUTABLE = "${chromium}/bin/chromium";
     DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer";
     XCODE_PATH = "/Applications/Xcode.app/Contents/Developer";
   };
@@ -158,6 +160,8 @@ mkShell {
   shellHook = #bash
     ''
       ${extranShellHook}
+
+      flutter config --jdk-dir $JAVA_HOME
 
       helpme;
     '';

@@ -82,6 +82,39 @@ rec {
             "on-click" = "~/.config/rofi/bin/powermenu &";
             "format" = "󰐥";
           };
+
+          "cpu" = {
+            "interval" = 1;
+            "format" = "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}";
+            "format-icons" = [
+              "<span color='#69ff94'>▁</span>"
+              "<span color='#2aa9ff'>▂</span>"
+              "<span color='#f8f8f2'>▃</span>"
+              "<span color='#f8f8f2'>▄</span>"
+              "<span color='#ffffa5'>▅</span>"
+              "<span color='#ffffa5'>▆</span>"
+              "<span color='#ff9977'>▇</span>"
+              "<span color='#dd532e'>█</span>"
+            ];
+          };
+
+          "memory" = {
+            "interval" = 30;
+            "format" = "{used:0.1f}G/{total:0.1f}G ";
+          };
+
+          "network" = {
+            # "interface" = "wlp2s0";
+            "format" = "{ifname}";
+            "format-wifi" = "{essid} ({signalStrength}%) ";
+            "format-ethernet" = "{ipaddr}/{cidr} 󰊗";
+            "format-disconnected" = "";
+            "tooltip-format" = "{ifname} via {gwaddr} 󰊗";
+            "tooltip-format-wifi" = "{essid} ({signalStrength}%) ";
+            "tooltip-format-ethernet" = "{ifname} ";
+            "tooltip-format-disconnected" = "Disconnected";
+            "max-length" = 50;
+          };
         };
       };
 
@@ -172,7 +205,6 @@ rec {
             border-radius: 1rem 0rem 0rem 1rem;
             margin-left: 1rem;
           }
-
 
           #custom-lock {
             border-radius: 1rem 0px 0px 1rem;

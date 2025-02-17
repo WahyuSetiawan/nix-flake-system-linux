@@ -61,6 +61,8 @@
             inherit overlays;
           };
 
+          nix.settings.trusted-users = [ "root" "juragankoding" ];
+
           basePackageFor = pkgs: builtins.attrValues {
             inherit (pkgs)
               vim
