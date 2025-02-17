@@ -2,7 +2,6 @@
   environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
     home-manager
-    # reetype
     vimPlugins.fzfWrapper
 
     # tools utils
@@ -14,23 +13,11 @@
 
     libva
     libva-utils
-    # libva-mesa-driver
 
     # development
     neovim
     xclip # Untuk X11
     wl-clipboard # Untuk Wayland
-
-    # nodejs
-    # nodePackages.pnpm
-
-    #compiler
-    # gnumake
-    # glib
-    # pkg-config
-    # gtk3
-    # gcc
-    # glibc
 
     # terminal
     ncdu
@@ -42,11 +29,8 @@
     lsd
     bat
 
-    # go
-    # android-studio
+    killall
 
-    # package for better audio
-    # fvm
     postman
   ];
 

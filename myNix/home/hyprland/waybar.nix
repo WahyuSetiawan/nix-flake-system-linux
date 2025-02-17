@@ -44,10 +44,14 @@ rec {
 
           "hyprland/workspaces" = {
             "sort-by-name" = true;
-            "format" = " {icon} ";
+            "format" = "<sub>{icon}</sub>{windows}";
+            "window-rewrite-default" = "";
             "format-icons" = {
+              "active" = "";
               "default" = "󰮯";
             };
+            disable-scroll = true;
+            all-outputs = true;
           };
 
           "clock" = {
@@ -55,11 +59,6 @@ rec {
             "tooltip-format" = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
             "format-alt" = "󰥔 {:%d/%m/%Y}";
             "format" = "󰥔 {:%H:%M}";
-          };
-
-          "hyprland/workspaces" = {
-            disable-scroll = true;
-            all-outputs = true;
           };
 
           "custom/hello-from-waybar" = {
@@ -127,7 +126,7 @@ rec {
             border: none;
             border-radius: 0;
             font-family: JetBrainsMono Nerd Font;
-            font-size: 11;
+            font-size: 9px;
           }
 
           window > box {
@@ -136,7 +135,7 @@ rec {
             margin-top: 5px;
             background-color: shade(@base, 0.9);
             border: 2px solid alpha(@crust, 0.3);
-            border-radius: 10px; /* Membuat sudut melengkung */
+            border-radius: 30px; /* Membuat sudut melengkung */
           }
 
           window#waybar {
@@ -190,9 +189,8 @@ rec {
           #custom-power {
                 background-color: @surface0;
                 padding: 0.5rem 1rem;
-                margin: 5px 0;
+                margin: 2px 0;
           }
-
 
           #clock {
             color: @blue;
