@@ -6,6 +6,10 @@ let
     platform-tools
     emulator
 
+    ndk-26-1-10909125
+    ndk-26-3-11579264
+    ndk-27-0-12077973
+
     build-tools-31-0-0
     build-tools-32-0-0
     build-tools-34-0-0
@@ -151,6 +155,7 @@ mkShell {
   env = {
     "ANDROID_HOME" = "${android-sdk}/share/android-sdk";
     "ANDROID_SDK_ROOT" = "${android-sdk}/share/android-sdk";
+    ANDROID_NDK_ROOT = "${android-sdk}/share/android-sdk/ndk";
     "JAVA_HOME" = "${pkgs.jdk17}";
     CHROME_EXECUTABLE = "${chromium}/bin/chromium";
     DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer";
@@ -162,6 +167,7 @@ mkShell {
       ${extranShellHook}
 
       flutter config --jdk-dir $JAVA_HOME
+      flutter config --android-sdk $ANDROID_SDK_ROOT
 
       helpme;
     '';
