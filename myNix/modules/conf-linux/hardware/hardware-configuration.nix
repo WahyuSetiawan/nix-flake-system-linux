@@ -36,8 +36,11 @@
         "nodev"
         "nofail"
         "x-gvfs-show"
-        "permissions"
         "locale=en_US.utf8"
+        "uid=1000" # Ganti dengan UID user Anda (juragankoding)
+        "gid=1000" # Ganti dengan GID group Anda (juragankoding)
+        "fmask=133" # Permission untuk file: rw-r--r-- (644)
+        "dmask=022" # Permission untuk folder: rwxr-xr-x (755)
       ];
     };
 
@@ -50,8 +53,11 @@
         "nodev"
         "nofail"
         "x-gvfs-show"
-        "permissions"
         "locale=en_US.utf8"
+        "uid=1000" # Ganti dengan UID user Anda (juragankoding)
+        "gid=1000" # Ganti dengan GID group Anda (juragankoding)
+        "fmask=133" # Permission untuk file: rw-r--r-- (644)
+        "dmask=022" # Permission untuk folder: rwxr-xr-x (755)
       ];
     };
 
@@ -65,8 +71,13 @@
         "nodev"
         "nofail"
         "x-gvfs-show"
-        "permissions"
+        # "permissions"
         "locale=en_US.utf8"
+        "uid=1000" # Ganti dengan UID user Anda (juragankoding)
+        "gid=1000" # Ganti dengan GID group Anda (juragankoding)
+        "fmask=133" # Permission untuk file: rw-r--r-- (644)
+        "dmask=022" # Permission untuk folder: rwxr-xr-x (755)
+
       ];
     };
 
