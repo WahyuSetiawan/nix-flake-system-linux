@@ -1,6 +1,47 @@
-{ pkgs, config, ... }: let
+{ pkgs, config, ... }:
+let
   nixConfigDirectory = config.home.user-info.nixConfigDirectory;
-in {
+
+  tmuxWorkspaces = {
+    me = {
+      session_name = "Me";
+      windows = [
+        {
+          window_name = "Me";
+          layout = "tiled";
+          shell_command_before = [ "cd ~/evl" ];
+          panes = [
+            "nvim"
+            "echo happy working"
+          ];
+        }
+      ];
+    };
+
+    work = {
+      session_name = "Work";
+      windows = [
+        {
+          window_name = "Work";
+          layout = "tiled";
+          shell_command_before = [ "cd ~/w1" ];
+          panes = [
+            "nvim"
+            "echo happy working"
+          ];
+        }
+      ];
+    };
+  };
+in
+{
+  home.shellAliases = {
+    tmw = "tmuxp load ${builtins.toFile "tmuxp-work.json" (builtins.toJSON tmuxWorkspaces.work)}";
+    tme = "tmuxp load ${builtins.toFile "tmuxp-me.json" (builtins.toJSON tmuxWorkspaces.me)}";
+  };
+
+  programs.tmux.tmuxp.enable = true;
+
   programs.tmux.enable = true;
   programs.tmux.mouse = true;
   programs.tmux.newSession = true;

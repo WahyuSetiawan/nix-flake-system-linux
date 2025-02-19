@@ -92,6 +92,10 @@ mkShell {
 
     chromium
 
+    (writeShellScriptBin "scrcpy" ''
+         scrcpy --no-audio >> /dev/null 2>&1 &
+        '')
+
     (writeShellScriptBin "emu"  #bash 
       ''
         if [ -z "$1" ]; then
@@ -146,6 +150,7 @@ mkShell {
         3. cleanIos = for clean dependencies project and pull again for ios platform
         4. buildApk = for build project into apk and appbundle
         5. buildIos = for build project into ipa 
+        6. scrcpy = launch scrcpy on background
         "
 
          echo "$__usage";
