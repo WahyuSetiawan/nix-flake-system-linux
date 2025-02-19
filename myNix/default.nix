@@ -13,6 +13,11 @@
     ./services
   ];
 
+  ezConfigs = {
+    root = ./.;
+    globalArgs = { inherit inputs; };
+  };
+
   perSystem = { self', lib, system, input', pkgs, ... }:
     {
       _module.args =
