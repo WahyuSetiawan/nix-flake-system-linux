@@ -33,7 +33,7 @@ ikjjnputs@{ pkgs, ... }: {
     gnumake
     ripgrep
     gcc
-    # fvm
+    fvm
 
     stow
     cachix
