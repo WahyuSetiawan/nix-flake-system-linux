@@ -100,20 +100,21 @@ in
         hyprland.enable = true;
       };
     };
+
+    mac = rec{
+      username = "wahyu";
+      fullName = "wahyu setiawan";
+      email = "wahyu.creator911@gmail.com";
+      pathHome = "Users";
+      nixConfigDirectory = "/Users/${username}/.nix";
+    };
   };
 
   flake = {
     darwinConfigurations = mkDarwinConfiguration {
       default = {
-        user = rec{
-          username = "wahyu";
-          fullName = "wahyu setiawan";
-          email = "wahyu.creator911@gmail.com";
-          pathHome = "Users";
-          nixConfigDirectory = "/Users/${username}/.nix";
-        };
+        user = self.users.mac;
       };
-
     };
 
     nixosConfigurations = mkNixosConfigurations {
