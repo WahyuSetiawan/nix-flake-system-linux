@@ -13,7 +13,7 @@
     ./services
   ];
 
-  perSystem = { lib, system, input', pkgs, ... }:
+  perSystem = { self', lib, system, input', pkgs, ... }:
     {
       _module.args =
         let
