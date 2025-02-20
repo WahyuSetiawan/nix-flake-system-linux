@@ -37,5 +37,7 @@ ikjjnputs@{ pkgs, ... }: {
 
     stow
     cachix
+
+    home-manager
   ];
 }
