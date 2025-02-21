@@ -97,7 +97,7 @@ in
           alt-enter = #sh
             ''
               exec-and-forget osascript -e '
-              do shell script "open -n -a Alacritty"
+              do shell script "open -n -a Kitty"
               '
             '';
           alt-space = "layout floating tiling";

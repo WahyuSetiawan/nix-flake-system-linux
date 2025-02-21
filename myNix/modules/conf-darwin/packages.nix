@@ -41,6 +41,7 @@
     home-manager
 
     nixd
+    jdk17
     # rnix-lsp
   ];
 }
