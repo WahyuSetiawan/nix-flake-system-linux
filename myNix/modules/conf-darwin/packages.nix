@@ -1,4 +1,4 @@
-ikjjnputs@{ pkgs, ... }: {
+{ inputs, pkgs, ... }: {
   fonts.packages = with pkgs; [
     sketchybar-app-font
     # sf-mono-liga-bin
@@ -39,5 +39,8 @@ ikjjnputs@{ pkgs, ... }: {
     cachix
 
     home-manager
+
+    nixd
+    # rnix-lsp
   ];
 }

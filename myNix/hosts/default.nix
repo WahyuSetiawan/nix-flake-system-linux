@@ -12,8 +12,8 @@ let
                              , stateVersion ? 4
                              , homeStateVersion ? "24.11"
                              , user ? self.users.default
-                             }: withSystem system ({ pkgs, config, ... }@ctx: inputs.nix-darwin.lib.darwinSystem {
-    specialArgs = { inherit inputs self homeStateVersion; };
+                             }: withSystem system ({ pkgs, config, system, ... }@ctx: inputs.nix-darwin.lib.darwinSystem {
+    specialArgs = { inherit inputs self homeStateVersion; inherit system; };
 
     modules =
       concatLists [
