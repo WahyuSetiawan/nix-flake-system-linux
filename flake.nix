@@ -3,6 +3,8 @@
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
+    ez-configs.url = "github:ehllie/ez-configs";
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     cachix.url = "github:cachix/cachix";

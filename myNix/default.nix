@@ -4,14 +4,21 @@
 , ...
 }: {
   imports = [
-    ./modules
+    inputs.ez-configs.flakeModule
+    # ./modules
     ./home
-    ./hosts
+    # ./hosts
     ./overlays
-    ./devShell.nix
     ./devShell
     ./services
+    ./modules/user.nix
   ];
+
+  ezConfigs = {
+    root = ./.;
+    globalArgs = { inherit inputs; };
+
+  };
 
   perSystem = { self', lib, system, input', pkgs, ... }:
     {
