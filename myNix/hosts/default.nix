@@ -22,6 +22,7 @@ let
         [
           inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
+          inputs.nix-homebrew.darwinModules.nix-homebrew
           (mkCommonConfiguration { inherit system stateVersion; })
           (mkHomeConfiguration { inherit user homeStateVersion; })
         ]
