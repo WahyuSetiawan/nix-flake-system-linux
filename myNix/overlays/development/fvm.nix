@@ -42,6 +42,9 @@ stdenv.mkDerivation {
     
     # Extract archive ke direktori yang sesuai
     tar xzf $src -C $out/libexec
+
+    export FVM_CACHE_PATH=$HOME/.fvm;
+    export FVM_CACHE_PATH_BIN="$FVM_CACHE_PATH/default/bin";
     
     # Buat wrapper script
     cat > $out/bin/fvm <<EOF
@@ -53,6 +56,12 @@ stdenv.mkDerivation {
     
     chmod +x $out/bin/fvm
   '';
+
+  shellHook = #bash
+    ''
+    export FVM_CACHE_PATH=$HOME/.fvm;
+    export FVM_CACHE_PATH_BIN="$FVM_CACHE_PATH/default/bin";
+    '';
 
   meta = with lib; {
     description = "Flutter Version Manager";

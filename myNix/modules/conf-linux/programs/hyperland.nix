@@ -39,6 +39,7 @@ in
       }))
 
       dunst
+      hyprshot
       # nixpkgs.libnotify
 
       hyprpaper
@@ -72,11 +73,5 @@ in
 
     xdg.portal.enable = true;
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-    hardware = {
-      opengl.enable = true;
-
-      nvidia.modesetting.enable = true;
-    };
   };
 }

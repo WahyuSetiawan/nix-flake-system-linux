@@ -75,7 +75,7 @@ let
           users.users.${user.username} = {
             isNormalUser = true;
             description = user.fullName;
-            extraGroups = [ "networkmanager" "wheel" ];
+            extraGroups = [ "networkmanager" "wheel" "kvm" "adbusers" ];
 
             shell = pkgs.fish;
           };
