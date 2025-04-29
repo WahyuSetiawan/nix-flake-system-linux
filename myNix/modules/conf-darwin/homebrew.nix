@@ -20,9 +20,8 @@ in
       fi
     '';
 
-  homebrew.enable = true;
+  homebrew.enable = false;
   homebrew.brews = [
-    
   ];
   homebrew.onActivation.cleanup = "zap";
   homebrew.global.brewfile = true;

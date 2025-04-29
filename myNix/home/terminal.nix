@@ -46,7 +46,7 @@ in
       extraConfig = #sh
         ''
           font_family JetBrainsMono Nerd Font
-          font_size 10.0
+          font_size 8.0
           bold_font auto
           italic_font auto
           bold_italic_font auto
@@ -68,6 +68,12 @@ in
 
           selection_foreground none
           selection_background none
+
+          background_blur 5
+          dynamic_background_opacity true
+
+          # mac tweak
+          macos_option_as_alt true
 
           foreground #dddddd
           background #000000

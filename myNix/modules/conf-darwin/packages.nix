@@ -1,4 +1,4 @@
-ikjjnputs@{ pkgs, ... }: {
+{ inputs, pkgs, ... }: {
   fonts.packages = with pkgs; [
     sketchybar-app-font
     # sf-mono-liga-bin
@@ -33,9 +33,16 @@ ikjjnputs@{ pkgs, ... }: {
     gnumake
     ripgrep
     gcc
-    # fvm
+    fvm
 
     stow
     cachix
+
+    home-manager
+
+    nixd
+    jdk17
+    firebase-tools
+    # rnix-lsp
   ];
 }

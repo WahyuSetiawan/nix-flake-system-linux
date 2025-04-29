@@ -12,8 +12,8 @@ let
                              , stateVersion ? 4
                              , homeStateVersion ? "24.11"
                              , user ? self.users.default
-                             }: withSystem system ({ pkgs, config, ... }@ctx: inputs.nix-darwin.lib.darwinSystem {
-    specialArgs = { inherit inputs self homeStateVersion; };
+                             }: withSystem system ({ pkgs, config, system, ... }@ctx: inputs.nix-darwin.lib.darwinSystem {
+    specialArgs = { inherit inputs self homeStateVersion; inherit system; };
 
     modules =
       concatLists [
@@ -22,6 +22,7 @@ let
         [
           inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
+          inputs.nix-homebrew.darwinModules.nix-homebrew
           (mkCommonConfiguration { inherit system stateVersion; })
           (mkHomeConfiguration { inherit user homeStateVersion; })
         ]
@@ -100,20 +101,21 @@ in
         hyprland.enable = true;
       };
     };
+
+    mac = rec{
+      username = "wahyu";
+      fullName = "wahyu setiawan";
+      email = "wahyu.creator911@gmail.com";
+      pathHome = "Users";
+      nixConfigDirectory = "/Users/${username}/.nix";
+    };
   };
 
   flake = {
     darwinConfigurations = mkDarwinConfiguration {
       default = {
-        user = rec{
-          username = "wahyu";
-          fullName = "wahyu setiawan";
-          email = "wahyu.creator911@gmail.com";
-          pathHome = "Users";
-          nixConfigDirectory = "/Users/${username}/.nix";
-        };
+        user = self.users.mac;
       };
-
     };
 
     nixosConfigurations = mkNixosConfigurations {

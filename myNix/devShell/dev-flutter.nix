@@ -90,7 +90,7 @@ mkShell {
 
     firebase-tools
 
-    chromium
+    google-chrome
 
     (writeShellScriptBin "scrcpy" ''
          scrcpy --no-audio >> /dev/null 2>&1 &
@@ -162,7 +162,7 @@ mkShell {
     "ANDROID_SDK_ROOT" = "${android-sdk}/share/android-sdk";
     ANDROID_NDK_ROOT = "${android-sdk}/share/android-sdk/ndk";
     "JAVA_HOME" = "${pkgs.jdk17}";
-    CHROME_EXECUTABLE = "${chromium}/bin/chromium";
+    CHROME_EXECUTABLE = "${google-chrome}/bin/google-chrome-stable";
     DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer";
     XCODE_PATH = "/Applications/Xcode.app/Contents/Developer";
   };
