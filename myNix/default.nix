@@ -11,6 +11,7 @@
     ./devShell.nix
     ./devShell
     ./services
+    ./cross-modules
   ];
 
   ezConfigs = {

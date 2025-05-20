@@ -191,41 +191,8 @@ in
         enable = true;
         theme = "cloud";
         extraConfig = ''
-
       '';
       };
-      #
-      # zsh = {
-      #   enable = false;
-      #   zplug = {
-      #     enable = true;
-      #     plugins = [
-      #       { name = "zsh-users/zsh-autosuggestions"; }
-      #     ];
-      #   };
-      #   oh-my-zsh = {
-      #     enable = true;
-      #     theme = "cloud";
-      #     extraConfig = ''
-      #
-      #   '';
-      #     plugins = [
-      #       "git"
-      #       "heroku"
-      #       "pip"
-      #       "lein"
-      #       "laravel"
-      #       "gradle"
-      #       "archlinux"
-      #       "docker"
-      #       "dnf"
-      #       "aws"
-      #       "golang"
-      #       "command-not-found"
-      #     ];
-      #   };
-      # };
-
     };
     starship = {
       enable = true;

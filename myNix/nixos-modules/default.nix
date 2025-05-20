@@ -1,7 +1,10 @@
-{ modulesPath, ... }:
+{ modulesPath, inputs, ... }:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+
+    (inputs.self.crossModules.home-manager {})
+
     ./shells.nix
     ./packages.nix
 
@@ -14,7 +17,6 @@
   ];
 
   nix = {
-    # extraOptions = "experimental-features = nix-command flakes";
     settings.trusted-users = [ "@wheel" ];
 
     gc = {
@@ -22,12 +24,13 @@
       dates = "daily";
       options = "--delete-older-than 7d";
     };
+
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
 
   # nixpkgs.hostPlatform = system;
   # system.stateVersion = stateVersion;

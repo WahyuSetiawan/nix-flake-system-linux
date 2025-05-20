@@ -9,6 +9,7 @@
     ./hyprland
 
     ./users.nix
+    ./home-manager.nix
   ];
 
   programs.home-manager.enable = true;

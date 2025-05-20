@@ -7,7 +7,7 @@ let
   debugMsg = builtins.trace "Debug: config.time.timeZone = ${config.time.timeZone}" config.time.timeZone;
 in
 {
-  # system.activationScripts.debug = ''
+  # skjystem.activationScripts.debug = ''
   #   echo "List: ${toString debug}"
   # '';
 
