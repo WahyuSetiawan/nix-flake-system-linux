@@ -7,7 +7,7 @@
 
     ./conf-linux/fonts.nix
     ./conf-linux/activations.nix
-    ./conf-linux/system.nix
+    # ./conf-linux/system.nix
     ./conf-linux/services
     ./conf-linux/packages.nix
     ./conf-linux/programs

@@ -7,8 +7,8 @@ in
 
 {
   imports = [
-    # inputs.home-manager.nixosModules.home-manager
     ezModules.hardware
+    ezModules.system
     ezModules.user
   ];
 
