@@ -3,6 +3,7 @@
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
+
     ez-configs = {
       url = "github:ehllie/ez-configs";
       inputs = {
@@ -76,7 +77,7 @@
         ];
 
         imports = [
-          # inputs.process-compose-flake.flakeModule
+          inputs.process-compose-flake.flakeModule
           inputs.ez-configs.flakeModule
           ./myNix
         ];

@@ -4,22 +4,19 @@
 , ...
 }: {
   imports = [
-    ./modules
+    # ./modules
     # ./home
     # ./hosts
     ./overlays
     ./devShell.nix
     ./devShell
-    # ./services
+    ./services
   ];
 
   ezConfigs = {
     root = ./.;
     globalArgs = { inherit inputs; };
 
-    # nixos.hosts.juragankoding.userHomeModules = {
-      # system-user = "juragankoding";
-    # };
     nixos.hosts.juragankoding.userHomeModules = ["juragankoding"];
   };
 
