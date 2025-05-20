@@ -1,9 +1,16 @@
-{ inputs, pkgs, lib, config, ... }:
+all@{ pkgs, lib, config, ... }:
 let
   nixConfigDirectory = config.home.user-info.nixConfigDirectory;
   concatString' = lib.strings.concatStringsSep " && ";
+  isDarwin = pkgs.stdenv.isDarwin;
+  username = "juragankoding";
+  allConfig = builtins.attrNames all;
+  debugMsg = builtins.trace "isi dari config ${lib.concatStringsSep allConfig}" allConfig;
 in
 {
+  home.activation.shell = ''
+    echo "list dari config ${debugMsg}"
+  '';
   home.file.".zshrc".text =
     if pkgs.stdenv.isDarwin then
     #sh
@@ -118,14 +125,20 @@ in
       ];
       nixda = "direnv allow";
       nixdr = "direnv reload";
+
       nixbuild =
         if pkgs.stdenv.isDarwin
-        then "darwin-rebuild build --flake ${nixConfigDirectory}#default" else
-          "nixos-rebuild build --flake ${nixConfigDirectory}#default --use-remote-sudo";
+        then "darwin-rebuild build --flake ${nixConfigDirectory}#${username}" else
+          "nixos-rebuild build --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
+      nixdryrun =
+        if isDarwin then
+          "darwin-rebuild dry-run switch --flake ${nixConfigDirectory}#${username} --use-remote-sudo"
+        else
+          "nixos-rebuild dry-run switch --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
       nixswitch =
         if pkgs.stdenv.isDarwin
-        then "darwin-rebuild switch --flake ${nixConfigDirectory}#default" else
-          "nixos-rebuild switch --flake ${nixConfigDirectory}#default --use-remote-sudo";
+        then "darwin-rebuild switch --flake ${nixConfigDirectory}#${username}" else
+          "nixos-rebuild switch --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
 
       # git 
       gia = "git add";
