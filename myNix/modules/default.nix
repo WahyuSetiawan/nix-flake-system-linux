@@ -1,7 +1,7 @@
 { ... }: {
   flake.commonModules = {
-    system-shell = import ./shells.nix;
-    system-packages = import ./packages.nix;
+    # system-shell = import ./shells.nix;
+    # system-packages = import ./packages.nix;
     system-user = import ./user.nix;
   };
 

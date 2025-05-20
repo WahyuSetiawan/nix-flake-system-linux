@@ -1,7 +1,7 @@
 { ezModules, config, inputs, pkgs, ... }:
 {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
+    # inputs.home-manager.nixosModules.home-manager
     ezModules.hardware
     ezModules.user
   ];
