@@ -44,7 +44,7 @@
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-      # Optional: Declarative tap management
+    # Optional: Declarative tap management
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -76,9 +76,8 @@
         ];
 
         imports = [
-          inputs.process-compose-flake.flakeModule
+          # inputs.process-compose-flake.flakeModule
           inputs.ez-configs.flakeModule
-
           ./myNix
         ];
       };
