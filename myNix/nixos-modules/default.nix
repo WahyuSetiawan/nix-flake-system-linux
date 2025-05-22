@@ -1,22 +1,18 @@
 { modulesPath, inputs, lib, ... }:
 {
-  imports =
-    lib.lists.concatLists [
-      (builtins.attrValues inputs.self.crossModules)
-    ] ++
-    [
-      (modulesPath + "/installer/scan/not-detected.nix")
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
 
-      ./shells.nix
-      ./packages.nix
+    ./shells.nix
+    ./packages.nix
 
-      ./conf-linux/fonts.nix
-      ./conf-linux/activations.nix
-      # ./conf-linux/system.nix
-      ./conf-linux/services
-      ./conf-linux/packages.nix
-      ./conf-linux/programs
-    ];
+    ./conf-linux/fonts.nix
+    ./conf-linux/activations.nix
+    # ./conf-linux/system.nix
+    ./conf-linux/services
+    ./conf-linux/packages.nix
+    ./conf-linux/programs
+  ];
 
   nix = {
     settings.trusted-users = [ "@wheel" ];

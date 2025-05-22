@@ -11,11 +11,14 @@ in
   #   echo "List: ${toString debug}"
   # '';
 
-  imports = [
-    ezModules.hardware
-    ezModules.system
-    ezModules.user
-  ];
+  imports =
+    lib.lists.concatLists [
+      (builtins.attrValues inputs.self.crossModules)
+    ] ++
+    [
+      ezModules.hardware
+      ezModules.system
+    ];
 
   users.primaryUser = rec{
     username = "juragankoding";
