@@ -1,14 +1,56 @@
-{ self, config, pkgs, lib, ... }:
-{
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.fira-code
-    nerd-fonts.hack
-    nerd-fonts.iosevka
-    fantasque-sans-mono
-    nerd-fonts.symbols-only
+{ pkgs, ... }: {
+  environment.systemPackages = with pkgs ;[
+    xdg-desktop-portal
+    home-manager
+    vimPlugins.fzfWrapper
+
+    # tools utils
+    wget
+    curl
+    eza
+    fzf
+    lazygit
+
+    libva
+    libva-utils
+
+    # development
+    neovim
+    xclip # Untuk X11
+    wl-clipboard # Untuk Wayland
+
+    # terminal
+    ncdu
+    git
+    htop
+    arandr
+    ripgrep
+    unzip
+    lsd
+    bat
+
+    killall
+
+    postman
   ];
 
-  environment.systemPackages = with pkgs; [
+  environment.variables = rec{
+    FVM_CACHE_PATH = "$HOME/.fvm";
+    ANDROID_SDK_ROOT = "$HOME/Android/Sdk";
+    PATH = [
+      "${FVM_CACHE_PATH}/default/bin"
+    ];
+  };
+
+  # programs = {
+  #   avd = true;
+  # };
+
+  programs.nix-ld.enable = true;
+
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing dynamic libraries for unpackaged programs
+    # here, NOT in environment.systemPackages
   ];
+
 }
