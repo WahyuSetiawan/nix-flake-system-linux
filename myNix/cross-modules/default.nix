@@ -4,5 +4,6 @@
     packages = import ./packages.nix;
     shells = import ./shells.nix;
     user = import ./user.nix;
+    nixpkgs = import ./nixpkgs.nix;
   };
 }
