@@ -13,14 +13,14 @@ let
 
   version =
     rec {
-      aarch64-darwin = "7.1.3570.47";
+      aarch64-darwin = "7.2.3621.63";
       x86_64-darwin = aarch64-darwin;
     }
     .${system} or throwSystem;
 
   sha256 =
     rec {
-      aarch64-darwin = "sha256-1qLxlzhiPa3KIbIdbo37IkJKmEKNfp+qePnnViurrSY=";
+      aarch64-darwin = "sha256-MmlpKL8UtND4cZHuysLSfdEl7gYD+3q9uvgGPoCw1wU=";
       x86_64-darwin = aarch64-darwin;
     }
     .${system} or throwSystem;
