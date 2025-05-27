@@ -3,8 +3,14 @@
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
-    ez-configs.url = "github:ehllie/ez-configs";
 
+    ez-configs = {
+      url = "github:ehllie/ez-configs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     cachix.url = "github:cachix/cachix";
@@ -39,7 +45,7 @@
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-      # Optional: Declarative tap management
+    # Optional: Declarative tap management
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -72,7 +78,7 @@
 
         imports = [
           inputs.process-compose-flake.flakeModule
-
+          inputs.ez-configs.flakeModule
           ./myNix
         ];
       };

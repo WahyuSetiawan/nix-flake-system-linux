@@ -18,6 +18,7 @@
     root = ./.;
     globalArgs = { inherit inputs; };
 
+    nixos.hosts.juragankoding.userHomeModules = ["juragankoding"];
   };
 
   perSystem = { self', lib, system, input', pkgs, ... }:

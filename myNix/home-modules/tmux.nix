@@ -11,8 +11,23 @@ let
           layout = "tiled";
           shell_command_before = [ "cd ~/evl" ];
           panes = [
-            "nvim"
             "echo happy working"
+          ];
+        }
+        {
+          window_name = "config";
+          layout = "tiled";
+          shell_command_before = [
+            "cd !"
+          ];
+          panes = [
+            {
+              shell_command = [
+                "z nix"
+                "nvim flake.nix"
+              ];
+            }
+            "z nvim && nvim init.lua"
           ];
         }
       ];

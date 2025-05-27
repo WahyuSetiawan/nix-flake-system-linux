@@ -11,8 +11,23 @@ let
           layout = "tiled";
           shell_command_before = [ "cd ~/evl" ];
           panes = [
-            "nvim"
             "echo happy working"
+          ];
+        }
+        {
+          window_name = "config";
+          layout = "tiled";
+          shell_command_before = [
+            "cd !"
+          ];
+          panes = [
+            {
+              shell_command = [
+                "z nix"
+                "nvim flake.nix"
+              ];
+            }
+            "z nvim && nvim init.lua"
           ];
         }
       ];
@@ -79,7 +94,7 @@ in
       set -g set-titles-string "#S:#I:#W - \"#T\" #{session_alerts}"
       set -g silence-action other
 
-      # 0 is too far from ` ;)
+      # 0 is too far from ` ;r
       set -g base-index 1
 
       # Automatically set window title
