@@ -1,20 +1,17 @@
-{ modulesPath, ... }:
+{ modulesPath, inputs, lib, ... }:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+
     ./shells.nix
     ./packages.nix
-
-    ./conf-linux/fonts.nix
-    ./conf-linux/activations.nix
-    ./conf-linux/system.nix
-    ./conf-linux/services
-    ./conf-linux/packages.nix
-    ./conf-linux/programs
+    ./fonts.nix
+    ./activations.nix
+    ./services
+    ./programs
   ];
 
   nix = {
-    # extraOptions = "experimental-features = nix-command flakes";
     settings.trusted-users = [ "@wheel" ];
 
     gc = {
@@ -22,12 +19,13 @@
       dates = "daily";
       options = "--delete-older-than 7d";
     };
+
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
 
   # nixpkgs.hostPlatform = system;
   # system.stateVersion = stateVersion;

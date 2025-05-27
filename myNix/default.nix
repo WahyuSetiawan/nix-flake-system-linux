@@ -12,6 +12,7 @@
     ./devShell
     ./services
     ./modules/user.nix
+    ./cross-modules
   ];
 
   ezConfigs = {
