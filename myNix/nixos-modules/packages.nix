@@ -32,6 +32,7 @@
     killall
 
     postman
+    fvm
   ];
 
   environment.variables = rec{

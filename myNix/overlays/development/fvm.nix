@@ -55,6 +55,7 @@ stdenv.mkDerivation {
     EOF
     
     chmod +x $out/bin/fvm
+    chown -R $USER:$USER $out/bin/fvm
   '';
 
   shellHook = #bash
