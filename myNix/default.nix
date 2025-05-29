@@ -1,12 +1,8 @@
 { self
-, lib
 , inputs
 , ...
 }: {
   imports = [
-    # ./modules
-    # ./home
-    # ./hosts
     ./overlays
     ./devShell.nix
     ./devShell
@@ -18,7 +14,7 @@
     root = ./.;
     globalArgs = { inherit inputs; };
 
-    nixos.hosts.juragankoding.userHomeModules = ["juragankoding"];
+    nixos.hosts.juragankoding.userHomeModules = [ "juragankoding" ];
   };
 
   perSystem = { self', lib, system, input', pkgs, ... }:
