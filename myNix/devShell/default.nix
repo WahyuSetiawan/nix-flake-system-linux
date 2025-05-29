@@ -13,6 +13,10 @@ args'@ { ... }: {
         inherit (args') inputs;
         inherit pgks system;
       };
+      nodejs = import ./dev-nodejs.nix {
+        inherit (args') inputs;
+        inherit pkgs system;
+      };
     };
   };
 }
