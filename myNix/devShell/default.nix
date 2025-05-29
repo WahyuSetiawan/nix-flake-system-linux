@@ -9,6 +9,10 @@ args'@ { ... }: {
         inherit (args') inputs;
         inherit pkgs system;
       };
+      rust = import ./dev-rust.nix {
+        inherit (args') inputs;
+        inherit pgks system;
+      };
     };
   };
 }
