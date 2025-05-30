@@ -15,7 +15,7 @@
     globalArgs = { inherit inputs; };
 
     nixos.hosts.juragankoding.userHomeModules = [ "juragankoding" ];
-    nixos.hosts.wahyu.userHomeModules = [ "wahyu" ];
+    darwin.hosts.wahyu.userHomeModules = [ "wahyu" ];
   };
 
   perSystem = { self', lib, system, input', pkgs, ... }:

@@ -29,9 +29,6 @@ in
     email = user.email;
     pathHome = "Users";
     nixConfigDirectory = user.nixConfigDirectory;
-    within = {
-      hyprland. enable = true;
-    };
   };
 
 
