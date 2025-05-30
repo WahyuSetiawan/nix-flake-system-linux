@@ -1,4 +1,8 @@
 { pkgs, ... }: {
+  imports = [
+    ./packages-flutter-dev.nix
+  ];
+
   environment.systemPackages = with pkgs ;[
     xdg-desktop-portal
     home-manager
@@ -32,6 +36,7 @@
     killall
 
     postman
+    fvm
   ];
 
   environment.variables = rec{

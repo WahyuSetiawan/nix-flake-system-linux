@@ -1,13 +1,8 @@
 { self
-, lib
 , inputs
 , ...
 }: {
   imports = [
-    inputs.ez-configs.flakeModule
-    # ./modules
-    ./home
-    # ./hosts
     ./overlays
     ./devShell
     ./services
@@ -19,7 +14,7 @@
     root = ./.;
     globalArgs = { inherit inputs; };
 
-    nixos.hosts.juragankoding.userHomeModules = ["juragankoding"];
+    nixos.hosts.juragankoding.userHomeModules = [ "juragankoding" ];
   };
 
   perSystem = { self', lib, system, input', pkgs, ... }:
