@@ -19,10 +19,10 @@
     in
     attrsets.genAttrs packages (name: callPackage ./${name}.nix { })
     // {
-      sbar_menus = prev.callPackage ../../modules/conf-darwin/sketchybar/helpers/menus { };
-      sbar_events = prev.callPackage ../../modules/conf-darwin/sketchybar/helpers/event_providers { };
-      sbarLua = prev.callPackage ../../modules/conf-darwin/sketchybar/helpers/sbar.nix { };
-      sketchybarConfigLua = prev.callPackage ../../modules/conf-darwin/sketchybar { };
+      sbar_menus = prev.callPackage ../../darwin-modules/sketchybar/helpers/menus { };
+      sbar_events = prev.callPackage ../../darwin-modules/sketchybar/helpers/event_providers { };
+      sbarLua = prev.callPackage ../../darwin-modules/sketchybar/helpers/sbar.nix { };
+      sketchybarConfigLua = prev.callPackage ../../darwin-modules/sketchybar { };
       sf-symbols-font = final.sf-symbols.overrideAttrs (old: {
         pname = "sf-symbols-font";
         installPhase = ''

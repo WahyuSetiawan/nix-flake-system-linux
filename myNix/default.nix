@@ -6,7 +6,7 @@
     ./overlays
     ./devShell
     ./services
-    ./modules/user.nix
+    # ./modules/user.nix
     ./cross-modules
   ];
 
