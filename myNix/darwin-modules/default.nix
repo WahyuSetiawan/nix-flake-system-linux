@@ -1,6 +1,5 @@
 { ... }: {
   imports = [
-    ./sketchybar
     ./browser.nix
     ./homebrew.nix
     ./mouseless.nix

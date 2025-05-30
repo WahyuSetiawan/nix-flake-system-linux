@@ -13,7 +13,7 @@ in
       eval "$(${config.homebrew.brewPrefix}/brew shellenv)"
     '';
 
-  system.activationScripts.preUserActivation.text =
+  system.activationScripts.postActivation.text =
     ''
       if [ ! -f ${config.homebrew.brewPrefix}/brew ]; then
         ${pkgs.bash}/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

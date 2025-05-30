@@ -1,4 +1,4 @@
-{ inputs, self, pkgs, ... }:
+{ lib, inputs, pkgs, ... }:
 let
   user = rec{
     username = "wahyu";
@@ -10,12 +10,30 @@ let
   stateVersion = 4;
 in
 {
-  imports = [
+  imports = lib.lists.concatLists [
+    (builtins.attrValues inputs.self.crossModules)
+  ] ++ [
     inputs.mac-app-util.darwinModules.default
     inputs.home-manager.darwinModules.home-manager
+    inputs.nix-homebrew.darwinModules.nix-homebrew
   ];
 
   mouseless.enable = true;
+
+  system.primaryUser = "wahyu";
+  ids.gids.nixbld = 350;
+
+  users.primaryUser = {
+    username = user.username;
+    fullName = user.fullName;
+    email = user.email;
+    pathHome = "Users";
+    nixConfigDirectory = user.nixConfigDirectory;
+    within = {
+      hyprland. enable = true;
+    };
+  };
+
 
   # nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
   # environment.systemPackages = ctx.basePackageFor pkgs;
@@ -27,16 +45,17 @@ in
     home = "/${user.pathHome}/${user.username}";
     shell = pkgs.fish;
   };
-  system.configurationRevision = self.rev or self.dirtyRev or null;
+  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
 
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  # nixpkgs.hostPlatform = "aarch64-darwin";
   system.stateVersion = stateVersion;
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
 }
