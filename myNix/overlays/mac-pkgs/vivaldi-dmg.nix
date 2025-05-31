@@ -11,19 +11,8 @@ let
 
   pname = "vivaldi-dmg";
 
-  version =
-    rec {
-      aarch64-darwin = "7.2.3621.63";
-      x86_64-darwin = aarch64-darwin;
-    }
-    .${system} or throwSystem;
-
-  sha256 =
-    rec {
-      aarch64-darwin = "sha256-MmlpKL8UtND4cZHuysLSfdEl7gYD+3q9uvgGPoCw1wU=";
-      x86_64-darwin = aarch64-darwin;
-    }
-    .${system} or throwSystem;
+  version = "7.4.3684.43";
+  sha256 = "sha256-xggzqGKZFIZTAobSChVHYaXNifP3GaBSR8wqmGUSIPA=";
 
   srcs =
     let
