@@ -94,7 +94,7 @@ in
       set -g set-titles-string "#S:#I:#W - \"#T\" #{session_alerts}"
       set -g silence-action other
 
-      # 0 is too far from ` ;r
+      # 0 is too far from ` ;)
       set -g base-index 1
 
       # Automatically set window title

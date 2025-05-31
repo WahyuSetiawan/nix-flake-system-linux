@@ -4,9 +4,9 @@
 }: {
   imports = [
     ./overlays
-    ./devShell.nix
     ./devShell
     ./services
+    # ./modules/user.nix
     ./cross-modules
   ];
 
@@ -15,6 +15,7 @@
     globalArgs = { inherit inputs; };
 
     nixos.hosts.juragankoding.userHomeModules = [ "juragankoding" ];
+    darwin.hosts.wahyu.userHomeModules = [ "wahyu" ];
   };
 
   perSystem = { self', lib, system, input', pkgs, ... }:

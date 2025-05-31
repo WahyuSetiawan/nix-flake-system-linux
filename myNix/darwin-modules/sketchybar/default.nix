@@ -1,9 +1,7 @@
 { lua54Packages, lib, ... }:
-
 let
   inherit (lua54Packages) lua buildLuaPackage;
 in
-
 buildLuaPackage {
   name = "sketchybar-config";
   pname = "sketchybar-config";

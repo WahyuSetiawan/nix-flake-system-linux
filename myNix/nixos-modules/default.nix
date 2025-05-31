@@ -3,7 +3,6 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
 
-    ./shells.nix
     ./packages.nix
     ./fonts.nix
     ./activations.nix

@@ -42,4 +42,6 @@ in
   system.stateVersion = "24.11";
 
   nix.settings.trusted-users = [ "root" "juragankoding" ];
+    nixpkgs.hostPlatform = "aarch64-darwin";
+
 }
