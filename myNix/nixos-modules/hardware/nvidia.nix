@@ -22,6 +22,7 @@
 
   # Configure NVIDIA drivers
   hardware.nvidia = {
+    open = true;
     # Use the latest proprietary driver
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 

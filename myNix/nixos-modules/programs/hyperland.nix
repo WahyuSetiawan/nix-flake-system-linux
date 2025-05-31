@@ -66,7 +66,7 @@ in
       # image viewer
       swayimg
       # file manager
-      dolphin
+      # dolphin
       nautilus
     ];
 
