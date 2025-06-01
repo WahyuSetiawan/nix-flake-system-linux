@@ -9,6 +9,13 @@ in
 
   services.postgres."pg1" = {
     enable = true;
+    initialScript.before = ''
+      CREATE USER myuser WITH password 'mypasswd';
+      CREATE EXTENSION system_stats;
+    '';
+    extensions = exts: [
+      exts.system_stats
+    ];
     initialDatabases = [
       {
         name = dbName;
