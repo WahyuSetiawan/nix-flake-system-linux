@@ -1,46 +1,44 @@
-{ lib
-, stdenv
-, fetchurl
-, dpkg
-, binutils
-, wrapGAppsHook
-, autoPatchelfHook
-, alsa-lib
-, at-spi2-atk
-, at-spi2-core
-, atk
-, cairo
-, cups
-, curl
-, dbus
-, expat
-, fontconfig
-, freetype
-, gdk-pixbuf
-, glib
-, gtk3
-, libdrm
-, libxkbcommon
-, libxshmfence
-, mesa
-, nspr
-, nss
-, pango
-, systemd
-, xorg
-, ffmpeg
-, libuuid
-, qt5
-, qt6
+{
+  lib,
+  stdenv,
+  fetchurl,
+  dpkg,
+  binutils,
+  wrapGAppsHook,
+  autoPatchelfHook,
+  alsa-lib,
+  at-spi2-atk,
+  at-spi2-core,
+  atk,
+  cairo,
+  cups,
+  curl,
+  dbus,
+  expat,
+  fontconfig,
+  freetype,
+  gdk-pixbuf,
+  glib,
+  gtk3,
+  libdrm,
+  libxkbcommon,
+  libxshmfence,
+  mesa,
+  nspr,
+  nss,
+  pango,
+  systemd,
+  xorg,
+  ffmpeg,
+  libuuid,
+
 }:
 let
   inherit (stdenv.hostPlatform) system;
   throwSystem = throw "Unsupported system: ${system}";
   pname = "vivaldi";
   version = "7.4.3684.43";
-
-  sha256 = "sha256-tDGoew5jEOqoHIHSvoOsBcuEzq817YT0pFSO3Li48OU=";
-
+  
   srcs =
     let
       base = "https://downloads.vivaldi.com/stable";
@@ -48,16 +46,16 @@ let
     rec {
       x86_64-linux = {
         url = "${base}/vivaldi-stable_${version}-1_amd64.deb";
-        inherit sha256;
+        sha256 = "sha256-tDGoew5jEOqoHIHSvoOsBcuEzq817YT0pFSO3Li48OU="; # Update dengan hash yang benar
       };
       aarch64-linux = {
         url = "${base}/vivaldi-stable_${version}-1_arm64.deb";
-        inherit sha256;
+        sha256 = "sha256-tDGoew5jEOqoHIHSvoOsBcuEzq817YT0pFSO3Li48OU="; # Update dengan hash yang benar
       };
     };
-
+  
   src = fetchurl (srcs.${system} or throwSystem);
-
+  
   meta = with lib; {
     description = "A browser for our friends";
     homepage = "https://vivaldi.com";
@@ -105,8 +103,6 @@ let
     xorg.libXtst
     xorg.libxcb
     xorg.libxshmfence
-    qt5.qtbase
-    # qt6.qtbase
   ];
 
   runtimeDependencies = [
@@ -129,6 +125,16 @@ let
       binutils
       wrapGAppsHook
       autoPatchelfHook
+    ];
+
+    # Ignore missing Qt dependencies
+    autoPatchelfIgnoreMissingDeps = [
+      "libQt5Core.so.5"
+      "libQt5Gui.so.5" 
+      "libQt5Widgets.so.5"
+      "libQt6Core.so.6"
+      "libQt6Gui.so.6"
+      "libQt6Widgets.so.6"
     ];
 
     unpackPhase = ''
@@ -203,8 +209,14 @@ let
         patchelf --set-rpath "${lib.makeLibraryPath buildInputs}:$(patchelf --print-rpath $out/share/vivaldi/vivaldi-sandbox 2>/dev/null || echo "")" $out/share/vivaldi/vivaldi-sandbox || true
       fi
 
-      # Fix any additional binaries
+      # Fix any additional binaries but skip problematic Qt shim libraries
       find $out/share/vivaldi -type f -executable | while read file; do
+        # Skip Qt shim libraries as they're optional and cause build failures
+        if [[ "$file" == *"libqt5_shim.so"* ]] || [[ "$file" == *"libqt6_shim.so"* ]]; then
+          echo "Skipping Qt shim: $file"
+          continue
+        fi
+        
         if file "$file" | grep -q "ELF.*executable"; then
           echo "Patching executable: $file"
           patchelf --set-rpath "${lib.makeLibraryPath buildInputs}:$(patchelf --print-rpath $file 2>/dev/null || echo "")" "$file" || true
