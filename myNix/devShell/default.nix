@@ -11,7 +11,7 @@ args'@ { ... }: {
       };
       rust = import ./dev-rust.nix {
         inherit (args') inputs;
-        inherit pgks system;
+        inherit pkgs system;
       };
       nodejs = import ./dev-nodejs.nix {
         inherit (args') inputs;

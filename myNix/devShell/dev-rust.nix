@@ -1,10 +1,8 @@
-{ inputs, system, pkgs, ... }:
-with pkgs;
-mkShell {
+{ inputs, system, pkgs, ... }: with pkgs;mkShell {
   name = "rust-dev-shell";
 
   # Paket yang diinstal di environment
-  nativeBuildInputs = with pkgs; [
+  packages = with pkgs; [
     rustc
     cargo
     rustfmt

@@ -189,7 +189,7 @@ rec {
           #custom-power {
                 background-color: @surface0;
                 padding: 0.5rem 1rem;
-                margin: 2px 0;
+                margin: 5px 0;
           }
 
           #clock {
