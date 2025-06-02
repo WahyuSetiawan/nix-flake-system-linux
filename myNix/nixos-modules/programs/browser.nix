@@ -1,11 +1,12 @@
 { pkgs, ... }: {
   environment = {
     systemPackages = with pkgs; [
-      (vivaldi.override {
-        proprietaryCodecs = true;
-        enableWidevine = false;
-      })
-      vivaldi-ffmpeg-codecs
+      brave
+      # (vivaldi.override {
+      #   proprietaryCodecs = true;
+      #   enableWidevine = false;
+      # })
+      # vivaldi-ffmpeg-codecs
     ];
   };
 

@@ -37,6 +37,8 @@
 
     postman
     fvm
+
+    nemo
   ];
 
   environment.variables = rec{

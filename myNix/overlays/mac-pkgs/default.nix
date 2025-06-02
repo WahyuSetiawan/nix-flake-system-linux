@@ -14,6 +14,7 @@
         # "clipy"
         "sf-symbols"
         "vivaldi-dmg"
+        "vivaldi-overlay"
         # "googlechrome" # see system/darwin/homebrew.nix
       ];
     in
