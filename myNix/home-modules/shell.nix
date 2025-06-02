@@ -157,10 +157,10 @@ in
     dircolors.enable = true;
     dircolors.enableFishIntegration = true;
 
-    thefuck.enable = true;
-    thefuck.enableInstantMode = true;
-    thefuck.enableFishIntegration = true;
-    thefuck.enableBashIntegration = false;
+    # thefuck.enable = true;
+    # thefuck.enableInstantMode = true;
+    # thefuck.enableFishIntegration = true;
+    # thefuck.enableBashIntegration = false;
 
     fish = {
       enable = true;
@@ -168,24 +168,6 @@ in
 
       '';
       functions = {
-        nix-dev = ''
-          if test (count $argv) -gt 0
-              set package $argv[1]
-          else
-              set package "flutter"
-          end
-          nix develop ${nixConfigDirectory}#$package -c $SHELL
-        '';
-
-        nix-run = ''
-          if test (count $argv) -gt 0
-            set package $argv[1]
-          else 
-            set package "ai"
-          end
-          
-          nix run ${nixConfigDirectory}#$package
-        '';
       };
     };
 

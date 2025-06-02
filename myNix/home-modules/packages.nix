@@ -5,6 +5,14 @@ in
 {
 
   home.packages = with pkgs; [
+    (writeShellScriptBin "nxdev" #bash 
+      ''
+        if [ -z "$1" ]; then
+            echo "Usage: nxdev <object>"
+            exit 1
+        fi
+        nix develop ${nixConfigDirectory}\#$1 -c $SHELL
+      '')
     (writeShellScriptBin "nxrun" #bash
       ''
         if [ -z "$1" ]; then
