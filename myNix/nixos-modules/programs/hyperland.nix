@@ -38,7 +38,7 @@ in
         mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
       }))
 
-      dunst
+      # dunst
       hyprshot
       # nixpkgs.libnotify
 

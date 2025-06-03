@@ -5,5 +5,6 @@
     ./waybar.nix
     ./hyprpaper.nix
     ./rofi.nix
+    ./dunst.nix
   ];
 }
