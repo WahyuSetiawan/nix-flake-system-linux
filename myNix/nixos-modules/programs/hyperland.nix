@@ -50,6 +50,9 @@ in
 
       # pkgs.rofy-wayland
       rofi-wayland
+      xdg-user-dirs
+      viewnior
+
       iw
       firefox-wayland
       wofi

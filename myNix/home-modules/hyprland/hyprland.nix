@@ -42,6 +42,7 @@ in
           $runner = $rofiBinPath/runner
           $wireless = $rofiBinPath/wireless.sh
           $windowSwitcher = $rofiBinPath/windowswitcher.sh
+          $screenshot = $rofiBinPath/screenshot
 
           #################
           ### AUTOSTART ###
@@ -224,6 +225,7 @@ in
           bind = $mainMod, D, exec, $menu
           bind = $mainMod, TAB, exec, $windowSwitcher
           bind = $mainMod, W, exec, $wireless
+          bind = ALT SHIFT, 3, exec, $screenshot 
 
           bind = $mainMod, P, pseudo, # dwindle
           bind = $mainMod SHIFT, J, togglesplit, # dwindle
