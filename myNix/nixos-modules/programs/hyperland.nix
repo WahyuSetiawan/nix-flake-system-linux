@@ -50,6 +50,7 @@ in
 
       # pkgs.rofy-wayland
       rofi-wayland
+      iw
       firefox-wayland
       wofi
       pkgs.bemenu

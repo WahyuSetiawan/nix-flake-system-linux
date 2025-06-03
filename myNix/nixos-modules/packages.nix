@@ -39,6 +39,7 @@
     fvm
 
     nemo
+    ranger
   ];
 
   environment.variables = rec{

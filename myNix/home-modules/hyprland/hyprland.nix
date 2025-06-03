@@ -36,6 +36,8 @@ in
           $terminal = alacritty
           $fileManager = dolphin
           $menu = ~/.config/rofi/bin/launcher
+          $runner = ~/.config/rofi/bin/runner
+          $wireless = ~/.config/rofi/bin/wireless.sh
 
           #################
           ### AUTOSTART ###
@@ -214,6 +216,8 @@ in
           bind = $mainMod, E, exec, $fileManager
           bind = $mainMod, V, togglefloating,
           bind = $mainMod, D, exec, $menu
+          bind = $mainMod, TAB, exec, $runner
+          bind = $mainMod, W, exec, $wireless
           bind = $mainMod, P, pseudo, # dwindle
           bind = $mainMod SHIFT, J, togglesplit, # dwindle
 
