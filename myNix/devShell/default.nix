@@ -1,4 +1,7 @@
 args'@ { ... }: {
+  imports = [
+    ../services/default.nix
+  ];
   perSystem = { pkgs, config, system, inputs', ... }: with pkgs;   {
     devShells = {
       flutter = import ./dev-flutter.nix {
