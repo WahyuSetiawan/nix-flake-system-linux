@@ -29,8 +29,6 @@ in
         python = "python3";
         pod = "arch -x86_64 pod";
         ".." = "cd ..";
-
-
       };
   };
 

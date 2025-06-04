@@ -8,6 +8,10 @@ args'@ { ... }: {
         inherit (args') inputs;
         inherit pkgs system;
       };
+      laravel-dev = import ./dev-laravel-server.nix {
+        inherit (args') inputs;
+        inherit pkgs system;
+      };
       laravel = import ./dev-laravel.nix {
         inherit (args') inputs;
         inherit pkgs system;
