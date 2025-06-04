@@ -35,9 +35,14 @@ in
           ###################
           $terminal = alacritty
           $fileManager = dolphin
-          $menu = ~/.config/rofi/bin/launcher
-          $runner = ~/.config/rofi/bin/runner
-          $wireless = ~/.config/rofi/bin/wireless.sh
+
+          $rofiBinPath = ~/.config/rofi/bin
+
+          $menu = $rofiBinPath/launcher
+          $runner = $rofiBinPath/runner
+          $wireless = $rofiBinPath/wireless.sh
+          $windowSwitcher = $rofiBinPath/windowswitcher.sh
+          $screenshot = $rofiBinPath/screenshot
 
           #################
           ### AUTOSTART ###
@@ -215,9 +220,13 @@ in
           bind = $mainMod, M, exit,
           bind = $mainMod, E, exec, $fileManager
           bind = $mainMod, V, togglefloating,
+
+          # Rofi Action
           bind = $mainMod, D, exec, $menu
-          bind = $mainMod, TAB, exec, $runner
+          bind = $mainMod, TAB, exec, $windowSwitcher
           bind = $mainMod, W, exec, $wireless
+          bind = ALT SHIFT, 3, exec, $screenshot 
+
           bind = $mainMod, P, pseudo, # dwindle
           bind = $mainMod SHIFT, J, togglesplit, # dwindle
 

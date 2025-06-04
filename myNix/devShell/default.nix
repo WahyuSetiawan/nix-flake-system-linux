@@ -1,7 +1,14 @@
 args'@ { ... }: {
+  imports = [
+    ../services/default.nix
+  ];
   perSystem = { pkgs, config, system, inputs', ... }: with pkgs;   {
     devShells = {
       flutter = import ./dev-flutter.nix {
+        inherit (args') inputs;
+        inherit pkgs system;
+      };
+      laravel-dev = import ./dev-laravel-server.nix {
         inherit (args') inputs;
         inherit pkgs system;
       };

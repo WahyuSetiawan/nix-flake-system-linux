@@ -1,67 +1,35 @@
-{ pkgs, lib, config, osConfig, ... }:
+inputs@{ pkgs, lib, ... }:
 let
-  nixConfigDirectory = config.home.user-info.nixConfigDirectory;
-  concatString' = lib.strings.concatStringsSep " && ";
-  username = osConfig.users.primaryUser.username;
+  dirAllias = ./allias;
+  alliasContents = builtins.readDir dirAllias;
+
+  # Filter hanya file .nix, kecuali default.nix jika ada
+  nixFiles = lib.filterAttrs
+    (name: type: type == "regular" && lib.strings.hasSuffix ".nix" name && name != "default.nix")
+    alliasContents;
+
+  allAllias = lib.foldl'
+    (acc: name:
+      acc // (import (dirAllias + "/${name}") { inherit (inputs) lib config osConfig; inherit pkgs;})
+    )
+    { }
+    (lib.attrNames nixFiles);
 in
 {
-  imports = [
-    ./shells/alias.nix
-  ];
-
   home.sessionVariables = {
     PATH = "$HOME/fvm/default/bin:$PATH";
   };
 
   home = {
-    shellAliases = {
-      ls = "lsd";
-      cat = "bat";
-      python = "python3";
-      pod = "arch -x86_64 pod";
-      ".." = "cd ..";
-
-      # allias for nix
-      nixclean = concatString' [
-        "nix profile wipe-history"
-        "nix-collect-garbage"
-        "nix-collect-garbage -d"
-        "nix-collect-garbage --delete-old"
-        "nix store gc"
-        "nix store optimise"
-        "nix-store --verify --repair --check-contents"
-      ];
-      nixda = "direnv allow";
-      nixdr = "direnv reload";
-      nixbuild =
-        if pkgs.stdenv.isDarwin
-        then "sudo darwin-rebuild build --flake ${nixConfigDirectory}#${username}" else
-          "nixos-rebuild build --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
-      nixdryrun =
-        if pkgs.stdenv.isDarwin
-        then "sudo darwin-rebuild dry-run --flake ${nixConfigDirectory}#${username}" else
-          "nixos-rebuild dry-run --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
-      nixswitch =
-        if pkgs.stdenv.isDarwin
-        then "sudo darwin-rebuild switch --flake ${nixConfigDirectory}#${username}" else
-          "nixos-rebuild switch --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
-
-      # git 
-      gia = "git add";
-      gico = "git commit -m";
-      gibe = "git branch ";
-      gice = "git checkout";
-      giceb = "git checkout -b ";
-      gipull = "git pull";
-      gipas = "git push -u origin --all";
-      gipus = "git push -u origin";
-      gitas = "git status";
-      gifi = "git flow init";
-      gifsf = "git flow feature start";
-      gifsr = "git flow release start";
-      gifff = "git flow feature finish";
-      giffr = "git flow release finish";
-    };
+    shellAliases =
+      allAllias //
+      {
+        ls = "lsd";
+        cat = "bat";
+        python = "python3";
+        pod = "arch -x86_64 pod";
+        ".." = "cd ..";
+      };
   };
 
   programs = {

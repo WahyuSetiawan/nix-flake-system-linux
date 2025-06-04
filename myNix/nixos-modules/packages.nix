@@ -40,6 +40,7 @@
 
     nemo
     ranger
+    nixd
   ];
 
   environment.variables = rec{
