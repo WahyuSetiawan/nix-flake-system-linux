@@ -6,5 +6,6 @@
     ./virtualbox.nix
     ./browser.nix
     ./multimedia.nix
+    ./office.nix
   ];
 }
