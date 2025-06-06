@@ -130,27 +130,28 @@ mkShell {
   shellHook = #bash 
     ''
       # Warna untuk output
-      RED='\033[0;31m'
-      GREEN='\033[0;32m'
-      YELLOW='\033[1;33m'
-      BLUE='\033[0;34m'
-      NC='\033[0m' # No Color
+      export RED='\033[0;31m'
+      export GREEN='\033[0;32m'
+      export YELLOW='\033[1;33m'
+      export BLUE='\033[0;34m'
+      export NC='\033[0m' # No Color
 
       # Variabel konfigurasi
-      PROJECT_NAME="laravel-dev"
-      PROJECT_DIR="$(pwd)"
-      NGINX_PORT="8086"
-      MYSQL_PORT="3306"
-      LARAVEL_PORT="8000"
+      export PROJECT_NAME="laravel-dev"
+      export PROJECT_DIR="$(pwd)"
+      export NGINX_PORT="8086"
+      export MYSQL_PORT="3306"
+      export LARAVEL_PORT="8000"
 
       # Direktori untuk runtime files
-      RUNTIME_DIR="$PROJECT_DIR/.nix-runtime"
-      NGINX_DIR="$RUNTIME_DIR/nginx"
-      MYSQL_DIR="$RUNTIME_DIR/mysql"
-      LOGS_DIR="$RUNTIME_DIR/logs"
-      PHP_DIR="$RUNTIME_DIR/php"
+      export RUNTIME_DIR="$PROJECT_DIR/.nix-runtime"
+      export NGINX_DIR="$RUNTIME_DIR/nginx"
+      export MYSQL_DIR="$RUNTIME_DIR/mysql"
+      export LOGS_DIR="$RUNTIME_DIR/logs"
+      export PHP_DIR="$RUNTIME_DIR/php"
 
       # Membuat direktori runtime
+      mkdir -p "$RUNTIME_DIR"
       mkdir -p "$NGINX_DIR"/{conf,logs,temp}
       mkdir -p "$MYSQL_DIR"/{data,socket,logs}
       mkdir -p "$PHP_DIR"
@@ -159,8 +160,8 @@ mkShell {
       # Nginx configuration
       cat > "$NGINX_DIR/conf/nginx.conf" << EOF
       worker_processes 1;
-      error_log $LOGS_DIR/nginx_error.log;
-      pid $NGINX_DIR/nginx.pid;
+      error_log "$LOGS_DIR/nginx_error.log";
+      pid "$NGINX_DIR/nginx.pid";
 
       events {
           worker_connections 1024;
@@ -170,18 +171,18 @@ mkShell {
           include ${pkgs.nginx}/conf/mime.types;
           default_type application/octet-stream;
 
-          access_log $LOGS_DIR/nginx_access.log;
+          access_log "$LOGS_DIR/nginx_access.log";
 
-          client_body_temp_path $NGINX_DIR/temp/client_body;
-          proxy_temp_path $NGINX_DIR/temp/proxy;
-          fastcgi_temp_path $NGINX_DIR/temp/fastcgi;
-          uwsgi_temp_path $NGINX_DIR/temp/uwsgi;
-          scgi_temp_path $NGINX_DIR/temp/scgi;
+          client_body_temp_path "$NGINX_DIR/temp/client_body";
+          proxy_temp_path "$NGINX_DIR/temp/proxy";
+          fastcgi_temp_path "$NGINX_DIR/temp/fastcgi";
+          uwsgi_temp_path "$NGINX_DIR/temp/uwsgi";
+          scgi_temp_path "$NGINX_DIR/temp/scgi";
 
           server {
               listen $NGINX_PORT;
               server_name localhost $PROJECT_NAME.local;
-              root $PROJECT_DIR/public;
+              root "$PROJECT_DIR/public";
 
               index index.php index.html index.htm;
 
@@ -234,6 +235,7 @@ mkShell {
       [client]
       socket = $MYSQL_DIR/socket/mysql.sock
       port = $MYSQL_PORT
+
       EOF
 
       # Register cleanup function
