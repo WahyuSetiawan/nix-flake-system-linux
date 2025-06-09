@@ -15,6 +15,7 @@
 
     dbeaver-bin
 
+    vscode-langservers-extracted
     # nodePackages.babel-loader
     # pkgs.nodePackages.webpack
     # # Jika membutuhkan core Babel:
@@ -26,12 +27,6 @@
   shellHook =
     #bash 
     ''
-        # Install vscode-eslint-language-server secara lokal
-      if [ ! -d "node_modules/.bin/vscode-eslint-language-server" ]; then
-        npm install --save-dev vscode-languageserver @types/vscode-languageserver
-        npm install --save-dev vscode-eslint-language-server
-      fi
-
       export PRISMA_QUERY_ENGINE_LIBRARY="${pkgs.prisma-engines}/lib/libquery_engine.node"
       export PRISMA_SCHEMA_ENGINE_BINARY="${pkgs.prisma-engines}/bin/schema-engine"
       echo "Prisma engine path: $PRISMA_SCHEMA_ENGINE_BINARY"
