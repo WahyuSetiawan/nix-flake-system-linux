@@ -1,6 +1,8 @@
 { inputs, system, pkgs, ... }:
 with pkgs;
 mkShell {
+  name = "Development Laravel with Vue";
+
   buildInputs = with pkgs; [
     php82
     php82Packages.composer
@@ -8,6 +10,7 @@ mkShell {
     mysql80
     nodejs_20
     yarn
+    pnpm
     nmap
   ];
 
@@ -254,3 +257,4 @@ mkShell {
       helpme;
     '';
 }
+
