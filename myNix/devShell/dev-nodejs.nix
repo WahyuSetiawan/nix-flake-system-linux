@@ -4,7 +4,6 @@
   # Paket yang diinstal di environment
   packages = with pkgs; [
     nodejs_20
-    yarn
     pnpm
     git
 
@@ -14,6 +13,8 @@
     openssl
 
     dbeaver-bin
+
+    vscode-langservers-extracted
   ];
 
   # Variabel environment (opsional)
@@ -26,6 +27,6 @@
 
       echo "🚀 Node.js development shell ready!"
       echo "Node: $(node --version)"
-      echo "Yarn: $(yarn --version)"
+      echo "Pnpm: $(pnpm --version)"
     '';
 }

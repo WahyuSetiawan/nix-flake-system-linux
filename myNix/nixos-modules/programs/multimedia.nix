@@ -3,6 +3,7 @@
     systemPackages = with pkgs; [
       vlc
       easyeffects
+      spotify
     ];
   };
 }

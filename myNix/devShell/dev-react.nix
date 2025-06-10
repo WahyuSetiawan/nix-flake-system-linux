@@ -1,0 +1,27 @@
+
+{ inputs, system, pkgs, ... }: with pkgs ;mkShell {
+  name = "Development React";
+
+  # Paket yang diinstal di environment
+  packages = with pkgs; [
+    nodejs_20
+    pnpm
+    git
+    openssl
+    vscode-langservers-extracted
+    # nodePackages.babel-loader
+    # pkgs.nodePackages.webpack
+    # # Jika membutuhkan core Babel:
+    # pkgs.nodePackages."@babel/core"
+    # pkgs.nodePackages."@babel/preset-env"
+  ];
+
+  # Variabel environment (opsional)
+  shellHook =
+    #bash 
+    ''
+      echo "🚀 React development shell ready!"
+      echo "Node: $(node --version)"
+      echo "Pnpm: $(pnpm --version)"
+    '';
+}

@@ -16,6 +16,7 @@ args'@ { ... }: {
         rust = import ./dev-rust.nix args;
         nodejs = import ./dev-nodejs.nix args;
         vue = import ./dev-vue.nix args;
+        react = import ./dev-react.nix args;
       };
     };
 }
