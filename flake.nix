@@ -14,7 +14,8 @@
 
     ### nixpkgs for repository nix
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-2211.url = "github:nixos/nixpkgs/nixos-22.11";
+    nixpkgs-old.url = "github:nixos/nixpkgs/nixos-22.11";
+    nixpkgs-old-20.url = "github:nixos/nixpkgs/nixos-20.03";
 
     cachix.url = "github:cachix/cachix";
 

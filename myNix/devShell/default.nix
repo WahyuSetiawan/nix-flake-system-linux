@@ -17,6 +17,7 @@ args'@ { ... }: {
         nodejs = import ./dev-nodejs.nix args;
         vue = import ./dev-vue.nix args;
         react = import ./dev-react.nix args;
+        laravel6 = import ./dev-laravel-6.nix args;
       };
     };
 }

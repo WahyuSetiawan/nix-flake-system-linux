@@ -59,7 +59,7 @@
             pkgs.alsa-lib
             pkgs.atk
             pkgs.mesa
-            pkgs.libglvnd 
+            pkgs.libglvnd
 
             libpng
             nss
