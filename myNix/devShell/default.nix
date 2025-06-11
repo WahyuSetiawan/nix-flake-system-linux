@@ -5,9 +5,13 @@ args'@ { ... }: {
 
   perSystem = all@{ pkgs, ... }:
     let
-      args = { inherit (args') inputs; inherit (all) pkgs system; };
-      dir = "${args'.inputs.self}/myNix/devShell";
-      allfile = args'.inputs.self.util.filesIntoMap {
+      inherit (args') inputs;
+
+      args = { inherit inputs; inherit (all) pkgs system; };
+
+      # prepare all files about devShell
+      dir = "${inputs.self}/myNix/devShell";
+      allfile = inputs.self.util.filesIntoMap {
         inherit dir; inherit (args') lib;
         args = args // { inherit pkgs; };
         renameKey = (name:

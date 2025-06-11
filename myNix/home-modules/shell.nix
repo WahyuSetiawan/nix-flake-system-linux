@@ -7,7 +7,6 @@ let
   };
 in
 {
-
   home.sessionVariables = {
     PATH = "$HOME/fvm/default/bin:$PATH";
   };
