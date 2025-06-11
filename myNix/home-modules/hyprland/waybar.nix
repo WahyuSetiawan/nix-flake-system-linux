@@ -108,11 +108,38 @@ rec {
             "format-wifi" = "{essid} ({signalStrength}%) ";
             "format-ethernet" = "{ipaddr}/{cidr} 󰊗";
             "format-disconnected" = "";
+            "format-alt" = "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>";
             "tooltip-format" = "{ifname} via {gwaddr} 󰊗";
             "tooltip-format-wifi" = "{essid} ({signalStrength}%) ";
             "tooltip-format-ethernet" = "{ifname} ";
             "tooltip-format-disconnected" = "Disconnected";
             "max-length" = 50;
+          };
+
+          "mpd" = {
+            "format" = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ";
+            "format-disconnected" = "Disconnected ";
+            "format-stopped" = "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ";
+            "interval" = 10;
+            "consume-icons" = {
+              "on" = " ";
+            };
+            "random-icons" = {
+              "off" = "<span color=\"#f53c3c\"></span> "; # Icon grayed out when "random" is off
+              "on" = " ";
+            };
+            "repeat-icons" = {
+              "on" = " ";
+            };
+            "wsingle-icons" = {
+              "on" = "1 ";
+            };
+            "state-icons" = {
+              "paused" = "";
+              "playing" = "";
+            };
+            "tooltip-format" = "MPD (connected)";
+            "tooltip-format-disconnected" = "MPD (disconnected)";
           };
         };
       };
