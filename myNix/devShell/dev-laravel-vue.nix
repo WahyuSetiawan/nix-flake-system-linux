@@ -12,6 +12,7 @@ mkShell {
     yarn
     pnpm
     nmap
+    inputs.nixpkgs-2211.nodejs_16
   ];
 
   packages = [

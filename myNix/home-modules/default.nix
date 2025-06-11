@@ -10,6 +10,8 @@
 
     ./users.nix
     ./home-manager.nix
+    ./ssh.nix
+    ./secrets.nix
   ];
 
   programs.home-manager.enable = true;
