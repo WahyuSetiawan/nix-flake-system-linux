@@ -1,5 +1,7 @@
-{ ... }: {
+{ inputs, ... }: {
   imports = [
+    inputs.sops-nix.homeManagerModules.sops
+
     ./activations.nix
     ./shell.nix
     ./terminal.nix
