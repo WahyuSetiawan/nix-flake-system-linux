@@ -22,7 +22,6 @@ rec {
           ];
           modules-center = [
             "hyprland/window"
-            # "custom/hello-from-waybar"
           ];
           modules-right = [
             "cpu"
