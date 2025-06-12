@@ -123,28 +123,28 @@ in
             '';
           };
 
-          readiness_probe =
-            let
-              # Transform `listen` by prefixing `config.dataDir` if a relative path is used
-              transformedListen =
-                if (builtins.isString config.listen && (! lib.hasPrefix "/" config.listen)) then
-                  "${config.dataDir}/${config.listen}"
-                else
-                  config.listen;
-            in
-            {
-              exec.command =
-                if (builtins.isInt config.listen) then
-                  "${pkgs.fcgi}/bin/cgi-fcgi -bind -connect 127.0.0.1:${toString config.listen}"
-                else
-                  "${pkgs.fcgi}/bin/cgi-fcgi -bind -connect ${transformedListen}";
-
-              initial_delay_seconds = 2;
-              period_seconds = 10;
-              timeout_seconds = 4;
-              success_threshold = 1;
-              failure_threshold = 5;
-            };
+        #   readiness_probe =
+        #     let
+        #       # Transform `listen` by prefixing `config.dataDir` if a relative path is used
+        #       transformedListen =
+        #         if (builtins.isString config.listen && (! lib.hasPrefix "/" config.listen)) then
+        #           "${config.dataDir}/${config.listen}"
+        #         else
+        #           config.listen;
+        #     in
+        #     {
+        #       exec.command =
+        #         if (builtins.isInt config.listen) then
+        #           "${pkgs.fcgi}/bin/cgi-fcgi -bind -connect 127.0.0.1:${toString config.listen}"
+        #         else
+        #           "${pkgs.fcgi}/bin/cgi-fcgi -bind -connect ${transformedListen}";
+        #
+        #       initial_delay_seconds = 2;
+        #       period_seconds = 10;
+        #       timeout_seconds = 4;
+        #       success_threshold = 1;
+        #       failure_threshold = 5;
+        #     };
         };
     };
   };

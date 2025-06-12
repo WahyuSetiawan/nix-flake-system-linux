@@ -44,7 +44,7 @@ in
           index index.php index.html index.htm;
 
           location / {
-              try_files \$uri \$uri/ /index.php?\$query_string;
+              try_files $uri $uri/ /index.php$is_args$args;
           }
 
           location ~ \.php$ {
@@ -76,5 +76,5 @@ in
     };
   };
 
-  settings.processes.nginx.depends_on.phpFpm.condition = "process_completed_successfully";
+  # settings.processes.nginx.depends_on.phpFpm.condition = "process_completed_successfully";
 }
