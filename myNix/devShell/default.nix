@@ -1,13 +1,9 @@
 args'@ { ... }: {
-  imports = [
-    ../services/default.nix
-  ];
-
   perSystem = all@{ pkgs, ... }:
     let
       inherit (args') inputs;
 
-      args = { inherit inputs; inherit (all) pkgs system; };
+      args = { inherit inputs; inherit (all) pkgs system config; };
 
       # prepare all files about devShell
       dir = "${inputs.self}/myNix/devShell";

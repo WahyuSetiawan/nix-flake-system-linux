@@ -9,11 +9,6 @@
     git
     openssl
     vscode-langservers-extracted
-    # nodePackages.babel-loader
-    # pkgs.nodePackages.webpack
-    # # Jika membutuhkan core Babel:
-    # pkgs.nodePackages."@babel/core"
-    # pkgs.nodePackages."@babel/preset-env"
   ];
 
   # Variabel environment (opsional)

@@ -8,7 +8,7 @@
       ollama.ollamaX =
         {
           enable = true;
-          # acceleration = "cuda";
+          acceleration = if pkgs.stdenv.isDarwin then null else "cuda";
           dataDir = dataDir;
           models = [
             "qwen2.5-coder"
