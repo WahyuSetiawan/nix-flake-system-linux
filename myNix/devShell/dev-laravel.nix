@@ -1,6 +1,10 @@
-{ inputs, system, pkgs, ... }:
+{ inputs, config, system, pkgs, ... }:
 with pkgs;
 mkShell {
+  inputsFrom = [
+    config.process-compose."nginx".services.outputs.devShell
+  ];
+
   name = "laravel-dev-shell";
 
   # Daftar paket yang diperlukan

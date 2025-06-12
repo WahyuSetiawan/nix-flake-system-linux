@@ -1,15 +1,21 @@
-{ inputs, system, pkgs, ... }:
-with pkgs;
-mkShell {
+{ inputs, system, pkgs, ... }: with pkgs ;mkShell {
+  name = "Development Laravel 6";
+
+  # Paket yang diinstal di environment
   buildInputs = with pkgs; [
-    php82
-    php82Packages.composer
+    inputs.nixpkgs-old.legacyPackages.${pkgs.system}.nodejs-18_x
+    pnpm
+    git
+
+    vscode-langservers-extracted
+
+    inputs.nixpkgs-old-20.legacyPackages.${pkgs.system}.php74
+    inputs.nixpkgs-old-20.legacyPackages.${pkgs.system}.php74Packages.composer
     nginx
     mysql80
-    nodejs_20
-    yarn
     nmap
   ];
+
 
   packages = [
 
@@ -128,7 +134,7 @@ mkShell {
 
         # Start PHP-FPM
         echo -e "''${YELLOW}🐘 Starting PHP-FPM...''${NC}"
-        ${pkgs.php82}/bin/php-fpm -F -y "$PHP_DIR/php-fpm.conf" &
+        ${pkgs.php84}/bin/php-fpm -F -y "$PHP_DIR/php-fpm.conf" &
         PHP_FPM_PID=$!
         echo $PHP_FPM_PID > "$RUNTIME_DIR/php-fpm.pid"
 
@@ -141,14 +147,14 @@ mkShell {
         # Install Laravel dependencies jika belum ada
         if [ ! -d "vendor" ]; then
             echo -e "''${YELLOW}📦 Installing Laravel dependencies...''${NC}"
-            ${pkgs.php82Packages.composer}/bin/composer install
+            ${pkgs.php84Packages.composer}/bin/composer install
         fi
 
         # Setup Laravel environment
         if [ ! -f ".env" ]; then
             echo -e "''${YELLOW}⚙️  Setting up Laravel environment...''${NC}"
             cp .env.example .env
-            ${pkgs.php82}/bin/php artisan key:generate
+            ${pkgs.php84}/bin/php artisan key:generate
         fi
 
         # Update .env for development
@@ -164,7 +170,7 @@ mkShell {
 
         # Run migrations
         echo -e "''${YELLOW}🔄 Running database migrations...''${NC}"
-        ${pkgs.php82}/bin/php artisan migrate --force
+        ${pkgs.php84}/bin/php artisan migrate --force
 
         echo -e "''${GREEN}✅ Laravel Development Environment Started!''${NC}"
         echo -e "''${GREEN}🌍 Application: http://localhost:$NGINX_PORT''${NC}"
@@ -210,6 +216,9 @@ mkShell {
 
     (writeShellScriptBin "helpme" #bash
       ''
+        echo "Node: $(node --version)"
+        echo "Pnpm: $(pnpm --version)"
+
         echo -e "\n''${BLUE}🎉 Welcome to Laravel Development Environment!''${NC}"
         echo -e "''${BLUE}Available commands:''${NC}"
         echo -e "  • ''${GREEN}prepare_file''${NC}    - Prepare File"
@@ -221,7 +230,11 @@ mkShell {
       '')
   ];
 
-  shellHook = #bash 
+
+
+  # Variabel environment (opsional)
+  shellHook =
+    #bash 
     ''
       # Warna untuk output
       export RED='\033[0;31m'
@@ -254,3 +267,4 @@ mkShell {
       helpme;
     '';
 }
+

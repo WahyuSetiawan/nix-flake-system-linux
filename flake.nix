@@ -11,9 +11,17 @@
         flake-parts.follows = "flake-parts";
       };
     };
+
+    ### nixpkgs for repository nix
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-old.url = "github:nixos/nixpkgs/nixos-22.11";
+    nixpkgs-old-20.url = "github:nixos/nixpkgs/nixos-20.03";
 
     cachix.url = "github:cachix/cachix";
+
+    ### security
+    sops-nix.url = "github:Mic92/sops-nix";
+    # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     ### home manager
     home-manager = {
@@ -24,6 +32,7 @@
     oxalica-nil = {
       url = "github:oxalica/nil";
     };
+
     ### -- nix related tools
     process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";
     services-flake.url = "github:juspay/services-flake";
@@ -40,6 +49,7 @@
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
     # Optional: Declarative tap management
     homebrew-core = {
       url = "github:homebrew/homebrew-core";

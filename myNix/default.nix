@@ -1,4 +1,4 @@
-{ self
+{ pkgs,self
 , inputs
 , ...
 }: {
@@ -6,8 +6,8 @@
     ./overlays
     ./devShell
     ./services
-    # ./modules/user.nix
     ./cross-modules
+    ./components
   ];
 
   ezConfigs = {

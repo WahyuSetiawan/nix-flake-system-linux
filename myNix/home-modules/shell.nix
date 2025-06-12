@@ -1,19 +1,10 @@
-inputs@{ pkgs, lib, ... }:
+args@{ inputs, pkgs, lib, ... }:
 let
   dirAllias = ./allias;
-  alliasContents = builtins.readDir dirAllias;
-
-  # Filter hanya file .nix, kecuali default.nix jika ada
-  nixFiles = lib.filterAttrs
-    (name: type: type == "regular" && lib.strings.hasSuffix ".nix" name && name != "default.nix")
-    alliasContents;
-
-  allAllias = lib.foldl'
-    (acc: name:
-      acc // (import (dirAllias + "/${name}") { inherit (inputs) lib config osConfig; inherit pkgs;})
-    )
-    { }
-    (lib.attrNames nixFiles);
+  allAllias = inputs.self.util.filesConcatMap {
+    inherit lib; dir = dirAllias;
+    args = args // { inherit pkgs; };
+  };
 in
 {
   home.sessionVariables = {

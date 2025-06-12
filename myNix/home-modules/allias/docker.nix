@@ -1,6 +1,7 @@
-{...}:{
+{ ... }: {
 
-  cleanDocker = ''
-    docker system prune -a --volume
-  '';
+  cleanDocker = #bash 
+    ''
+      nix-shell -p docker --run "docker system prune"
+    '';
 }

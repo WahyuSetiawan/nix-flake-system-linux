@@ -1,5 +1,7 @@
-{ ... }: {
+{ inputs, ... }: {
   imports = [
+    inputs.sops-nix.homeManagerModules.sops
+
     ./activations.nix
     ./shell.nix
     ./terminal.nix
@@ -10,6 +12,8 @@
 
     ./users.nix
     ./home-manager.nix
+    ./ssh.nix
+    ./secrets.nix
   ];
 
   programs.home-manager.enable = true;

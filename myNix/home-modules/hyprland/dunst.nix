@@ -14,7 +14,6 @@ in
             follow = "mouse";
             font = "Droid Sans 10";
             format = "<b>%s</b>\\n%b";
-            frame_color = "#555555";
             frame_width = 2;
             geometry = "500x5-5+30";
             horizontal_padding = 8;
@@ -22,30 +21,35 @@ in
             line_height = 0;
             markup = "full";
             padding = 8;
-            separator_color = "frame";
             separator_height = 2;
             transparency = 10;
             word_wrap = true;
+
+            frame_color = "#8aadf4";
+            separator_color = "frame";
+            highlight = "#8aadf4";
+
           };
 
           urgency_low = {
-            background = "#1d1f21";
-            foreground = "#4da1af";
+            background = "#24273a";
+            foreground = "#cad3f5";
             frame_color = "#4da1af";
             timeout = 10;
           };
 
           urgency_normal = {
-            background = "#1d1f21";
-            foreground = "#70a040";
+            background = "#24273a";
+            foreground = "#cad3f5";
             frame_color = "#70a040";
             timeout = 15;
           };
 
           urgency_critical = {
-            background = "#1d1f21";
-            foreground = "#dd5633";
-            frame_color = "#dd5633";
+            background = "#24273a";
+            foreground = "#cad3f5";
+            frame_color = "#f5a97f";
+
             timeout = 0;
           };
 

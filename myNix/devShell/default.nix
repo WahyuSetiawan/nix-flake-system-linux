@@ -1,30 +1,21 @@
 args'@ { ... }: {
-  imports = [
-    ../services/default.nix
-  ];
-  perSystem = { pkgs, config, system, inputs', ... }: with pkgs;   {
-    devShells = {
-      flutter = import ./dev-flutter.nix {
-        inherit (args') inputs;
-        inherit pkgs system;
+  perSystem = all@{ pkgs, ... }:
+    let
+      inherit (args') inputs;
+
+      args = { inherit inputs; inherit (all) pkgs system config; };
+
+      # prepare all files about devShell
+      dir = "${inputs.self}/myNix/devShell";
+      allfile = inputs.self.util.filesIntoMap {
+        inherit dir; inherit (args') lib;
+        args = args // { inherit pkgs; };
+        renameKey = (name:
+          builtins.replaceStrings [ "dev-" ".nix" ] [ "" "" ] name);
       };
-      laravel-dev = import ./dev-laravel-server.nix {
-        inherit (args') inputs;
-        inherit pkgs system;
-      };
-      laravel = import ./dev-laravel.nix {
-        inherit (args') inputs;
-        inherit pkgs system;
-      };
-      rust = import ./dev-rust.nix {
-        inherit (args') inputs;
-        inherit pkgs system;
-      };
-      nodejs = import ./dev-nodejs.nix {
-        inherit (args') inputs;
-        inherit pkgs system;
-      };
+    in
+    {
+      devShells = allfile;
     };
-  };
 }
 
