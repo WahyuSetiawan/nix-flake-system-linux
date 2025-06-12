@@ -1,13 +1,22 @@
-{ lib, dir ? ./., args ? null, renameKey ? (name: name), ... }:
+{ lib
+, dir ? ./.
+, args ? null
+, renameKey ? (name: name)
+, transform ? null
+, ...
+}:
 let
+  defaultImport = path: args: (import path args);
   defaultRenameKey = name: name;
-  finalRenameKey= if renameKey != null then renameKey else defaultRenameKey;
+
+  finalTransform = if transform != null then transform else defaultImport;
+  finalRenameKey = if renameKey != null then renameKey else defaultRenameKey;
 
   listFilesNix = import ./files-to-list.nix { inherit lib dir; };
   mapFiles = lib.foldl'
     (acc: name:
       acc // {
-        ${finalRenameKey name} = (import (dir + "/${name}") args);
+        ${finalRenameKey name} = finalTransform (dir + "/${name}") args;
       }
     )
     { }
