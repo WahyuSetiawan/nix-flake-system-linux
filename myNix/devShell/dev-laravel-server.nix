@@ -7,136 +7,17 @@ mkShell {
     nginx
     mysql80
     nodejs_20
-    yarn
+    pnpm
     nmap
   ];
 
   packages = [
-
-    (writeShellScriptBin "prepare_file" #bash
-      ''
-        # Membuat direktori runtime
-        mkdir -p "$RUNTIME_DIR"
-        mkdir -p "$NGINX_DIR"/{conf,temp}
-        mkdir -p "$MYSQL_DIR"/{data,socket,logs}
-        mkdir -p "$PHP_DIR"
-        mkdir -p "$LOGS_DIR"
-
-        # Nginx configuration
-        cat > "$NGINX_DIR/conf/nginx.conf" << EOF
-        worker_processes 1;
-        error_log "$LOGS_DIR/nginx_error.log" error;
-        pid "$NGINX_DIR/nginx.pid";
-
-        events {
-            worker_connections 1024;
-        }
-
-        http {
-            include ${pkgs.nginx}/conf/mime.types;
-            default_type application/octet-stream;
-
-            access_log "$LOGS_DIR/nginx_access.log";
-
-            client_body_temp_path "$NGINX_DIR/temp/client_body";
-            proxy_temp_path "$NGINX_DIR/temp/proxy";
-            fastcgi_temp_path "$NGINX_DIR/temp/fastcgi";
-            uwsgi_temp_path "$NGINX_DIR/temp/uwsgi";
-            scgi_temp_path "$NGINX_DIR/temp/scgi";
-
-            server {
-                listen $NGINX_PORT;
-                server_name localhost $PROJECT_NAME.local;
-                root "$PROJECT_DIR/public";
-
-                index index.php index.html index.htm;
-
-                location / {
-                    try_files \$uri \$uri/ /index.php?\$query_string;
-                }
-
-                location ~ \.php$ {
-                    fastcgi_pass 127.0.0.1:9000;
-                    fastcgi_index index.php;
-                    fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-                    include ${pkgs.nginx}/conf/fastcgi_params;
-                }
-
-                location ~ /\.ht {
-                    deny all;
-                }
-            }
-        }
-        EOF
-
-        # PHP FPM configuration
-        cat > "$PHP_DIR/php-fpm.conf" << EOF
-        [global]
-        pid = /tmp/php-fpm.pid
-        error_log = /tmp/php-fpm.log
-        daemonize = no
-
-        [www]
-        listen = 127.0.0.1:9000
-        listen.owner = nobody
-        listen.group = nobody
-        pm = dynamic
-        pm.max_children = 5
-        pm.start_servers = 2
-        pm.min_spare_servers = 1
-        pm.max_spare_servers = 3
-        EOF
-
-        # MySQL configuration
-        cat > "$MYSQL_DIR/my.cnf" << EOF
-        [mysqld]
-        datadir = $MYSQL_DIR/data
-        socket = "$MYSQL_DIR/socket/mysql.sock"
-        port = $MYSQL_PORT
-        bind-address = 127.0.0.1
-        log-error = $MYSQL_DIR/logs/error.log
-        pid-file = $MYSQL_DIR/mysql.pid
-
-        [client]
-        socket = "$MYSQL_DIR/socket/mysql.sock"
-        port = $MYSQL_PORT
-        EOF
-      ''
-    )
-
     (writeShellScriptBin "start_services" #bash
       ''
-        echo -e "''${BLUE}🚀 Starting Laravel Development Environment...''${NC}"
-
-        touch "$LOGS_DIR/nginx_error.log"
-        touch "$LOGS_DIR/nginx_access.log"
-
-        # Initialize MySQL jika belum ada
-        if [ ! -d "$MYSQL_DIR/data/mysql" ]; then
-            echo -e "''${YELLOW}📦 Initializing MySQL database...''${NC}"
-            ${pkgs.mysql80}/bin/mysqld --defaults-file="$MYSQL_DIR/my.cnf" --initialize-insecure --user=$(whoami) --datadir="$MYSQL_DIR/data"
-        fi
-
-        # Start MySQL
-        echo -e "''${YELLOW}🗄️  Starting MySQL server...''${NC}"
-        ${pkgs.mysql80}/bin/mysqld --defaults-file="$MYSQL_DIR/my.cnf" --user=$(whoami) &
-        MYSQL_PID=$!
-        echo $MYSQL_PID > "$RUNTIME_DIR/mysql.pid"
-
-        # Wait for MySQL to start
-        sleep 3
-
-        # Start PHP-FPM
-        echo -e "''${YELLOW}🐘 Starting PHP-FPM...''${NC}"
-        ${pkgs.php82}/bin/php-fpm -F -y "$PHP_DIR/php-fpm.conf" &
-        PHP_FPM_PID=$!
-        echo $PHP_FPM_PID > "$RUNTIME_DIR/php-fpm.pid"
-
-        # Start Nginx
-        echo -e "''${YELLOW}🌐 Starting Nginx server...''${NC}"
-        ${pkgs.nginx}/bin/nginx -c "$NGINX_DIR/conf/nginx.conf" &
-        NGINX_PID=$!
-        echo $NGINX_PID > "$RUNTIME_DIR/nginx.pid"
+        alacritty -e nix run ~/.nix#laravel --impure > /dev/null 2>&1 & 
+        ALACRITTY_PID=$!
+        touch $TMP_DIR/server.pid;
+        echo $ALACRITTY_PID > $TMP_DIR/server.pid 
 
         # Install Laravel dependencies jika belum ada
         if [ ! -d "vendor" ]; then
@@ -160,11 +41,36 @@ mkShell {
 
         # Create database
         sleep 2
-        ${pkgs.mysql80}/bin/mysql --socket="$MYSQL_DIR/socket/mysql.sock" -u root -e "CREATE DATABASE IF NOT EXISTS laravel;"
 
-        # Run migrations
-        echo -e "''${YELLOW}🔄 Running database migrations...''${NC}"
-        ${pkgs.php82}/bin/php artisan migrate --force
+        MYSQL_HOST="localhost"
+        TIMEOUT=60  # dalam detik
+        INTERVAL=2  # interval pengecekan dalam detik
+        MYSQL_READY=false
+
+        echo "Menunggu MySQL pada $MYSQL_HOST:$MYSQL_PORT..."
+
+        # Hitung waktu akhir berdasarkan timeout
+        end_time=$((SECONDS + TIMEOUT))
+
+        while [ $SECONDS -lt $end_time ]; do
+            # Cek koneksi ke port MySQL
+            if nc -z "$MYSQL_HOST" "$MYSQL_PORT" >/dev/null 2>&1; then
+                echo "MySQL berjalan pada $MYSQL_HOST:$MYSQL_PORT"
+                MYSQL_READY=true
+                break;
+            fi
+            
+            # Tunggu sebelum cek lagi
+            sleep $INTERVAL
+        done
+
+        if [ $MYSQL_READY ]; then
+          ${pkgs.mysql80}/bin/mysql --socket="$TMP_DIR/mysql.sock" -u root -e "CREATE DATABASE IF NOT EXISTS laravel;"
+
+          # Run migrations
+          echo -e "''${YELLOW}🔄 Running database migrations...''${NC}"
+          ${pkgs.php82}/bin/php artisan migrate --force
+        fi
 
         echo -e "''${GREEN}✅ Laravel Development Environment Started!''${NC}"
         echo -e "''${GREEN}🌍 Application: http://localhost:$NGINX_PORT''${NC}"
@@ -172,30 +78,26 @@ mkShell {
         echo -e "''${GREEN}🗄️  MySQL: localhost:$MYSQL_PORT (user: root, no password)''${NC}"
         echo -e "''${YELLOW}📝 Logs directory: $LOGS_DIR''${NC}"
         echo -e "''${BLUE}💡 Run 'stop_services' to stop all services''${NC}"
+
       '')
+
+    (writeShellScriptBin "open_mysql" #bash
+      ''
+        ${pkgs.mysql80}/bin/mysql --socket="$TMP_DIR/mysql.sock" -u root 
+      '')
+
     (writeShellScriptBin "stop_services" #bash
       ''
         echo -e "''${YELLOW}🛑 Stopping services...''${NC}"
 
         # Stop Nginx
-        if [ -f "$RUNTIME_DIR/nginx.pid" ]; then
-            kill $(cat "$RUNTIME_DIR/nginx.pid") 2>/dev/null || true
-            rm -f "$RUNTIME_DIR/nginx.pid"
-        fi
-
-        # Stop PHP-FPM
-        if [ -f "$RUNTIME_DIR/php-fpm.pid" ]; then
-            kill $(cat "$RUNTIME_DIR/php-fpm.pid") 2>/dev/null || true
-            rm -f "$RUNTIME_DIR/php-fpm.pid"
-        fi
-
-        # Stop MySQL
-        if [ -f "$RUNTIME_DIR/mysql.pid" ]; then
-            kill $(cat "$RUNTIME_DIR/mysql.pid") 2>/dev/null || true
-            rm -f "$RUNTIME_DIR/mysql.pid"
+        if [ -f "$TMP_DIR/server.pid" ]; then
+            kill $(cat "$TMP_DIR/server.pid") 2>/dev/null || true
+            rm -f "$TMP_DIR/server.pid"
         fi
 
       '')
+
     (writeShellScriptBin "cleanup_on_exit" #bash 
       ''
         echo -e "\n''${YELLOW}🔄 Cleaning up on exit...''${NC}"
@@ -212,7 +114,7 @@ mkShell {
       ''
         echo -e "\n''${BLUE}🎉 Welcome to Laravel Development Environment!''${NC}"
         echo -e "''${BLUE}Available commands:''${NC}"
-        echo -e "  • ''${GREEN}prepare_file''${NC}    - Prepare File"
+        echo -e "  • ''${GREEN}open_mysql''${NC}    - Into Mysql"
         echo -e "  • ''${GREEN}start_services''${NC}  - Start all services"
         echo -e "  • ''${GREEN}stop_services''${NC}   - Stop all services"
         echo -e "  • ''${GREEN}php artisan''${NC}     - Laravel artisan commands"
@@ -237,20 +139,24 @@ mkShell {
       export MYSQL_PORT="3306"
       export LARAVEL_PORT="8000"
 
+      export ENABLE_MYSQL=true
+
       # Direktori untuk runtime files
       export RUNTIME_DIR="$PROJECT_DIR/.nix-runtime"
+      export TMP_DIR=$(mktemp -d -t "myapp-$(date +%s)-XXXXXX")
       export NGINX_DIR="$RUNTIME_DIR/nginx"
       export MYSQL_DIR="$RUNTIME_DIR/mysql"
       export LOGS_DIR="$RUNTIME_DIR/logs"
       export PHP_DIR="$RUNTIME_DIR/php"
+      export MYSQL_SOCKET_DIR="$TMP_DIR"
 
-      prepare_file
+      mkdir $TMP_DIR;
 
       # Register cleanup function
       trap cleanup_on_exit EXIT INT TERM
 
       # Auto-start services
-      start_services
+      # start_services
       helpme;
     '';
 }
