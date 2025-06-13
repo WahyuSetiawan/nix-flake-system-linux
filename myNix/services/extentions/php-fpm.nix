@@ -90,11 +90,12 @@ in
     outputs.settings = {
       processes.${name} =
         let
+          log = if pkgs.stdenv.isDarwin then "/dev/stderr" else "/proc/self/fd/2";
           cfgFile = pkgs.writeText "phpfpm-${name}.conf" ''
             [global]
             pid = /tmp/php-fpm-${name}.pid
             daemonize = no
-            error_log = /proc/self/fd/2
+            error_log = ${log}
 
             [${name}]
             ${lib.concatStringsSep "\n" (lib.mapAttrsToList (n: v: "${n} = ${toStr v}") config.extraConfig)}
