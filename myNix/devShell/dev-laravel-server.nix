@@ -104,12 +104,14 @@ mkShell {
       ''
     )
 
+    (writeShellScriptBin "start_services_php" #bash
+      ''
+        nix run ~/.nix#nginx --impure
+      '')
+
     (writeShellScriptBin "start_services" #bash
       ''
         echo -e "''${BLUE}🚀 Starting Laravel Development Environment...''${NC}"
-
-        touch "$LOGS_DIR/nginx_error.log"
-        touch "$LOGS_DIR/nginx_access.log"
 
         # Initialize MySQL jika belum ada
         if [ ! -d "$MYSQL_DIR/data/mysql" ]; then
@@ -236,6 +238,8 @@ mkShell {
       export NGINX_PORT="8086"
       export MYSQL_PORT="3306"
       export LARAVEL_PORT="8000"
+
+      export ENABLE_MYSQL=true
 
       # Direktori untuk runtime files
       export RUNTIME_DIR="$PROJECT_DIR/.nix-runtime"

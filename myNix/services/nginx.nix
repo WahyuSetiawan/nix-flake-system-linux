@@ -1,25 +1,19 @@
 { inputs, pkgs, config, ... }:
 let
   inherit (inputs.services-flake.lib) multiService;
-  phpFpmPort =
-    let
-      phpfpmPort = builtins.getEnv "PHPFPM_PORT";
-      port = if phpfpmPort == "" then "9000" else phpfpmPort;
-    in
-    port;
-  nginxPort =
-    let
-      nginxPort = builtins.getEnv "NGINX_PORT";
-      port = if nginxPort == "" then "8081" else nginxPort;
-    in
-    port;
 
-  projectDir =
+  getEnv = nameEnv: default:
     let
-      projectDir = builtins.getEnv "PROJECT_DIR";
-      dir = if projectDir == "" then "" else projectDir;
+      valueEnv = builtins.getEnv nameEnv;
+      value = if valueEnv == "" then default else valueEnv;
     in
-    dir;
+    value;
+
+  phpFpmPort = getEnv "PHPFPM_PORT" "9000";
+  nginxPort = getEnv "NGINX_PORT" "8081";
+  projectDir = getEnv "PROJECT_DIR" "";
+  enableMysql = getEnv "ENABLE_MYSQL" "";
+  mysqlPort = getEnv "MYSQL_PORT" "3306";
 in
 {
   imports = [
@@ -64,6 +58,7 @@ in
 
   services.php-fpm."phpFpm" = {
     enable = true;
+    package = pkgs.php82;
     listen = builtins.fromJSON phpFpmPort;
     extraConfig = {
       "listen.owner" = "nobody";
@@ -76,5 +71,8 @@ in
     };
   };
 
-  # settings.processes.nginx.depends_on.phpFpm.condition = "process_completed_successfully";
+  services.mysql."php_mysql" = {
+    enable = if enableMysql != "" then true else false;
+  };
+
 }
