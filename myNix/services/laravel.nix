@@ -1,4 +1,4 @@
-{ inputs, pkgs, config, ... }:
+{ inputs, pkgs, config, lib, ... }:
 let inherit (inputs.services-flake.lib) multiService;
 
   getEnv = nameEnv: default:
@@ -15,6 +15,8 @@ let inherit (inputs.services-flake.lib) multiService;
   mysqlPort = getEnv "MYSQL_PORT" "3306";
 
   databaseName = getEnv "DB_DATABASE" "laravel";
+  mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "";
+
 in
 {
   imports = [
@@ -72,12 +74,15 @@ in
     };
   };
 
-  services.mysql."php_mysql" = {
-    enable = if enableMysql != "" then true else false;
-    settings.mysqld.port = mysqlPort;
-    initialDatabases = [
-      { name = databaseName; }
-    ];
-  };
+  services.mysql."php_mysql" = lib.mkIf (enableMysql != "")
+    ({
+      enable = true;
+      settings.mysqld.port = mysqlPort;
+      initialDatabases = [
+        { name = databaseName; }
+      ];
+    } // lib.optionalAttrs (mysqlSocketDir != "") {
+      socketDir = mysqlSocketDir;
+    });
 
 }
