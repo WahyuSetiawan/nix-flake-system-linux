@@ -10,12 +10,13 @@ let inherit (inputs.services-flake.lib) multiService;
 
   databaseName = getEnv "DB_DATABASE" "laravel";
   mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "";
-
+  enableLaravelQueue = getEnv "LARAVEL_QUEUE" "";
 in
 {
   imports = [
     inputs.services-flake.processComposeModules.default
     (multiService ./extentions/php-fpm.nix)
+    (multiService ./extentions/php-artisan-background.nix)
   ];
 
   services.nginx."nginx" = builtins.trace "project dir ${projectDir}" {
@@ -78,5 +79,9 @@ in
     } // lib.optionalAttrs (mysqlSocketDir != "") {
       socketDir = mysqlSocketDir;
     });
+
+  services.php-artisan-background."job1" = lib.mkIf (enableLaravelQueue != "") {
+    enable = true;
+  };
 
 }
