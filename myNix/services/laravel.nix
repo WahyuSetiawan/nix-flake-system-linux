@@ -1,6 +1,5 @@
 { inputs, pkgs, config, ... }:
-let
-  inherit (inputs.services-flake.lib) multiService;
+let inherit (inputs.services-flake.lib) multiService;
 
   getEnv = nameEnv: default:
     let
@@ -14,6 +13,8 @@ let
   projectDir = getEnv "PROJECT_DIR" "";
   enableMysql = getEnv "ENABLE_MYSQL" "";
   mysqlPort = getEnv "MYSQL_PORT" "3306";
+
+  databaseName = getEnv "DB_DATABASE" "laravel";
 in
 {
   imports = [
@@ -73,6 +74,10 @@ in
 
   services.mysql."php_mysql" = {
     enable = if enableMysql != "" then true else false;
+    settings.mysqld.port = mysqlPort;
+    initialDatabases = [
+      { name = databaseName; }
+    ];
   };
 
 }
