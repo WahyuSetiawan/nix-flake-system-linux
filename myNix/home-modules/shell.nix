@@ -35,6 +35,12 @@ in
     # thefuck.enableFishIntegration = true;
     # thefuck.enableBashIntegration = false;
 
+    direnv = {
+      enable = true;
+      # enableFishIntegration = true;
+      nix-direnv.enable = true;
+    };
+
     fish = {
       enable = true;
       shellInit = ''
@@ -58,6 +64,7 @@ in
       '';
       };
     };
+
     starship = {
       enable = true;
       enableFishIntegration = true;
