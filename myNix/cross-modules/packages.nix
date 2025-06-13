@@ -1,4 +1,4 @@
-{ inputs, self, config, pkgs, lib, ... }:
+{ inputs, pkgs, ... }:
 {
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
@@ -12,6 +12,6 @@
   environment.systemPackages = with pkgs; [
     age
     lua-language-server
-     inputs.oxalica-nil.packages.${pkgs.system}.nil
+    inputs.oxalica-nil.packages.${pkgs.system}.nil
   ];
 }
