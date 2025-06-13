@@ -142,8 +142,9 @@ mkShell {
       export ENABLE_MYSQL=true
 
       # Direktori untuk runtime files
-      export RUNTIME_DIR="$PROJECT_DIR/.nix-runtime"
       export TMP_DIR=$(mktemp -d -t "myapp-$(date +%s)-XXXXXX")
+
+      export RUNTIME_DIR="$TMP_DIR"
       export NGINX_DIR="$RUNTIME_DIR/nginx"
       export MYSQL_DIR="$RUNTIME_DIR/mysql"
       export LOGS_DIR="$RUNTIME_DIR/logs"

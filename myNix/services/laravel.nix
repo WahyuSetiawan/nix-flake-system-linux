@@ -1,12 +1,6 @@
 { inputs, pkgs, config, lib, ... }:
 let inherit (inputs.services-flake.lib) multiService;
-
-  getEnv = nameEnv: default:
-    let
-      valueEnv = builtins.getEnv nameEnv;
-      value = if valueEnv == "" then default else valueEnv;
-    in
-    value;
+  inherit (inputs.self.util) getEnv;
 
   phpFpmPort = getEnv "PHPFPM_PORT" "9000";
   nginxPort = getEnv "NGINX_PORT" "8081";
