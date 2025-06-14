@@ -11,6 +11,8 @@ let inherit (inputs.services-flake.lib) multiService;
   databaseName = getEnv "DB_DATABASE" "laravel";
   mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "";
   enableLaravelQueue = getEnv "LARAVEL_QUEUE" "";
+
+  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString builtins.currentTime}";
 in
 {
   imports = [
@@ -19,44 +21,47 @@ in
     (multiService ./extentions/php-artisan-background.nix)
   ];
 
-  services.nginx."nginx" = builtins.trace "project dir ${projectDir}" {
+  services.nginx."nginx" = {
     enable = true;
+    dataDir = dataDir + "/nginx";
     defaultMimeTypes = ''
       ${pkgs.nginx}/conf/mime.types
     '';
     eventsConfig = ''
       worker_connections 1024;
     '';
-    httpConfig = ''
-      server {
-          listen ${nginxPort};
-          server_name localhost;
-          root "${projectDir}/public";
+    httpConfig = #nginx
+      ''
+        server {
+            listen ${nginxPort};
+            server_name localhost;
+            root "${projectDir}/public";
 
-          index index.php index.html index.htm;
+            index index.php index.html index.htm;
 
-          location / {
-              try_files $uri $uri/ /index.php$is_args$args;
-          }
+            location / {
+                try_files $uri $uri/ /index.php$is_args$args;
+            }
 
-          location ~ \.php$ {
-              fastcgi_pass 127.0.0.1:${phpFpmPort};
-              fastcgi_index index.php;
-              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-              include ${pkgs.nginx}/conf/fastcgi_params;
-          }
+            location ~ \.php$ {
+                fastcgi_pass 127.0.0.1:${phpFpmPort};
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include ${pkgs.nginx}/conf/fastcgi_params;
+            }
 
-          location ~ /\.ht {
-              deny all;
-          }
-      }
-    '';
+            location ~ /\.ht {
+                deny all;
+            }
+        }
+      '';
   };
 
 
   services.php-fpm."phpFpm" = {
     enable = true;
     package = pkgs.php82;
+    dataDir = dataDir + "/php";
     listen = builtins.fromJSON phpFpmPort;
     extraConfig = {
       "listen.owner" = "nobody";
@@ -72,6 +77,7 @@ in
   services.mysql."php_mysql" = lib.mkIf (enableMysql != "")
     ({
       enable = true;
+      dataDir = dataDir + "mysql";
       settings.mysqld.port = mysqlPort;
       initialDatabases = [
         { name = databaseName; }
@@ -80,7 +86,7 @@ in
       socketDir = mysqlSocketDir;
     });
 
-  services.php-artisan-background."job1" = lib.mkIf (enableLaravelQueue != "") {
+  services.php-artisan-background."php_laravel_queue" = lib.mkIf (enableLaravelQueue != "") {
     enable = true;
   };
 
