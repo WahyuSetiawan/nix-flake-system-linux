@@ -20,7 +20,7 @@ in
       fi
     '';
 
-  homebrew.enable = false;
+  homebrew.enable = true;
   homebrew.brews = [
   ];
   homebrew.onActivation.cleanup = "zap";
