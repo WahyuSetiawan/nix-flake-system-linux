@@ -14,6 +14,9 @@ let
 
   redisEnable = getEnv "REDIS_ENABLE" "";
   redisPost = getEnv "REDIS_PORT" "6379";
+
+  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString builtins.currentTime}";
+
 in
 {
   imports = [
@@ -22,6 +25,7 @@ in
 
   services.postgres."pg-${projectName}" = {
     enable = true;
+    dataDir = dataDir + "/postgres-${projectName}";
     port = builtins.fromJSON portgresPort;
     initialScript.before = ''
       CREATE USER ${postgresUser} WITH password '${postgresPass}';

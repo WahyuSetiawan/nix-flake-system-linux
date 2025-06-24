@@ -9,7 +9,6 @@ with pkgs ;mkShell {
   buildInputs = with pkgs; [
     nodejs_20
     pnpm
-    git
 
     prisma-engines
     prisma
