@@ -7,6 +7,7 @@ let inherit (inputs.services-flake.lib) multiService;
   projectDir = getEnv "PROJECT_DIR" "";
   enableMysql = getEnv "ENABLE_MYSQL" "";
   mysqlPort = getEnv "MYSQL_PORT" "3306";
+  memcachedPort = getEnv "MEMCACHED_PORT" "11211";
 
   databaseName = getEnv "DB_DATABASE" "laravel";
   mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "";
@@ -80,8 +81,14 @@ in
       socketDir = mysqlSocketDir;
     });
 
+  services.memcached."memcached" = {
+    enable = true;
+    port = builtins.fromJSON memcachedPort;
+  };
+
   services.php-artisan-background."job1" = lib.mkIf (enableLaravelQueue != "") {
     enable = true;
+    directoryWork = projectDir;
   };
 
 }

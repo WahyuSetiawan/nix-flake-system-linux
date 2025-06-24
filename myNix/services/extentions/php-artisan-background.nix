@@ -16,6 +16,10 @@ in
       type = lib.types.int;
       default = 3;
     };
+    directoryWork = lib.mkOption {
+      type = lib.types.string;
+      default = "$PWD";
+    };
     package = lib.mkOption {
       type = lib.types.package;
       default = pkgs.php82;
@@ -23,12 +27,30 @@ in
     };
   };
 
-
   config = {
     outputs = {
       settings.processes = {
         ${name} = {
-          command = "${config.package}/bin/php artisan queue:work --tries=${builtins.toString config.tries}";
+          command = #bash 
+            ''
+              echo "running on background at directory ${config.directoryWork}"
+              ${config.package}/bin/php "${config.directoryWork}/artisan" queue:listen --queue=upload_image,upload_files --tries=${builtins.toString config.tries} --env="${config.directoryWork}/.env"
+            '';
+
+          readiness_probe =
+            {
+              exec.command = ''
+                [ -e /tmp/laravel-worker-${name}.pid ]
+              ''
+              ;
+
+              initial_delay_seconds = 2;
+              period_seconds = 10;
+              timeout_seconds = 4;
+              success_threshold = 1;
+              failure_threshold = 5;
+            };
+
         };
       };
     };

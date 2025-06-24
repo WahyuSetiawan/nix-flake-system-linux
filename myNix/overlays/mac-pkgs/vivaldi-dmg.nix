@@ -11,8 +11,8 @@ let
 
   pname = "vivaldi-dmg";
 
-  version = "7.4.3684.43";
-  sha256 = "sha256-xggzqGKZFIZTAobSChVHYaXNifP3GaBSR8wqmGUSIPA=";
+  version = "7.4.3684.55";
+  sha256 = "sha256-g7ZfnV8vXSwYPYeSW/4bkackLVmTdH7a3TB5aOdMuTg=";
 
   srcs =
     let
