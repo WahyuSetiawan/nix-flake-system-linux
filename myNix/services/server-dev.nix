@@ -68,6 +68,6 @@ in
 
   services.redis."redis-dev" = {
     enable = redisEnable != "";
-    port = builtins.toJSON redisPost;
+    port = builtins.fromJSON redisPost;
   };
 }
