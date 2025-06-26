@@ -12,36 +12,8 @@ mkShell {
   ];
 
   packages = [
-    (writeShellScriptBin "start_services" #bash
+    (writeShellScriptBin "migrate_database" #bash
       ''
-        alacritty -e nix run ~/.nix#laravel --impure > /dev/null 2>&1 & 
-        ALACRITTY_PID=$!
-        touch $TMP_DIR/server.pid;
-        echo $ALACRITTY_PID > $TMP_DIR/server.pid 
-
-        # Install Laravel dependencies jika belum ada
-        if [ ! -d "vendor" ]; then
-            echo -e "''${YELLOW}📦 Installing Laravel dependencies...''${NC}"
-            ${pkgs.php82Packages.composer}/bin/composer install
-        fi
-
-        # Setup Laravel environment
-        if [ ! -f ".env" ]; then
-            echo -e "''${YELLOW}⚙️  Setting up Laravel environment...''${NC}"
-            cp .env.example .env
-            ${pkgs.php82}/bin/php artisan key:generate
-        fi
-
-        # Update .env for development
-        sed -i "s/DB_HOST=.*/DB_HOST=127.0.0.1/" .env
-        sed -i "s/DB_PORT=.*/DB_PORT=$MYSQL_PORT/" .env
-        sed -i "s/DB_DATABASE=.*/DB_DATABASE=laravel/" .env
-        sed -i "s/DB_USERNAME=.*/DB_USERNAME=root/" .env
-        sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=/" .env
-
-        # Create database
-        sleep 2
-
         MYSQL_HOST="localhost"
         TIMEOUT=60  # dalam detik
         INTERVAL=2  # interval pengecekan dalam detik
@@ -71,6 +43,36 @@ mkShell {
           echo -e "''${YELLOW}🔄 Running database migrations...''${NC}"
           ${pkgs.php82}/bin/php artisan migrate --force
         fi
+
+      '')
+    (writeShellScriptBin "start_services" #bash
+      ''
+        alacritty -e nix run ~/.nix#laravel --impure > /dev/null 2>&1 & 
+        ALACRITTY_PID=$!
+        touch $TMP_DIR/server.pid;
+        echo $ALACRITTY_PID > $TMP_DIR/server.pid 
+
+        # Install Laravel dependencies jika belum ada
+        if [ ! -d "vendor" ]; then
+            echo -e "''${YELLOW}📦 Installing Laravel dependencies...''${NC}"
+            ${pkgs.php82Packages.composer}/bin/composer install
+        fi
+
+        # Setup Laravel environment
+        if [ ! -f ".env" ]; then
+            echo -e "''${YELLOW}⚙️  Setting up Laravel environment...''${NC}"
+            cp .env.example .env
+            ${pkgs.php82}/bin/php artisan key:generate
+        fi
+
+        # Update .env for development
+        sed -i "s/DB_HOST=.*/DB_HOST=127.0.0.1/" .env
+        sed -i "s/DB_PORT=.*/DB_PORT=$MYSQL_PORT/" .env
+        sed -i "s/DB_DATABASE=.*/DB_DATABASE=laravel/" .env
+        sed -i "s/DB_USERNAME=.*/DB_USERNAME=root/" .env
+        sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=/" .env
+        
+        migrate_database
 
         echo -e "''${GREEN}✅ Laravel Development Environment Started!''${NC}"
         echo -e "''${GREEN}🌍 Application: http://localhost:$NGINX_PORT''${NC}"
@@ -114,7 +116,8 @@ mkShell {
       ''
         echo -e "\n''${BLUE}🎉 Welcome to Laravel Development Environment!''${NC}"
         echo -e "''${BLUE}Available commands:''${NC}"
-        echo -e "  • ''${GREEN}open_mysql''${NC}    - Into Mysql"
+        echo -e "  • ''${GREEN}open_mysql''${NC}      - Into Mysql"
+        echo -e "  • ''${GREEN}migrate_database''${NC}- Migrations database applications"
         echo -e "  • ''${GREEN}start_services''${NC}  - Start all services"
         echo -e "  • ''${GREEN}stop_services''${NC}   - Stop all services"
         echo -e "  • ''${GREEN}php artisan''${NC}     - Laravel artisan commands"
