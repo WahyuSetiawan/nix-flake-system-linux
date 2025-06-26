@@ -27,10 +27,18 @@ in
   users.users."juragankoding" = {
     isNormalUser = true;
     description = "Juragan Koding";
-    extraGroups = [ "networkmanager" "wheel" "kvm" "adbusers" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "kvm"
+      "adbusers"
+      "docker"
+    ];
 
     shell = pkgs.fish;
   };
+
+  users.extraGroups.docker.members = [ "username-with-access-to-socket" ];
 
   system.stateVersion = builtins.trace "try this : ${builtins.toString allModules}" "24.11";
 

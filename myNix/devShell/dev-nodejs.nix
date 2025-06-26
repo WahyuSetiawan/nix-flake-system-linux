@@ -11,8 +11,9 @@ with pkgs ;mkShell {
     prisma
     sqlite
 
-     nodePackages.node-gyp
-    node-gyp
+
+    # build sqlite
+    nodePackages.node-gyp
     python3
     python3Packages.setuptools
     python3Packages.distutils-extra

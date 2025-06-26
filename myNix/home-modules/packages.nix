@@ -33,5 +33,14 @@ in
         nix store optimise
         nix-store --verify --repair --check-contents
       '')
+
+    (writeShellScriptBin "start_n8n" #bash
+      ''
+        if  ! docker volume ls | grep n8n_data; then 
+          docker volume create n8n_data
+        fi
+
+        docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+      '')
   ];
 }
