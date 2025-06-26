@@ -22,6 +22,7 @@ in
 
   homebrew.enable = true;
   homebrew.brews = [
+    "docker"
   ];
   homebrew.onActivation.cleanup = "zap";
   homebrew.global.brewfile = true;
