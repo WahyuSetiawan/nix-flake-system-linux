@@ -20,14 +20,14 @@ in
   nixbuild =
     if pkgs.stdenv.isDarwin
     then "sudo darwin-rebuild build --flake ${nixConfigDirectory}#${username}" else
-      "nixos-rebuild build --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
+      "nixos-rebuild build --flake ${nixConfigDirectory}#${username} --sudo";
   nixdryrun =
     if pkgs.stdenv.isDarwin
     then "sudo darwin-rebuild dry-run --flake ${nixConfigDirectory}#${username}" else
-      "nixos-rebuild dry-run --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
+      "nixos-rebuild dry-run --flake ${nixConfigDirectory}#${username} --sudo";
   nixswitch =
     if pkgs.stdenv.isDarwin
     then "sudo darwin-rebuild switch --flake ${nixConfigDirectory}#${username}" else
-      "nixos-rebuild switch --flake ${nixConfigDirectory}#${username} --use-remote-sudo";
+      "nixos-rebuild switch --flake ${nixConfigDirectory}#${username} --sudo";
 
 }
