@@ -8,6 +8,7 @@
     ./activations.nix
     ./services
     ./programs
+    ./packages-flutter-dev.nix
   ];
 
   nix = {

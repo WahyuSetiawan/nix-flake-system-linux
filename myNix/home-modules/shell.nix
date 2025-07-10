@@ -54,7 +54,7 @@ in
       zplug = {
         enable = true;
         plugins = [
-          { name = "zsh-users/zsh-autosuggesrions"; }
+          { name = "zsh-users/zsh-autosuggestions"; }
         ];
       };
       oh-my-zsh = {
