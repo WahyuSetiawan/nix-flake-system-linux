@@ -45,5 +45,7 @@
     firebase-tools
 
     # rnix-lsp
+
+    getworkfolio
   ];
 }
