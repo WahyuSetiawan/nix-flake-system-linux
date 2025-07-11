@@ -47,6 +47,8 @@ stdenv.mkDerivation rec {
 
     electron
     libappindicator-gtk3
+
+    kdePackages.kde-gtk-config
   ];
 
   unpackPhase = ''

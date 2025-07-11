@@ -18,10 +18,10 @@ in
     fullName = "Juragan Koding";
     email = "wahyu.creator911@gmail.com";
     pathHome = "home";
-    nixConfigDirectory = "/home/${ username}/.nix";
+    nixConfigDirectory = "/home/${username}/.nix";
     within = {
       hyprland.enable = true;
-      cinnamon.enable = true;
+      # cinnamon.enable = true;
     };
   };
 

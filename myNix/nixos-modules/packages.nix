@@ -42,7 +42,7 @@
     ranger
     nixd
 
-    workfolio
+    kdePackages.kde-gtk-config
   ];
 
   environment.variables = rec{
