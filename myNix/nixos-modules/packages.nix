@@ -41,6 +41,8 @@
     nemo
     ranger
     nixd
+
+    workfolio
   ];
 
   environment.variables = rec{

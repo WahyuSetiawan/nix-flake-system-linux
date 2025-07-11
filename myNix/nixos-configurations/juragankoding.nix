@@ -20,7 +20,8 @@ in
     pathHome = "home";
     nixConfigDirectory = "/home/${ username}/.nix";
     within = {
-      hyprland. enable = true;
+      hyprland.enable = true;
+      cinnamon.enable = true;
     };
   };
 
