@@ -12,6 +12,7 @@
 
     typescript-language-server
     vue-language-server
+    tailwindcss-language-server
   ];
 
   # Variabel environment (opsional)

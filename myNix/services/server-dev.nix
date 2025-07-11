@@ -2,7 +2,7 @@
 let
   inherit (inputs.self.util) getEnv;
 
-  projectName = getEnv "PROJECT_NAME" "";
+  projectName = getEnv "PROJECT_NAME" "default";
 
   postgresDbName = getEnv "POSTGRES_DB_NAME" "sample";
   portgresPort = getEnv "POSTGRES_PORT" "5432";
@@ -11,6 +11,11 @@ let
 
   postgresUser = getEnv "POSTGRES_USER" "dev_user";
   postgresPass = getEnv "POSTGRES_PASS" "my_password";
+
+  databaseName = getEnv "MYSQL_DATABASE" "my_project";
+  mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "";
+  enableMysql = getEnv "ENABLE_MYSQL" "";
+  mysqlPort = getEnv "MYSQL_PORT" "3306";
 
   redisEnable = getEnv "REDIS_ENABLE" "";
   redisPost = getEnv "REDIS_PORT" "6379";
@@ -58,6 +63,20 @@ in
       depends_on."pg-${projectName}".condition = "process_healthy";
     };
 
+
+  services.mysql."mysql_${projectName}" = lib.mkIf (enableMysql != "")
+    ({
+      enable = true;
+      dataDir = dataDir + "mysql";
+      settings.mysqld.port = mysqlPort;
+      initialDatabases = [
+        { name = databaseName; }
+      ];
+    } // lib.optionalAttrs (mysqlSocketDir != "") {
+      socketDir = mysqlSocketDir;
+    });
+
+
   settings.processes.test = {
     command = pkgs.writeShellApplication {
       name = "pg-${projectName}-test";
@@ -72,6 +91,6 @@ in
 
   services.redis."redis-dev" = {
     enable = redisEnable != "";
-    port = builtins.toJSON redisPost;
+    port = builtins.fromJSON redisPost;
   };
 }

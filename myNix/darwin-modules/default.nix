@@ -7,6 +7,7 @@
     ./shells.nix
     ./system.nix
     ./tui.nix
+    ./virtualize.nix
   ];
 }
 
