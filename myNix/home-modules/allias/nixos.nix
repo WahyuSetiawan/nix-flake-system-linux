@@ -17,6 +17,7 @@ in
   ];
   nixda = "direnv allow";
   nixdr = "direnv reload";
+  nixhomeswitch = "home-manager switch --flake ${nixConfigDirectory}";
   nixbuild =
     if pkgs.stdenv.isDarwin
     then "sudo darwin-rebuild build --flake ${nixConfigDirectory}#${username}" else
