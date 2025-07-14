@@ -44,8 +44,6 @@
     jdk17
     firebase-tools
 
-    # rnix-lsp
-
-    getworkfolio
+    nodejs
   ];
 }

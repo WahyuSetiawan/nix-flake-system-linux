@@ -27,6 +27,7 @@ with pkgs; mkShell {
 
     mysql-client
     postgresql
+
   ];
 
 
@@ -53,7 +54,7 @@ with pkgs; mkShell {
 
     (writeShellScriptBin "help_me" #bash
       ''
-        echo "🚀 Node.js development shell ready!"
+        echo "🚀 Golang development shell ready!"
 
         echo "Go development environment ready!"
         echo "Go version: $(go version)"
@@ -63,14 +64,17 @@ with pkgs; mkShell {
 
   # Environment variables untuk Golang
   shellHook = ''
-    direnv allow .
+        direnv allow .
 
-    export GOPATH="$HOME/go"
-    export PATH=$PATH:$(go env GOPATH)/bin
-    export PATH="$GOPATH/bin:$PATH"
+        export TMP_DIR=$(mktemp -d -t "myapp-$(date +%s)-XXXXXX")
+    w
 
-    go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+        export GOPATH="$HOME/go"
+        export PATH=$PATH:$(go env GOPATH)/bin
+        export PATH="$GOPATH/bin:$PATH"
+
+        go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
     
-    help_me
+        help_me
   '';
 }
