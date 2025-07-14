@@ -6,9 +6,14 @@ in
 {
   sops.defaultSopsFile = "${inputs.self}/secrets/secrets.yaml";
   sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "${home}/.config/sops/age/keys.txt";
+  sops.age.keyFile =
+    if pkgs.stdenv.isDarwin then
+      "${home}/Library/Application Support/sops/age/keys.txt"
+    else
+      "${home}/.config/sops/age/keys.txt";
 
   sops.secrets.ssh_gitlab = { };
   sops.secrets.ssh_github = { };
   sops.secrets.ssh_gitlab_siber = { };
+  sops.secrets.ssh_github_sentra = { };
 }

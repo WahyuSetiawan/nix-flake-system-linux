@@ -89,8 +89,8 @@ in
   };
 
 
-  services.redis."redis-dev" = {
-    enable = redisEnable != "";
+  services.redis."redis-${projectName}-dev" = {
+    enable = true;
     port = builtins.fromJSON redisPost;
   };
 }
