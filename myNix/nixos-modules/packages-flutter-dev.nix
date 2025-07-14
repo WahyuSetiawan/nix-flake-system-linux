@@ -30,4 +30,8 @@
     fontconfig
     ncurses5
   ];
+
+   environment.sessionVariables = {
+    JAVA_HOME = "${pkgs.jdk17}";
+  };
 }

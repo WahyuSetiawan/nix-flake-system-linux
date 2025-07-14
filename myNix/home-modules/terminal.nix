@@ -13,7 +13,8 @@ in
 
   programs = {
     alacritty = {
-      enable = true;
+      enable = false;
+      package = config.lib.nixGL.wrap pkgs.alacritty;
       settings = {
         general.import = [
           "~/.config/alacritty/catppuccin-${theme}.toml"

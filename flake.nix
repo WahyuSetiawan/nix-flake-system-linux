@@ -19,6 +19,8 @@
 
     cachix.url = "github:cachix/cachix";
 
+    nixgl.url = "github:nix-community/nixGL?ref=main";
+    
     ### security
     sops-nix.url = "github:Mic92/sops-nix";
     # sops-nix.inputs.nixpkgs.follows = "nixpkgs";

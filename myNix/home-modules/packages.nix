@@ -1,10 +1,62 @@
-{ pkgs, config, ... }:
+{ inputs, pkgs, config, lib,args,... }:
 let
   nixConfigDirectory = config.home.user-info.nixConfigDirectory;
 in
 {
+  imports = [
+    ./packages-flutter.nix
+  ];
+
+    nixGL.packages = import inputs.nixgl { inherit pkgs; };
+  nixGL.defaultWrapper = "nvidiaPrime";
+  nixGL.offloadWrapper = "nvidiaPrime";
+  nixGL.installScripts = [ "mesa" "nvidiaPrime" ];
 
   home.packages = with pkgs; [
+
+    # termianl tool
+    wget
+    curl
+    eza
+    fzf
+    lazygit
+    neovim
+
+    # development
+    killall
+    fvm
+    xclip
+    wl-clipboard
+    
+    # ui aplication
+    postman
+
+    # terminal
+    ncdu
+    git
+    htop
+    arandr
+    ripgrep
+    unzip
+    lsd
+    bat
+
+    # tui
+    nemo
+    ranger
+    nixd
+
+    lua-language-server
+    inputs.oxalica-nil.packages.${pkgs.system}.nil
+
+    nodejs
+        nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.iosevka
+    fantasque-sans-mono
+    nerd-fonts.symbols-only
+
     (writeShellScriptBin "nxdev" #bash 
       ''
         if [ -z "$1" ]; then
