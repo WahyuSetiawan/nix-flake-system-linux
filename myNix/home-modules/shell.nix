@@ -23,6 +23,14 @@ in
       };
   };
 
+  home.sessionVariables = {
+    SHELL = "${pkgs.fish}/bin/fish";
+  };
+
+  home.packages = with pkgs; [
+    fish
+  ];
+
   programs = {
     zoxide.enable = true;
     zoxide.enableFishIntegration = true;

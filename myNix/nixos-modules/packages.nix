@@ -9,39 +9,10 @@
     vimPlugins.fzfWrapper
 
     # tools utils
-    wget
-    curl
-    eza
-    fzf
-    lazygit
-
     libva
     libva-utils
 
     # development
-    neovim
-    xclip # Untuk X11
-    wl-clipboard # Untuk Wayland
-
-    # terminal
-    ncdu
-    git
-    htop
-    arandr
-    ripgrep
-    unzip
-    lsd
-    bat
-
-    killall
-
-    postman
-    fvm
-
-    nemo
-    ranger
-    nixd
-
     kdePackages.kde-gtk-config
   ];
 

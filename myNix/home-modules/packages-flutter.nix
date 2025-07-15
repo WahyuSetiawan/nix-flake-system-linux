@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     #editor
     android-studio
 
@@ -31,7 +31,7 @@
     ncurses5
   ];
 
-   environment.sessionVariables = {
+   home.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}";
   };
 }
