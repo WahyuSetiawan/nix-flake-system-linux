@@ -26,6 +26,10 @@ in
         default = null;
       };
       within = {
+        cinnamon.enable = mkOption {
+          type = with types; bool;
+          default = false;
+        };
         hyprland.enable = mkOption {
           type = with types; bool;
           default = false;

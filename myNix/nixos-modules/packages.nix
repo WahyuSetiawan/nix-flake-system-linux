@@ -41,6 +41,8 @@
     nemo
     ranger
     nixd
+
+    kdePackages.kde-gtk-config
   ];
 
   environment.variables = rec{

@@ -34,6 +34,17 @@ in
         nix-store --verify --repair --check-contents
       '')
 
+    (writeShellScriptBin "emu"  #bash 
+      ''
+        if [ -z "$1" ]; then
+          echo "Usage: run-emulator <device_id>"
+          exit 1
+        fi
+
+        nohup emulator -avd "$1" -gpu swiftshader_indirect > /dev/null 2>&1 &
+      '')
+
+
     (writeShellScriptBin "start_n8n" #bash
       ''
         if  ! docker volume ls | grep n8n_data; then 
