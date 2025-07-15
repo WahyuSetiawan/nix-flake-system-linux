@@ -29,7 +29,7 @@ in
     wl-clipboard
     
     # ui aplication
-    postman
+    # postman
 
     # terminal
     ncdu
