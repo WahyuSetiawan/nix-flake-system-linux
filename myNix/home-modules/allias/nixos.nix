@@ -17,7 +17,7 @@ in
   ];
   nixda = "direnv allow";
   nixdr = "direnv reload";
-  nixopensecrets = "nix-shell -p sops --run \"${nixConfigDirectory}/secrets/secrets.yaml\"";
+  nixopensecrets = "nix-shell -p sops --run \"sops ${nixConfigDirectory}/secrets/secrets.yaml\"";
   nixhomeswitch = "home-manager switch --flake ${nixConfigDirectory}";
   nixbuild =
     if pkgs.stdenv.isDarwin

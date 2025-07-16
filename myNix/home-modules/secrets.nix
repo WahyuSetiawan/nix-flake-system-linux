@@ -16,4 +16,5 @@ in
   sops.secrets.ssh_github = { };
   sops.secrets.ssh_gitlab_siber = { };
   sops.secrets.ssh_github_sentra = { };
+  sops.secrets.ssh_vps_akademik_user = { };
 }

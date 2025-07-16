@@ -1,4 +1,4 @@
-{ inputs, pkgs, config, lib,args,... }:
+{ inputs, pkgs, config, lib, args, ... }:
 let
   nixConfigDirectory = config.home.user-info.nixConfigDirectory;
 in
@@ -7,13 +7,15 @@ in
     ./packages-flutter.nix
   ];
 
-    nixGL.packages = import inputs.nixgl { inherit pkgs; };
-  nixGL.defaultWrapper = "nvidiaPrime";
-  nixGL.offloadWrapper = "nvidiaPrime";
-  nixGL.installScripts = [ "mesa" "nvidiaPrime" ];
+  # nixGL configuration - only for Linux
+  nixGL = lib.mkIf pkgs.stdenv.isLinux {
+    packages = import inputs.nixgl { inherit pkgs; };
+    defaultWrapper = "nvidiaPrime";
+    offloadWrapper = "nvidiaPrime";
+    installScripts = [ "mesa" "nvidiaPrime" ];
+  };
 
   home.packages = with pkgs; [
-
     # termianl tool
     wget
     curl
@@ -24,33 +26,35 @@ in
 
     # development
     killall
-    fvm
     xclip
-    wl-clipboard
-    
+
+
     # ui aplication
-    # postman
+    postman
 
     # terminal
     ncdu
     git
     htop
-    arandr
+    gitflow
     ripgrep
     unzip
     lsd
     bat
 
     # tui
-    nemo
     ranger
     nixd
+
+    go
+    nodejs
+    pnpm
 
     lua-language-server
     inputs.oxalica-nil.packages.${pkgs.system}.nil
 
     nodejs
-        nerd-fonts.jetbrains-mono
+    nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.hack
     nerd-fonts.iosevka
@@ -96,7 +100,6 @@ in
         nohup emulator -avd "$1" -gpu swiftshader_indirect > /dev/null 2>&1 &
       '')
 
-
     (writeShellScriptBin "start_n8n" #bash
       ''
         if  ! docker volume ls | grep n8n_data; then 
@@ -110,5 +113,10 @@ in
       ''
         nix-shell -p redis --run "redis-cli"
       '')
-  ];
+  ] ++ (if pkgs.stdenv.isLinux then [
+    # Linux-specific applications
+    nemo
+    arandr
+    wl-clipboard
+  ] else [ ]);
 }
