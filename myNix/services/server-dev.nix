@@ -20,6 +20,8 @@ let
   redisEnable = getEnv "REDIS_ENABLE" "";
   redisPost = getEnv "REDIS_PORT" "6379";
 
+  minioEnable = getEnv "MINIO_ENABLE" "";
+
   dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString builtins.currentTime}";
 
 in
@@ -92,5 +94,9 @@ in
   services.redis."redis-${projectName}-dev" = {
     enable = true;
     port = builtins.fromJSON redisPost;
+  };
+
+  services.minio."minio-${projectName}-dev" = lib.mkIf (minioEnable != "" ){
+    enable = true;
   };
 }
