@@ -17,21 +17,12 @@
     iconv
     cargo
     rustc
-    lsd
-    bat
     neovim
     bat
-    gitflow
     tldr
-    eza
-    htop
     tree
     stow
-    curl
-    wget
-    fzf
     gnumake
-    ripgrep
     gcc
     fvm
 
@@ -41,9 +32,6 @@
     home-manager
 
     nixd
-    jdk17
     firebase-tools
-
-    nodejs
   ];
 }

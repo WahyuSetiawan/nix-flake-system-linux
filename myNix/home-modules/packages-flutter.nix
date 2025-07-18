@@ -1,35 +1,38 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
-    #editor
-    android-studio
-
     scrcpy
     fvm
 
     jdk17
 
-    #linux tool chain
+    # #linux tool chain
     cmake
     ninja
     clang
     pkg-config
-    gtk3
 
     firebase-tools
 
-    google-chrome
+    # libxkbcommon
+    # libglvnd
+    # fontconfig
+    # ncurses5
+  ] ++ (if pkgs.stdenv.isLinux then [
+    
+    # Linux-specific application
+    android-studio
+    gtk3
 
+    # google-chrome
+    
     xorg.libX11
     xorg.libXext
     xorg.libXrender
     xorg.libXtst
     xorg.libXi
-
-    libxkbcommon
-    libglvnd
-    fontconfig
-    ncurses5
-  ];
+     ]
+    else 
+      [  ]);
 
    home.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}";
