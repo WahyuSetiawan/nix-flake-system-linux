@@ -9,18 +9,18 @@ let
   inherit (stdenv.hostPlatform) system;
   throwSystem = throw "Unsupported system: ${system}";
 
-  pname = "vivaldi-dmg";
+  pname = "workfolio";
 
   version = "7.4.3684.55";
-  sha256 = "sha256-g7ZfnV8vXSwYPYeSW/4bkackLVmTdH7a3TB5aOdMuTg=";
+  sha256 = "sha256-tVmsC5zAjpryiaX4WeA8ccjVU0pUocZ3LSv9kqEJZTE=";
 
   srcs =
     let
-      base = "https://downloads.vivaldi.com/stable";
+      base = "https://workfolio-public.s3.ap-south-1.amazonaws.com/Workfolio+Setup.dmg";
     in
     rec {
       aarch64-darwin = {
-        url = "${base}/Vivaldi.${version}.universal.dmg";
+        url = "${base}";
         sha256 = sha256;
       };
       x86_64-darwin = aarch64-darwin;
@@ -29,8 +29,8 @@ let
   src = fetchurl (srcs.${system} or throwSystem);
 
   meta = with lib; {
-    description = "Browse the internet citizen";
-    homepage = "https://vivaldi.com/id/";
+    description = "Getworkfolio";
+    homepage = "https://www.getworkfolio.com";
     license = licenses.mit;
     platforms = [
       "x86_64-darwin"
@@ -48,12 +48,12 @@ let
 
     nativeBuildInputs = [ undmg ];
 
-    sourceRoot = "Vivaldi.app";
+    sourceRoot = "Workfolio.app";
 
     installPhase = ''
       runHook preInstall
-      mkdir -p $out/Applications/Vivaldi.app
-      cp -R . $out/Applications/Vivaldi.app
+      mkdir -p $out/Applications/Workfolio.app
+      cp -R . $out/Applications/Workfolio.app
       runHook postInstall
     '';
   };

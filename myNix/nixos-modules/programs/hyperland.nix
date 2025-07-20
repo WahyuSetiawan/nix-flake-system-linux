@@ -17,10 +17,7 @@ in
       portalPackage = inputs.hyprland.packages.${hostname}.xdg-desktop-portal-hyprland;
     };
 
-    programs.waybar = {
-      enable = true;
-    };
-
+    programs.waybar.enable = true;
     programs.xwayland.enable = true;
     # programs.sway.enable = true;
 
@@ -31,6 +28,34 @@ in
     };
 
     environment.systemPackages = with pkgs; [
+      # GTK theme engines and tools
+      gtk3
+      gtk4
+      glib
+      gsettings-desktop-schemas
+
+      # Popular GTK themes
+      adwaita-icon-theme
+      gnome-themes-extra
+      arc-theme
+      numix-icon-theme
+      papirus-icon-theme
+
+      # Theme management tools
+      lxappearance
+      nwg-look # GTK theme manager for Wayland
+
+      # Font packages
+      noto-fonts
+      # noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+
+      # Optional: Additional popular themes
+      materia-theme
+      nordic
+      orchis-theme
+
       hyprland
       eww
 
@@ -75,7 +100,12 @@ in
     ];
 
 
-    xdg.portal.enable = true;
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        # xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
+      ];
+    };
   };
 }

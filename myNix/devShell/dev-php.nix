@@ -47,7 +47,7 @@ mkShell {
       '')
     (writeShellScriptBin "start_services" #bash
       ''
-        alacritty -e nix run ~/.nix#laravel --impure > /dev/null 2>&1 & 
+        alacritty -e nix run ~/.nix#php --impure > /dev/null 2>&1 & 
         ALACRITTY_PID=$!
         touch $TMP_DIR/server.pid;
         echo $ALACRITTY_PID > $TMP_DIR/server.pid 
@@ -56,13 +56,6 @@ mkShell {
         if [ ! -d "vendor" ]; then
             echo -e "''${YELLOW}📦 Installing Laravel dependencies...''${NC}"
             ${pkgs.php82Packages.composer}/bin/composer install
-        fi
-
-        # Setup Laravel environment
-        if [ ! -f ".env" ]; then
-            echo -e "''${YELLOW}⚙️  Setting up Laravel environment...''${NC}"
-            cp .env.example .env
-            ${pkgs.php82}/bin/php artisan key:generate
         fi
 
         # Update .env for development
@@ -138,7 +131,7 @@ mkShell {
       # Variabel konfigurasi
       export PROJECT_NAME="laravel-dev"
       export PROJECT_DIR="$(pwd)"
-      export NGINX_PORT="8086"
+      export NGINX_PORT="8090"
       export MYSQL_PORT="3306"
       export LARAVEL_PORT="8000"
 

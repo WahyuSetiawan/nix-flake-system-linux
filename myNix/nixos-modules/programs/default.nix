@@ -1,5 +1,6 @@
 { inputs, ... }: {
   imports = [
+    ./cinnamon.nix
     ./xserver.nix
     ./pipewire.nix
     ./hyperland.nix

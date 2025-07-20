@@ -1,16 +1,9 @@
 all@{ ezModules, config, inputs, pkgs, lib, nixpkgs, ... }:
 let
-  selfOverlays = lib.attrValues inputs.self.overlays;
-  overlays = [ ] ++ selfOverlays;
-  allModules = builtins.attrNames all.options.system;
-  debug = builtins.trace "isi dari system ${lib.concatStringsSep ", " allModules}" allModules;
-  debugMsg = builtins.trace "Debug: config.time.timeZone = ${config.time.timeZone}" config.time.timeZone;
+  allModules = builtins.attrNames all.config._module.args;
+  # debug = builtins.trace "isi dari system ${lib.concatStringsSep ", " allModules}" allModules;
 in
 {
-  # system.activationScripts.debug = ''
-  #   echo "List: ${toString debug}"
-  # '';
-
   imports =
     lib.lists.concatLists [
       (builtins.attrValues inputs.self.crossModules)
@@ -25,21 +18,30 @@ in
     fullName = "Juragan Koding";
     email = "wahyu.creator911@gmail.com";
     pathHome = "home";
-    nixConfigDirectory = "/home/${ username}/.nix";
+    nixConfigDirectory = "/home/${username}/.nix";
     within = {
-      hyprland. enable = true;
+      # hyprland.enable = true;
+      # cinnamon.enable = true;
     };
   };
 
   users.users."juragankoding" = {
     isNormalUser = true;
     description = "Juragan Koding";
-    extraGroups = [ "networkmanager" "wheel" "kvm" "adbusers" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "kvm"
+      "adbusers"
+      "docker"
+    ];
 
     shell = pkgs.fish;
   };
 
-  system.stateVersion = "24.11";
+  users.extraGroups.docker.members = [ "username-with-access-to-socket" ];
+
+  system.stateVersion = builtins.trace "try this : ${builtins.toString allModules}" "24.11";
 
   nix.settings.trusted-users = [ "root" "juragankoding" ];
   nixpkgs.hostPlatform = "x86_64-linux";

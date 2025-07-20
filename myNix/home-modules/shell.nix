@@ -23,6 +23,14 @@ in
       };
   };
 
+  home.sessionVariables = {
+    SHELL = "${pkgs.fish}/bin/fish";
+  };
+
+  home.packages = with pkgs; [
+    fish
+  ];
+
   programs = {
     zoxide.enable = true;
     zoxide.enableFishIntegration = true;
@@ -34,6 +42,12 @@ in
     # thefuck.enableInstantMode = true;
     # thefuck.enableFishIntegration = true;
     # thefuck.enableBashIntegration = false;
+
+    direnv = {
+      enable = true;
+      # enableFishIntegration = true;
+      nix-direnv.enable = true;
+    };
 
     fish = {
       enable = true;
@@ -48,7 +62,7 @@ in
       zplug = {
         enable = true;
         plugins = [
-          { name = "zsh-users/zsh-autosuggesrions"; }
+          { name = "zsh-users/zsh-autosuggestions"; }
         ];
       };
       oh-my-zsh = {
@@ -58,6 +72,7 @@ in
       '';
       };
     };
+
     starship = {
       enable = true;
       enableFishIntegration = true;

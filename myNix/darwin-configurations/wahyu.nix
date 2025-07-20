@@ -42,6 +42,9 @@ in
     home = "/${user.pathHome}/${user.username}";
     shell = pkgs.fish;
   };
+
+  # users.extraGroups.docker.members = [ "username-with-access-to-socket" ];
+
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   nix.settings.experimental-features = [

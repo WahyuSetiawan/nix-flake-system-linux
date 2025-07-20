@@ -25,7 +25,27 @@ in
   #     inputs.mac-app-util.homeManagerModules.default
   #   ] else [ ];
 
-  home.user-info = primaryUser;
+  home.user-info = rec{
+    username = "juragankoding";
+    fullName = "Juragan Koding";
+    email = "wahyu.creator911@gmail.com";
+    pathHome = "home";
+    nixConfigDirectory = "/home/${username}/.nix";
+    within = {
+      # hyprland.enable = true;
+      # cinnamon.enable = true;
+    };
+  };
+
+
+  # extraSpecialArgs = {
+  #   inherit (inputs) nixgl;
+  # };
+
+
+  # extraSpecialArgs = {
+  #         nixgl = inputs.nixgl;
+  #       };
 
   # home-manager.users.juragankoding = {
   # imports = builtins.attrValues self.homeManagerModules

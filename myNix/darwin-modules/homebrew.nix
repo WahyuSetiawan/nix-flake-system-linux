@@ -20,18 +20,18 @@ in
       fi
     '';
 
-  homebrew.enable = false;
-  homebrew.brews = [
-  ];
-  homebrew.onActivation.cleanup = "zap";
-  homebrew.global.brewfile = true;
+  homebrew = {
+    enable = true;
+    brews = [
+    ];
+    onActivation.cleanup = "zap";
+    global.brewfile = true;
 
-  homebrew.masApps = {
-    xCode = 497799835;
-    WhatsApp = 310633997;
+    masApps = {
+      xCode = 497799835;
+      WhatsApp = 310633997;
+    };
+
+    casks = [];
   };
-
-  homebrew.casks = [
-  ];
-
 }

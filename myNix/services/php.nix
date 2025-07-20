@@ -3,8 +3,9 @@ let inherit (inputs.services-flake.lib) multiService;
   inherit (inputs.self.util) getEnv;
 
   phpFpmPort = getEnv "PHPFPM_PORT" "9000";
-  nginxPort = getEnv "NGINX_PORT" "8081";
+  nginxPort = getEnv "NGINX_PORT" "8082";
   projectDir = getEnv "PROJECT_DIR" "";
+  
   enableMysql = getEnv "ENABLE_MYSQL" "";
   mysqlPort = getEnv "MYSQL_PORT" "3306";
   memcachedPort = getEnv "MEMCACHED_PORT" "11211";
@@ -13,7 +14,7 @@ let inherit (inputs.services-flake.lib) multiService;
   mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "";
   enableLaravelQueue = getEnv "LARAVEL_QUEUE" "";
 
-  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString builtins.currentTime}";
+  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-asdfasdf";
 in
 {
   imports = [
@@ -36,7 +37,7 @@ in
         server {
             listen ${nginxPort};
             server_name localhost;
-            root "${projectDir}/public";
+            root "${projectDir}";
 
             index index.php index.html index.htm;
 

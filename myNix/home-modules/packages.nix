@@ -1,37 +1,38 @@
-{ pkgs, config, ... }:
+{ inputs, pkgs, config, lib, args, ... }:
 let
   nixConfigDirectory = config.home.user-info.nixConfigDirectory;
+  dirAllias = ./packages;
+  listPackages = inputs.self.util.filesIntoList {
+    inherit lib;
+    dir = dirAllias;
+    args = { inherit inputs pkgs config; };
+  };
 in
 {
+  # nixGL configuration - only for Linux
+  nixGL = lib.mkIf pkgs.stdenv.isLinux {
+    packages = import inputs.nixgl { inherit pkgs; };
+    defaultWrapper = "nvidiaPrime";
+    offloadWrapper = "nvidiaPrime";
+    installScripts = [ "mesa" "nvidiaPrime" ];
+  };
 
-  home.packages = with pkgs; [
-    (writeShellScriptBin "nxdev" #bash 
-      ''
-        if [ -z "$1" ]; then
-            echo "Usage: nxdev <object>"
-            exit 1
-        fi
-        nix develop ${nixConfigDirectory}\#$1 -c $SHELL
-      '')
-    (writeShellScriptBin "nxrun" #bash
-      ''
-        if [ -z "$1" ]; then
-          echo "Usage: nix run <object>"
-          exit 1
-        fi
+  home.packages = with pkgs; listPackages ++ [
+    # development
+    killall
+    xclip
 
-        nix run ${nixConfigDirectory}\#$1 
-      '')
+    lua-language-server
+    inputs.oxalica-nil.packages.${pkgs.system}.nil
 
-    (writeShellScriptBin "nxclean" #bash
-      ''
-        nix profile wipe-history
-        nix-collect-garbage
-        nix-collect-garbage -d
-        nix-collect-garbage --delete-old
-        nix store gc
-        nix store optimise
-        nix-store --verify --repair --check-contents
-      '')
-  ];
+    nodejs
+  ] ++ (if pkgs.stdenv.isLinux then [
+
+    arandr
+    wl-clipboard
+  ] else [ ]);
+
+  home.sessionVariables = {
+    JAVA_HOME = "${pkgs.jdk17}";
+  };
 }

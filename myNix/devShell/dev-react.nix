@@ -1,4 +1,3 @@
-
 { inputs, system, pkgs, ... }: with pkgs ;mkShell {
   name = "Development React";
 
@@ -9,6 +8,10 @@
     git
     openssl
     vscode-langservers-extracted
+
+    typescript-language-server
+    vue-language-server
+    tailwindcss-language-server
   ];
 
   # Variabel environment (opsional)

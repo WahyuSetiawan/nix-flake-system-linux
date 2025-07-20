@@ -17,6 +17,12 @@
         identityFile = config.sops.secrets."ssh_gitlab_siber".path;
         user = "git";
       };
+      "sentra.github.com" = {
+        hostname = "github.com";
+        identityFile = config.sops.secrets."ssh_github_sentra".path;
+        user = "git";
+        identitiesOnly = true;
+      };
     };
   };
 }

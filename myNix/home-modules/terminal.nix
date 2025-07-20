@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 let
   theme = config.home.user-info.within.hyprland.theme;
 in
@@ -13,7 +13,7 @@ in
 
   programs = {
     alacritty = {
-      enable = true;
+      enable = false;
       settings = {
         general.import = [
           "~/.config/alacritty/catppuccin-${theme}.toml"
@@ -37,6 +37,8 @@ in
             style = "Regular";
           };
         };
+      } // lib.mkOptionattrs (pkgs.stdenv.isLinux) {
+        package = config.lib.nixGL.wrap pkgs.alacritty;
       };
     };
 
