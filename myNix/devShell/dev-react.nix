@@ -1,4 +1,3 @@
-
 { inputs, system, pkgs, ... }: with pkgs ;mkShell {
   name = "Development React";
 
