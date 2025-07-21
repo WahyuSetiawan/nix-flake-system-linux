@@ -1,4 +1,8 @@
-{ lib, dir ? ./. }:
+{ lib
+, dir ? ./.
+, args ? null
+, ...
+}:
 let
   contenxt = builtins.readDir dir;
 

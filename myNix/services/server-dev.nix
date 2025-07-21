@@ -22,7 +22,7 @@ let
 
   minioEnable = getEnv "MINIO_ENABLE" "";
 
-  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString builtins.currentTime}";
+  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString (inputs.self.util.currentTime or 0)}";
 
 in
 {
