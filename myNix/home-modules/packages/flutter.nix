@@ -10,6 +10,8 @@
   clang
   pkg-config
 
+  scrcpy  
+
   firebase-tools
 ] ++ (if pkgs.stdenv.isLinux then [
   # Linux-specific application
