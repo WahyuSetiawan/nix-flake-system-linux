@@ -34,5 +34,7 @@ in
 
   home.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}";
+    GOPATH = "${pkgs.go}/share/go";
   };
+
 }
