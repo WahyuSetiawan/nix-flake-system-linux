@@ -96,7 +96,7 @@ in
     port = builtins.fromJSON redisPost;
   };
 
-  services.minio."minio-${projectName}-dev" = lib.mkIf (minioEnable != "" ){
+  services.minio."minio-${projectName}-dev" = lib.mkIf (minioEnable != "") {
     enable = true;
   };
 }

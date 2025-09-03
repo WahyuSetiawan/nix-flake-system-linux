@@ -33,5 +33,9 @@
 
     nixd
     firebase-tools
+    alacritty
+
+    docker
+    docker-compose
   ];
 }
