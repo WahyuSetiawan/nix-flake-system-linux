@@ -34,7 +34,9 @@ in
 
   home.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}";
-    GOPATH = "${pkgs.go}/share/go";
+    GOPROXY = "https://proxy.golang.org,direct";
+    GOPATH = "$HOME/go/bin";
+    # GOROOT = "$HOME/go";
   };
 
 }

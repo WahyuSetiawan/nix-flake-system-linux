@@ -29,6 +29,19 @@
         user = "root";
         identitiesOnly = true;
       };
+      "vps-spada" = {
+        hostname = "172.237.79.206";
+        identityFile = config.sops.secrets."ssh_vps_spada".path;
+        user = "root";
+        identitiesOnly = true;
+      };
+      "vps-spada-2" = {
+        hostname = "139.162.8.27";
+        identityFile = config.sops.secrets."ssh_vps_spada".path;
+        user = "root";
+        identitiesOnly = true;
+      };
+
     };
   };
 }
