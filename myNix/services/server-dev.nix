@@ -22,6 +22,8 @@ let
 
   minioEnable = getEnv "MINIO_ENABLE" "";
 
+  pgwebPort = getEnv "PGWEB_PORT" "8081";
+
   dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString (inputs.self.util.currentTime or 0)}";
 
 in
@@ -32,7 +34,7 @@ in
 
   services.postgres."pg-${projectName}" = {
     enable = true;
-    dataDir = dataDir + "/postgres-${projectName}";
+    # dataDir = dataDir + "/postgres-${projectName}";
     port = builtins.fromJSON portgresPort;
     initialScript.before = ''
       CREATE USER ${postgresUser} WITH password '${postgresPass}';
@@ -60,8 +62,9 @@ in
     {
       environment.PGWEB_DATABASE_URL = pgcfg.connectionURI {
         inherit dbName;
+
       };
-      command = pkgs.pgweb;
+      command = pkgs.pgweb ;
       depends_on."pg-${projectName}".condition = "process_healthy";
     };
 
