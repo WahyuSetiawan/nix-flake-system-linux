@@ -18,4 +18,5 @@ in
   sops.secrets.ssh_github_sentra = { };
   sops.secrets.ssh_vps_akademik_user = { };
   sops.secrets.ssh_vps_spada = { };
+  sops.secrets.ssh_vps_prod = { };
 }
