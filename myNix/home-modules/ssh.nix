@@ -41,7 +41,12 @@
         user = "root";
         identitiesOnly = true;
       };
-
+      "vps-prod-user" = {
+        hostname = "172.104.54.229";
+        identityFile = config.sops.secrets."ssh_vps_spada".path;
+        user = "syamil";
+        identitiesOnly = true;
+      };
     };
   };
 }
