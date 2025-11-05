@@ -1145,7 +1145,6 @@
         "oxalica-nil": "oxalica-nil",
         "process-compose-flake": "process-compose-flake",
         "services-flake": "services-flake",
-        "sketchybar-app-font": "sketchybar-app-font",
         "sops-nix": "sops-nix"
       }
     },
@@ -1161,22 +1160,6 @@
       "original": {
         "owner": "juspay",
         "repo": "services-flake",
-        "type": "github"
-      }
-    },
-    "sketchybar-app-font": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1752823062,
-        "narHash": "sha256-svcoyL0zcby1ekKfNbnO6x0K/krGW3Yc9M+7xx1Cavg=",
-        "owner": "kvndrsslr",
-        "repo": "sketchybar-app-font",
-        "rev": "0a1cff13f76ff61fe2cb315829f5dee0de52ff3e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "kvndrsslr",
-        "repo": "sketchybar-app-font",
         "type": "github"
       }
     },

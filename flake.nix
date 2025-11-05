@@ -68,11 +68,6 @@
 
 
     mac-app-util.url = "github:hraban/mac-app-util";
-
-    sketchybar-app-font = {
-      url = "github:kvndrsslr/sketchybar-app-font";
-      flake = false;
-    };
   };
 
   outputs = { flake-parts, ... }@inputs:

@@ -1,6 +1,5 @@
 { inputs, pkgs, ... }: {
   fonts.packages = with pkgs; [
-    sketchybar-app-font
     # sf-mono-liga-bin
     sf-symbols-font
 
