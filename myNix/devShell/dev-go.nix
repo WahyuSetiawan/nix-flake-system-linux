@@ -25,7 +25,7 @@ with pkgs; mkShell {
     # Version control
     git
 
-    mysql-client
+    mariadb.client
     postgresql
 
   ];
