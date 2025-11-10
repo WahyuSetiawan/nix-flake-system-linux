@@ -11,10 +11,13 @@ in
 {
   # nixGL configuration - only for Linux
   nixGL = lib.mkIf pkgs.stdenv.isLinux {
-    packages = import inputs.nixgl { inherit pkgs; };
-    defaultWrapper = "nvidiaPrime";
-    offloadWrapper = "nvidiaPrime";
-    installScripts = [ "mesa" "nvidiaPrime" ];
+    packages = import inputs.nixgl { 
+      inherit pkgs; 
+      enable32bits = false;  # Add this to avoid some issues
+    };
+    defaultWrapper = "mesa";  # Change from nvidiaPrime to mesa for better compatibility
+    offloadWrapper = "mesa";
+    installScripts = [ "mesa" ];  # Remove nvidiaPrime for now
   };
 
   home.packages = with pkgs; listPackages ++ [
@@ -23,14 +26,35 @@ in
     xclip
 
     lua-language-server
-    inputs.oxalica-nil.packages.${pkgs.system}.nil
+    inputs.oxalica-nil.packages.${pkgs.stdenv.hostPlatform.system}.nil  # Fix system reference
 
     nodejs
   ] ++ (if pkgs.stdenv.isLinux then [
-
     arandr
     wl-clipboard
+
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.symbols-only
+    nerd-fonts.meslo-lg
   ] else [ ]);
+
+  fonts.fontconfig.enable = true;
+
+
+  # Desktop entries for applications
+  xdg.desktopEntries = {
+    postman = {
+      name = "Postman";
+      comment = "API Development Environment";
+      exec = "postman";
+      icon = "postman";
+      terminal = false;
+      categories = [ "Development" "Network" "WebDevelopment" ];
+      mimeType = [ "application/json" ];
+    };
+  };
 
   home.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}";
@@ -38,5 +62,4 @@ in
     GOPATH = "$HOME/go/bin";
     # GOROOT = "$HOME/go";
   };
-
 }
