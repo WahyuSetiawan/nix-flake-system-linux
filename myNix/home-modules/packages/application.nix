@@ -1,5 +1,9 @@
-{ pkgs, ... }: with pkgs; [
-  postman
+{ pkgs, ... }: 
+with pkgs; [
+  # Wrap postman to fix sandbox issues
+  (writeShellScriptBin "postman" ''
+    exec ${postman}/bin/postman --no-sandbox "$@"
+  '')
 ] ++ (if pkgs.stdenv.isLinux then [
   # Linux-specific applications
   nemo
