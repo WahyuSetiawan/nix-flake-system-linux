@@ -2,7 +2,7 @@
 with pkgs;
 mkShell {
   inputsFrom = [
-    config.process-compose."nginx".services.outputs.devShell
+    # config.process-compose."nginx".services.outputs.devShell
   ];
 
   name = "laravel-dev-shell";

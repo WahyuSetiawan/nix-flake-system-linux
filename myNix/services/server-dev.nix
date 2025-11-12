@@ -22,6 +22,8 @@ let
 
   minioEnable = getEnv "MINIO_ENABLE" "";
 
+  pgwebPort = getEnv "PGWEB_PORT" "8081";
+
   dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString (inputs.self.util.currentTime or 0)}";
 
 in
@@ -32,7 +34,7 @@ in
 
   services.postgres."pg-${projectName}" = {
     enable = true;
-    dataDir = dataDir + "/postgres-${projectName}";
+    # dataDir = dataDir + "/postgres-${projectName}";
     port = builtins.fromJSON portgresPort;
     initialScript.before = ''
       CREATE USER ${postgresUser} WITH password '${postgresPass}';
@@ -52,18 +54,52 @@ in
     ];
   };
 
-  settings.processes.pgweb =
-    let
-      pgcfg = pc.config.services.postgres."pg-${projectName}";
-      dbName = postgresDbName;
-    in
-    {
-      environment.PGWEB_DATABASE_URL = pgcfg.connectionURI {
-        inherit dbName;
-      };
-      command = pkgs.pgweb;
-      depends_on."pg-${projectName}".condition = "process_healthy";
+  # Option 1: Adminer (lightweight, supports multiple databases)
+  settings.processes.adminer = {
+    command = "${pkgs.adminer}/bin/adminer";
+    environment = {
+      ADMINER_DEFAULT_SERVER = "${postgresListen}:${portgresPort}";
     };
+    depends_on."pg-${projectName}".condition = "process_healthy";
+  };
+
+  # # Option 2: pgAdmin (full-featured PostgreSQL administration)
+  # settings.processes.pgadmin = {
+  #   command = "${pkgs.pgadmin4}/bin/pgadmin4";
+  #   environment = {
+  #     PGADMIN_DEFAULT_EMAIL = "admin@example.com";
+  #     PGADMIN_DEFAULT_PASSWORD = "admin";
+  #     PGADMIN_LISTEN_PORT = "${pgwebPort}";
+  #   };
+  #   depends_on."pg-${projectName}".condition = "process_healthy";
+  # };
+
+  # # Option 3: PostgREST (Auto-generate REST API from PostgreSQL schema)
+  # settings.processes.postgrest = {
+  #   command = "${pkgs.postgrest}/bin/postgrest";
+  #   environment = {
+  #     PGRST_DB_URI = "postgres://${postgresUser}:${postgresPass}@${postgresListen}:${portgresPort}/${postgresDbName}";
+  #     PGRST_DB_SCHEMA = postgresSchema;
+  #     PGRST_SERVER_PORT = "${pgwebPort}";
+  #   };
+  #   depends_on."pg-${projectName}".condition = "process_healthy";
+  # };
+
+  # # Option 4: Keep original pgweb
+  # settings.processes.pgweb =
+  #   let
+  #     pgcfg = pc.config.services.postgres."pg-${projectName}";
+  #     dbName = postgresDbName;
+  #   in
+  #   {
+  #     environment.PGWEB_DATABASE_URL = pgcfg.connectionURI {
+  #       inherit dbName;
+  #       user = postgresUser;
+  #       password = postgresPass;
+  #     };
+  #     command = "${pkgs.pgweb}/bin/pgweb --bind=0.0.0.0 --listen=${pgwebPort}";
+  #     depends_on."pg-${projectName}".condition = "process_healthy";
+  #   };
 
 
   services.mysql."mysql_${projectName}" = lib.mkIf (enableMysql != "")

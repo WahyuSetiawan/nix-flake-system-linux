@@ -4,6 +4,9 @@
 
   jdk17
 
+  adb-sync
+  android-tools
+
   # #linux tool chain
   cmake
   ninja

@@ -25,7 +25,7 @@ with pkgs; mkShell {
     # Version control
     git
 
-    mysql-client
+    mariadb.client
     postgresql
 
   ];
@@ -64,10 +64,9 @@ with pkgs; mkShell {
 
   # Environment variables untuk Golang
   shellHook = ''
-        direnv allow .
-
+    if [ -z "$SHELL_INITIALIZED" ]; then
+        export SHELL_INITIALIZED=1
         export TMP_DIR=$(mktemp -d -t "myapp-$(date +%s)-XXXXXX")
-    w
 
         export GOPATH="$HOME/go"
         export PATH=$PATH:$(go env GOPATH)/bin
@@ -76,5 +75,6 @@ with pkgs; mkShell {
         go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
     
         help_me
+    fi
   '';
 }

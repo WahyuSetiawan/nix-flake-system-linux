@@ -13,7 +13,7 @@ in
 
   programs = {
     alacritty = {
-      enable = false;
+      enable = true;
       settings = {
         general.import = [
           "~/.config/alacritty/catppuccin-${theme}.toml"
@@ -37,52 +37,51 @@ in
             style = "Regular";
           };
         };
-      } // lib.mkOptionattrs (pkgs.stdenv.isLinux) {
-        package = config.lib.nixGL.wrap pkgs.alacritty;
       };
+      # Fix: Use mkIf instead of mkOptionattrs and move package outside settings
+      package = lib.mkIf pkgs.stdenv.isLinux (config.lib.nixGL.wrap pkgs.alacritty);
     };
 
     kitty = {
-      enable = true;
+      enable = false;
       themeFile = "Catppuccin-Latte";
-      extraConfig = #sh
-        ''
-          font_family JetBrainsMono Nerd Font
-          font_size 8.0
-          bold_font auto
-          italic_font auto
-          bold_italic_font auto
+      extraConfig = ''
+        font_family JetBrainsMono Nerd Font
+        font_size 8.0
+        bold_font auto
+        italic_font auto
+        bold_italic_font auto
 
-          background_opacity 0.9
-          dynamic_background_opacity 0.9
+        background_opacity 0.9
+        dynamic_background_opacity 0.9
 
-          confirm_os_window_close 0
+        confirm_os_window_close 0
 
-          # change to x11 or wayland or leave auto
-          linux_display_server auto
+        # change to x11 or wayland or leave auto
+        linux_display_server wayland
 
-          scrollback_lines 2000
-          wheel_scroll_min_lines 1
+        scrollback_lines 2000
+        wheel_scroll_min_lines 1
 
-          enable_audio_bell no
+        enable_audio_bell no
 
-          window_padding_width 4
+        window_padding_width 4
 
-          selection_foreground none
-          selection_background none
+        selection_foreground none
+        selection_background none
 
-          background_blur 5
-          dynamic_background_opacity true
+        background_blur 5
+        dynamic_background_opacity true
 
-          # mac tweak
-          macos_option_as_alt true
+        # mac tweak
+        macos_option_as_alt true
 
-          foreground #dddddd
-          background #000000
-          cursor #dddddd
+        foreground #dddddd
+        background #000000
+        cursor #dddddd
 
-          include ~/.config/kitty/kitty.conf
-        '';
+        include ~/.config/kitty/kitty.conf
+      '';
     };
 
     # ghostty = {

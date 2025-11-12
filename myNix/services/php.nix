@@ -2,9 +2,20 @@
 let inherit (inputs.services-flake.lib) multiService;
   inherit (inputs.self.util) getEnv;
 
+  projectName = getEnv "PROJECT_NAME" "default";
+
   phpFpmPort = getEnv "PHPFPM_PORT" "9000";
   nginxPort = getEnv "NGINX_PORT" "8082";
   projectDir = getEnv "PROJECT_DIR" "";
+
+  postgresDbName = getEnv "POSTGRES_DB_NAME" "sample";
+  portgresPort = getEnv "POSTGRES_PORT" "5432";
+  postgresListen = getEnv "POSTGRES_LISTEN" "127.0.0.1";
+  postgresSchema = getEnv "POSTGRES_SCHEMA" "";
+
+  postgresUser = getEnv "POSTGRES_USER" "dev_user";
+  postgresPass = getEnv "POSTGRES_PASS" "my_password";
+
   
   enableMysql = getEnv "ENABLE_MYSQL" "";
   mysqlPort = getEnv "MYSQL_PORT" "3306";
@@ -22,6 +33,29 @@ in
     (multiService ./extentions/php-fpm.nix)
     (multiService ./extentions/php-artisan-background.nix)
   ];
+
+  services.postgres."pg-${projectName}" = {
+    enable = true;
+    # dataDir = dataDir + "/postgres-${projectName}";
+    port = builtins.fromJSON portgresPort;
+    initialScript.before = ''
+      CREATE USER ${postgresUser} WITH password '${postgresPass}';
+      CREATE EXTENSION system_stats;
+    '';
+    extensions = exts: [
+      exts.system_stats
+    ];
+    initialDatabases = [
+      ({
+        name = postgresDbName;
+      }
+      // lib.optionalAttrs (postgresSchema != "") {
+        schemas = [ postgresSchema ];
+      }
+      )
+    ];
+  };
+
 
   services.nginx."nginx" = {
     enable = true;
@@ -66,13 +100,19 @@ in
     dataDir = dataDir + "/php";
     listen = builtins.fromJSON phpFpmPort;
     extraConfig = {
-      "listen.owner" = "nobody";
+        "listen.owner" = "nobody";
       "listen.group" = "nobody";
       "pm" = "dynamic";
-      "pm.max_children" = 5;
-      "pm.start_servers" = 2;
-      "pm.min_spare_servers" = 1;
-      "pm.max_spare_servers" = 3;
+      "pm.max_children" = 10;
+      "pm.start_servers" = 4;
+      "pm.min_spare_servers" = 2;
+      "pm.max_spare_servers" = 6;
+      "php_admin_value[max_input_vars]" = 5000;
+      "php_admin_value[post_max_size]" = "128M";
+      "php_admin_value[upload_max_filesize]" = "128M";
+      "php_admin_value[max_execution_time]" = 300;
+      "php_admin_value[memory_limit]" = "512M";
+      "php_admin_value[date.timezone]" = "Asia/Jakarta";
     };
   };
 
