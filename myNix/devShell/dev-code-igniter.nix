@@ -260,7 +260,7 @@
       # prepare_file
 
       # Register cleanup function
-      trap cleanup_on_exit EXIT INT TERM
+      # trap cleanup_on_exit EXIT INT TERM
 
       # Auto-start services
       # start_services

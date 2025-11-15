@@ -248,13 +248,13 @@ mkShell {
       export LOGS_DIR="$RUNTIME_DIR/logs"
       export PHP_DIR="$RUNTIME_DIR/php"
 
-      prepare_file
+      # prepare_file
 
       # Register cleanup function
-      trap cleanup_on_exit EXIT INT TERM
+      # trap cleanup_on_exit EXIT INT TERM
 
       # Auto-start services
-      start_services
+      # start_services
       helpme;
     '';
 }
