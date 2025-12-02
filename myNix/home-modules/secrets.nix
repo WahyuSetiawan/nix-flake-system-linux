@@ -1,6 +1,10 @@
-{ config, osConfig, inputs, pkgs, ... }:
+{ config, osConfig ? null, inputs, pkgs, ... }:
 let
-  username = osConfig.users.primaryUser.username;
+  username = 
+    if osConfig != null && osConfig ? users && osConfig.users ? primaryUser then 
+      osConfig.users.primaryUser.username 
+    else 
+      config.home.username;
   home = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
 in
 {

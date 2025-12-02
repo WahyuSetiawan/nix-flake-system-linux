@@ -1,7 +1,7 @@
-all@{ pkgs, osConfig, inputs, self, lib, ... }:
+all@{ pkgs, osConfig ? null, inputs ? null, self ? null, lib, ... }:
 let
-  primaryUser = osConfig.users.primaryUser;
-  allModules = builtins.attrNames osConfig.users;
+  primaryUser = if osConfig != null then osConfig.users.primaryUser else null;
+  allModules = if osConfig != null then builtins.attrNames osConfig.users else [];
   # debugMsg = builtins.trace "isi dari all parameter ${lib.concatStringsSep ", " allModules}" allModules;
 in
 {

@@ -17,6 +17,16 @@
 
     nixos.hosts.juragankoding.userHomeModules = [ "juragankoding" ];
     darwin.hosts.wahyu.userHomeModules = [ "wahyu" ];
+    
+    home.users.juragankoding = {
+      standalone = {
+        enable = true;
+        pkgs = import inputs.nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
+      };
+    };
   };
 
   perSystem = { self', lib, system, input', pkgs, ... }:

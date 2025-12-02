@@ -1,4 +1,9 @@
-{ inputs, system, pkgs, ... }:
+{
+  inputs,
+  system,
+  pkgs,
+  ...
+}:
 with pkgs;
 mkShell {
   buildInputs = with pkgs; [
@@ -12,7 +17,7 @@ mkShell {
   ];
 
   packages = [
-    (writeShellScriptBin "migrate_database" #bash
+    (writeShellScriptBin "migrate_database" # bash
       ''
         MYSQL_HOST="localhost"
         TIMEOUT=60  # dalam detik
@@ -44,8 +49,9 @@ mkShell {
           ${pkgs.php82}/bin/php artisan migrate --force
         fi
 
-      '')
-    (writeShellScriptBin "start_services" #bash
+      ''
+    )
+    (writeShellScriptBin "start_services" # bash
       ''
         alacritty -e nix run ~/.nix#laravel --impure > /dev/null 2>&1 & 
         ALACRITTY_PID=$!
@@ -71,7 +77,7 @@ mkShell {
         sed -i "s/DB_DATABASE=.*/DB_DATABASE=laravel/" .env
         sed -i "s/DB_USERNAME=.*/DB_USERNAME=root/" .env
         sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=/" .env
-        
+
         migrate_database
 
         echo -e "''${GREEN}✅ Laravel Development Environment Started!''${NC}"
@@ -81,14 +87,16 @@ mkShell {
         echo -e "''${YELLOW}📝 Logs directory: $LOGS_DIR''${NC}"
         echo -e "''${BLUE}💡 Run 'stop_services' to stop all services''${NC}"
 
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "open_mysql" #bash
+    (writeShellScriptBin "open_mysql" # bash
       ''
         ${pkgs.mysql80}/bin/mysql --socket="$TMP_DIR/mysql.sock" -u root 
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "stop_services" #bash
+    (writeShellScriptBin "stop_services" # bash
       ''
         echo -e "''${YELLOW}🛑 Stopping services...''${NC}"
 
@@ -98,9 +106,10 @@ mkShell {
             rm -f "$TMP_DIR/server.pid"
         fi
 
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "cleanup_on_exit" #bash 
+    (writeShellScriptBin "cleanup_on_exit" # bash
       ''
         echo -e "\n''${YELLOW}🔄 Cleaning up on exit...''${NC}"
         stop_services
@@ -110,9 +119,10 @@ mkShell {
         rm -rf "$RUNTIME_DIR"
 
         echo -e "''${GREEN}✅ All services stopped and cleaned up!''${NC}"
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "helpme" #bash
+    (writeShellScriptBin "helpme" # bash
       ''
         echo -e "\n''${BLUE}🎉 Welcome to Laravel Development Environment!''${NC}"
         echo -e "''${BLUE}Available commands:''${NC}"
@@ -123,10 +133,11 @@ mkShell {
         echo -e "  • ''${GREEN}php artisan''${NC}     - Laravel artisan commands"
         echo -e "  • ''${GREEN}composer''${NC}        - Composer package manager"
         echo -e "  • ''${GREEN}npm/yarn''${NC}        - Node package managers"
-      '')
+      ''
+    )
   ];
 
-  shellHook = #bash 
+  shellHook = # bash
     ''
       # Warna untuk output
       export RED='\033[0;31m'

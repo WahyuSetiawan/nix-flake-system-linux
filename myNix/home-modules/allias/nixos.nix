@@ -1,8 +1,12 @@
-{ pkgs, lib, config, osConfig, ... }:
+{ pkgs, lib, config, osConfig ? null, ... }:
 let
   nixConfigDirectory = config.home.user-info.nixConfigDirectory;
   concatString' = lib.strings.concatStringsSep " && ";
-  username = osConfig.users.primaryUser.username;
+  username = 
+    if osConfig != null && osConfig ? users && osConfig.users ? primaryUser then 
+      osConfig.users.primaryUser.username 
+    else 
+      config.home.username;
 in
 {
   # allias for nix

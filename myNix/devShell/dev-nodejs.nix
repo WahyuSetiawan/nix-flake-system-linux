@@ -1,5 +1,6 @@
 { pkgs, ... }:
-with pkgs; mkShell {
+with pkgs;
+mkShell {
   name = "nodejs-dev-shell";
 
   # Paket yang diinstal di environment
@@ -26,11 +27,10 @@ with pkgs; mkShell {
     vscode-langservers-extracted
     vue-language-server
     typescript-language-server
-    
+
     # Additional performance improvements
     nodePackages.typescript
-    nodePackages."@vscode/ripgrep"
-    nodePackages.eslint_d  # Faster ESLint daemon
+    nodePackages.eslint_d # Faster ESLint daemon
   ];
 
   packages = [
@@ -53,7 +53,7 @@ with pkgs; mkShell {
 
     (writeShellScriptBin "optimize_vscode" ''
       echo "🚀 Optimizing VS Code for Node.js development..."
-      
+
       # Create optimized VS Code settings
       mkdir -p .vscode
       cat > .vscode/settings.json << EOF
@@ -114,7 +114,7 @@ with pkgs; mkShell {
         "typescript.preferences.includePackageJsonAutoImports": "auto"
       }
       EOF
-      
+
       echo "✅ VS Code optimized for better performance!"
     '')
 
