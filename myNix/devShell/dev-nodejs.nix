@@ -29,8 +29,10 @@ with pkgs; mkShell {
     
     # Additional performance improvements
     nodePackages.typescript
-    nodePackages."@vscode/ripgrep"
     nodePackages.eslint_d  # Faster ESLint daemon
+  ] ++ lib.optionals stdenv.isLinux [
+    # Linux-only packages
+    nodePackages."@vscode/ripgrep"
   ];
 
   packages = [

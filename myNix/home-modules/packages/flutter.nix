@@ -4,7 +4,7 @@
 
   jdk17
 
-  adb-sync
+  # adb-sync  # Temporarily disabled due to broken go-mtpfs dependency
   android-tools
 
   # #linux tool chain
@@ -12,8 +12,6 @@
   ninja
   clang
   pkg-config
-
-  scrcpy  
 
   firebase-tools
 ] ++ (if pkgs.stdenv.isLinux then [
