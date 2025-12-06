@@ -72,7 +72,7 @@
   environment.systemPackages = with pkgs; [
     # NVIDIA utilities
     nvidia-vaapi-driver
-    glxinfo
+    mesa-demos
     vulkan-tools
 
     # Gaming-related (optional)
@@ -88,4 +88,3 @@
     "nvidia-drm.modeset=1" # Enable kernel modesetting
   ];
 }
-

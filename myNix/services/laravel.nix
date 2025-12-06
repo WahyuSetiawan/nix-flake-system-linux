@@ -1,5 +1,12 @@
-{ inputs, pkgs, config, lib, ... }:
-let inherit (inputs.services-flake.lib) multiService;
+{
+  inputs,
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  inherit (inputs.services-flake.lib) multiService;
   inherit (inputs.self.util) getEnv;
 
   phpFpmPort = getEnv "PHPFPM_PORT" "9000";
@@ -13,7 +20,8 @@ let inherit (inputs.services-flake.lib) multiService;
   mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "";
   enableLaravelQueue = getEnv "LARAVEL_QUEUE" "";
 
-  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString builtins.currentTime}";
+  # Avoid using `builtins.currentTime` for compatibility with older Nix versions
+  dataDir = getEnv "DATA_DIR" "/tmp/myfolder";
 in
 {
   imports = [
@@ -31,7 +39,7 @@ in
     eventsConfig = ''
       worker_connections 1024;
     '';
-    httpConfig = #nginx
+    httpConfig = # nginx
       ''
         server {
             listen ${nginxPort};
@@ -58,7 +66,6 @@ in
       '';
   };
 
-
   services.php-fpm."phpFpm" = {
     enable = true;
     package = pkgs.php82;
@@ -75,17 +82,19 @@ in
     };
   };
 
-  services.mysql."php_mysql" = lib.mkIf (enableMysql != "")
-    ({
+  services.mysql."php_mysql" = lib.mkIf (enableMysql != "") (
+    {
       enable = true;
       dataDir = dataDir + "mysql";
       settings.mysqld.port = mysqlPort;
       initialDatabases = [
         { name = databaseName; }
       ];
-    } // lib.optionalAttrs (mysqlSocketDir != "") {
+    }
+    // lib.optionalAttrs (mysqlSocketDir != "") {
       socketDir = mysqlSocketDir;
-    });
+    }
+  );
 
   services.memcached."memcached" = {
     enable = true;
