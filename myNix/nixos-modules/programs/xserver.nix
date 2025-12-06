@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   services = {
     xserver.enable = true;
 
@@ -7,10 +8,7 @@
         lightdm.enable = false;
         gdm.enable = true;
       };
-
-      desktopManager.plasma5.enable = false;
     };
-
 
     xserver.xkb = {
       layout = "us";

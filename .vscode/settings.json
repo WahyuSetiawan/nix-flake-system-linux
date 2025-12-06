@@ -1,0 +1,21 @@
+{
+    // Basic workspace settings for Nix development
+    "files.associations": {
+        "*.nix": "nix",
+        "flake.nix": "nix",
+        "default.nix": "nix"
+    },
+    // Format on save generally enabled; pick preferred formatter in extension settings
+    "editor.formatOnSave": true,
+    // Keep integrated terminal inheriting environment (should be true by default)
+    "terminal.integrated.inheritEnv": true,
+    // Helpful: show warnings and problems quickly
+    "problems.autoReveal": true,
+    // For Nix files, ensure default behavior and editor readability
+    "editor.wordWrap": "on",
+    // Optional: If using direnv extension, enable it
+    "direnv.enable": true
+}
+{
+    "editor.fontFamily": "'MesloLGLDZ Nerd Font', JetBraninsMono NF, Regular, 'monospace', monospace"
+}

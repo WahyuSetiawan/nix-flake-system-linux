@@ -1,4 +1,10 @@
-{ inputs, config, system, pkgs, ... }:
+{
+  inputs,
+  config,
+  system,
+  pkgs,
+  ...
+}:
 with pkgs;
 mkShell {
   inputsFrom = [

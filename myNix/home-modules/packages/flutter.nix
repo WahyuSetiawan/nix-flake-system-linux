@@ -2,7 +2,7 @@
   scrcpy
   fvm
 
-  jdk17
+  # jdk21
 
   # adb-sync  # Temporarily disabled due to broken go-mtpfs dependency
   android-tools
