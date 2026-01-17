@@ -45,7 +45,7 @@ in
         server {
             listen ${nginxPort};
             server_name localhost;
-            root "${projectDir}/public";
+            root "${projectDir}";
 
             index index.php index.html index.htm;
 
