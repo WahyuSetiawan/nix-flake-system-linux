@@ -225,10 +225,10 @@ mkShell {
         export ENABLE_MYSQL="$(grep DB_CONNECTION .env 2>/dev/null | grep -q 'mysql' && echo 'true' || echo 'false')"
 
         # Direktori untuk runtime files
-        export TMP_DIR=$(pwd)/data
+        export TMP_DIR="$HOME/.local/nix-runtime/${PROJECT_NAME}"
         mkdir -p "$TMP_DIR"
 
-        export RUNTIME_DIR="$PROJECT_DIR/.nix-runtime"
+        export RUNTIME_DIR="$TMP_DIR/runtime"
         export NGINX_DIR="$RUNTIME_DIR/nginx"
         export MYSQL_DIR="$RUNTIME_DIR/mysql"
         export LOGS_DIR="$RUNTIME_DIR/logs"

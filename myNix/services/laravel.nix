@@ -21,7 +21,9 @@ let
   enableLaravelQueue = getEnv "LARAVEL_QUEUE" "";
 
   # Avoid using `builtins.currentTime` for compatibility with older Nix versions
-  dataDir = getEnv "DATA_DIR" "/tmp/myfolder";
+  # Replace spaces with underscores to avoid bash escaping issues in services-flake
+  rawDataDir = getEnv "DATA_DIR" "/tmp/myfolder";
+  dataDir = builtins.replaceStrings [" "] ["\\ "] rawDataDir;
 in
 {
   imports = [
@@ -85,7 +87,7 @@ in
   services.mysql."php_mysql" = lib.mkIf (enableMysql != "") (
     {
       enable = true;
-      dataDir = dataDir + "mysql";
+      dataDir = dataDir + "/mysql";
       settings.mysqld.port = mysqlPort;
       initialDatabases = [
         { name = databaseName; }
