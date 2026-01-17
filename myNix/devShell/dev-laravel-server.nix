@@ -206,7 +206,7 @@ mkShell {
     ''
       if [ -z "$SHELL_INITIALIZED" ]; then
         export SHELL_INITIALIZED=1
-        
+
         # Warna untuk output
         export RED='\033[0;31m'
         export GREEN='\033[0;32m'
@@ -218,10 +218,11 @@ mkShell {
         export PROJECT_NAME="laravel-dev"
         export PROJECT_DIR="$(pwd)"
         export NGINX_PORT="8086"
-        export MYSQL_PORT="3306"
+        export MYSQL_PORT="$(grep DB_PORT .env 2>/dev/null | cut -d '=' -f 2 || echo '3306')"
         export LARAVEL_PORT="8000"
 
         export ENABLE_MYSQL=true
+        export ENABLE_MYSQL="$(grep DB_CONNECTION .env 2>/dev/null | grep -q 'mysql' && echo 'true' || echo 'false')"
 
         # Direktori untuk runtime files
         export TMP_DIR=$(pwd)/data
