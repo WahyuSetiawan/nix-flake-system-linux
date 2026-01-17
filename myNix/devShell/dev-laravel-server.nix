@@ -204,8 +204,8 @@ mkShell {
 
   shellHook = # bash
     ''
-      if [ -z "$SHELL_INITIALIZED" ]; then
-        export SHELL_INITIALIZED=1
+      # if [ -z "$SHELL_INITIALIZED" ]; then
+      #   export SHELL_INITIALIZED=1
 
         # Warna untuk output
         export RED='\033[0;31m'
