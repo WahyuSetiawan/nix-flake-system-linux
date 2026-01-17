@@ -17,7 +17,7 @@ in
       default = 3;
     };
     directoryWork = lib.mkOption {
-      type = lib.types.string;
+      type = lib.types.str;
       default = "$PWD";
     };
     package = lib.mkOption {

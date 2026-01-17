@@ -12,10 +12,12 @@ in
 mkShell {
   name = "development-nix";
 
-  # Paket-paket yang dibutuhkan untuk development Nix + editor support
+  # Paket-paket yang dibutuhkan untuk development Nix + editor support (LSP, formatter, linter)
   buildInputs = [
     nix
     nixpkgs-fmt
+    nixfmt-rfc-style
+    nixfmt
     alejandra
     statix
     deadnix
