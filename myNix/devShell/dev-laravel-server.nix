@@ -230,7 +230,7 @@ mkShell {
 
         export DATA_DIR="$HOME/.local/nix-serve/$PROJECT_NAME"
         mkdir -p "$DATA_DIR"
-        export RUNTIME_DIR="$DATA_DIR/runtime"
+        export RUNTIME_DIR="$PROJECT_DIR/.nix-runtime"
         export NGINX_DIR="$RUNTIME_DIR/nginx"
         export MYSQL_DIR="$RUNTIME_DIR/mysql"
         export LOGS_DIR="$RUNTIME_DIR/logs"
