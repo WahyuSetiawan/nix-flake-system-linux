@@ -204,8 +204,8 @@ mkShell {
 
   shellHook = # bash
     ''
-      # if [ -z "$SHELL_INITIALIZED" ]; then
-      #   export SHELL_INITIALIZED=1
+      if [ -z "$SHELL_INITIALIZED" ]; then
+        export SHELL_INITIALIZED=1
 
         # Warna untuk output
         export RED='\033[0;31m'
@@ -228,7 +228,9 @@ mkShell {
         export TMP_DIR=$(pwd)/data
         mkdir -p "$TMP_DIR"
 
-        export RUNTIME_DIR="$TMP_DIR"
+        export DATA_DIR="$HOME/.local/nix-serve/$PROJECT_NAME"
+        mkdir -p "$DATA_DIR"
+        export RUNTIME_DIR="$DATA_DIR/runtime"
         export NGINX_DIR="$RUNTIME_DIR/nginx"
         export MYSQL_DIR="$RUNTIME_DIR/mysql"
         export LOGS_DIR="$RUNTIME_DIR/logs"
