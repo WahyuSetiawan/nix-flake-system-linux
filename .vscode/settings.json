@@ -5,8 +5,12 @@
         "flake.nix": "nix",
         "default.nix": "nix"
     },
-    // Format on save generally enabled; pick preferred formatter in extension settings
-    "editor.formatOnSave": true,
+    // Format on save - disabled for Nix files until nixfmt is available
+    "editor.formatOnSave": false,
+    // Disable nixfmt to avoid "spawn nixfmt ENOENT" error
+    "[nix]": {
+        "editor.formatOnSave": false
+    },
     // Keep integrated terminal inheriting environment (should be true by default)
     "terminal.integrated.inheritEnv": true,
     // Helpful: show warnings and problems quickly
