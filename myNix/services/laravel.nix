@@ -22,8 +22,7 @@ let
 
   # Avoid using `builtins.currentTime` for compatibility with older Nix versions
   # Replace spaces with underscores to avoid bash escaping issues in services-flake
-  rawDataDir = getEnv "DATA_DIR" "/tmp/myfolder";
-  dataDir = builtins.replaceStrings [" "] ["\\ "] rawDataDir;
+  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString (inputs.self.util.currentTime or 0)}";
 in
 {
   imports = [
