@@ -9,6 +9,8 @@ mkShell {
   buildInputs = with pkgs; [
     php82
     php82Packages.composer
+    php82Packages.memcached
+    php82Packages.pdo_mysql
     nginx
     mysql80
     nodejs_20
@@ -78,11 +80,13 @@ mkShell {
         fi
 
         # Update .env for development
-        sed -i "s/DB_HOST=.*/DB_HOST=127.0.0.1/" .env
-        sed -i "s/DB_PORT=.*/DB_PORT=$MYSQL_PORT/" .env
-        sed -i "s/DB_DATABASE=.*/DB_DATABASE=laravel/" .env
-        sed -i "s/DB_USERNAME=.*/DB_USERNAME=root/" .env
-        sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=/" .env
+        if [ -f $ENABLE_MYSQL ]; then
+          sed -i "s/DB_HOST=.*/DB_HOST=127.0.0.1/" .env
+          sed -i "s/DB_PORT=.*/DB_PORT=$MYSQL_PORT/" .env
+          sed -i "s/DB_DATABASE=.*/DB_DATABASE=laravel/" .env
+          sed -i "s/DB_USERNAME=.*/DB_USERNAME=root/" .env
+          sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=/" .env
+        fi
 
         migrate_database
 

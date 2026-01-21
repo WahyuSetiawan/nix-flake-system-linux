@@ -9,9 +9,22 @@ let
   inherit (inputs.services-flake.lib) multiService;
   inherit (inputs.self.util) getEnv;
 
+  projectDir = getEnv "PROJECT_DIR" "";
+  projectName = getEnv "PROJECT_NAME" "default";
+
+  # postgres settings
+  enablePostgres = getEnv "ENABLE_POSTGRES" "";
+  postgresDbName = getEnv "POSTGRES_DB_NAME" "sample";
+  postgresPort = getEnv "POSTGRES_PORT" "5432";
+  postgresListen = getEnv "POSTGRES_LISTEN" "127.0.0.1";
+  postgresSchema = getEnv "POSTGRES_SCHEMA" "";
+
+  postgresUser = getEnv "POSTGRES_USER" "dev_user";
+  postgresPass = getEnv "POSTGRES_PASS" "my_password";
+
+  # php fpm and nginx settings
   phpFpmPort = getEnv "PHPFPM_PORT" "9000";
   nginxPort = getEnv "NGINX_PORT" "8081";
-  projectDir = getEnv "PROJECT_DIR" "";
   enableMysql = getEnv "ENABLE_MYSQL" "";
   mysqlPort = getEnv "MYSQL_PORT" "3306";
   memcachedPort = getEnv "MEMCACHED_PORT" "11211";
@@ -31,6 +44,29 @@ in
     (multiService ./extentions/php-artisan-background.nix)
   ];
 
+  services.postgres."pg-${projectName}" = lib.mkIf (enablePostgres != "") {
+    enable = true;
+    # dataDir = dataDir + "/postgres-${projectName}";
+    port = builtins.fromJSON postgresPort;
+    initialScript.before = ''
+      CREATE USER ${postgresUser} WITH password '${postgresPass}';
+      CREATE EXTENSION system_stats;
+    '';
+    extensions = exts: [
+      exts.system_stats
+    ];
+    initialDatabases = [
+      (
+        {
+          name = postgresDbName;
+        }
+        // lib.optionalAttrs (postgresSchema != "") {
+          schemas = [ postgresSchema ];
+        }
+      )
+    ];
+  };
+
   services.nginx."nginx" = {
     enable = true;
     dataDir = dataDir + "/nginx";
@@ -45,7 +81,7 @@ in
         server {
             listen ${nginxPort};
             server_name localhost;
-            root "${projectDir}";
+            root "${projectDir}/public";
 
             index index.php index.html index.htm;
 
