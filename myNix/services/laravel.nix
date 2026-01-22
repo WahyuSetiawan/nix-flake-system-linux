@@ -105,7 +105,7 @@ in
 
   services.php-fpm."phpFpm" = {
     enable = true;
-    package = pkgs.php82;
+    package = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ [ all.memcached ]);
     dataDir = dataDir + "/php";
     listen = builtins.fromJSON phpFpmPort;
     extraConfig = {
