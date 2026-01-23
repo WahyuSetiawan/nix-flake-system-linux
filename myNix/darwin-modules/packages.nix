@@ -1,6 +1,6 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, ... }:
+{
   fonts.packages = with pkgs; [
-    sketchybar-app-font
     # sf-mono-liga-bin
     sf-symbols-font
 
@@ -11,8 +11,9 @@
     nerd-fonts.symbols-only
   ];
 
-  environment.systemPackages = with pkgs;[
+  environment.systemPackages = with pkgs; [
     nixpkgs-fmt
+    nixfmt-rfc-style
     libiconv
     iconv
     cargo
@@ -32,7 +33,6 @@
     home-manager
 
     nixd
-    firebase-tools
     alacritty
 
     docker

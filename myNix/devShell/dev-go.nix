@@ -27,7 +27,7 @@ mkShell {
     git
 
     mariadb.client
-    postgresql
+    # postgresql - marked as broken in nixpkgs-unstable
 
   ];
 

@@ -43,8 +43,8 @@ in
   fonts.fontconfig.enable = true;
 
 
-  # Desktop entries for applications
-  xdg.desktopEntries = {
+  # Desktop entries for applications - only for Linux
+  xdg.desktopEntries = lib.mkIf pkgs.stdenv.isLinux {
     postman = {
       name = "Postman";
       comment = "API Development Environment";

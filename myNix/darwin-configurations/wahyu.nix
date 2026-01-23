@@ -18,7 +18,7 @@ in
     inputs.nix-homebrew.darwinModules.nix-homebrew
   ];
 
-  mouseless.enable = true;
+  # mouseless.enable = false;
 
   system.primaryUser = "wahyu";
   ids.gids.nixbld = 350;
