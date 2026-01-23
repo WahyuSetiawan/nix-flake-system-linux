@@ -22,6 +22,7 @@ mkShell {
     direnv
     gnumake
     git
+    nixfmt
   ]
   ++ lib.optionals (lsp != null) [ lsp ];
 

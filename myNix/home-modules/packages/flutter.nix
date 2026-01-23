@@ -1,4 +1,6 @@
-{ pkgs, ... }: with pkgs; [
+{ pkgs, ... }:
+with pkgs;
+[
   scrcpy
   fvm
 
@@ -13,17 +15,24 @@
   clang
   pkg-config
 
-  firebase-tools
-] ++ (if pkgs.stdenv.isLinux then [
-  # Linux-specific application
-  android-studio
-  gtk3
+]
+++ (
+  if pkgs.stdenv.isLinux then
+    [
+      # Linux-specific application
+      android-studio
+      gtk3
 
-  # google-chrome
+      # google-chrome
 
-  xorg.libX11
-  xorg.libXext
-  xorg.libXrender
-  xorg.libXtst
-  xorg.libXi
-] else [ ])
+      firebase-tools
+
+      xorg.libX11
+      xorg.libXext
+      xorg.libXrender
+      xorg.libXtst
+      xorg.libXi
+    ]
+  else
+    [ ]
+)
