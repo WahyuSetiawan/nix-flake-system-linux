@@ -1,7 +1,13 @@
-{ config, ... }: {
+{ config, ... }:
+{
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     matchBlocks = {
+      "*" = {
+        addKeysToAgent = "yes";
+        identityFile = "~/.ssh/id_ed25519";
+      };
       "gitlab.com" = {
         hostname = "gitlab.com";
         identityFile = config.sops.secrets."ssh_gitlab".path; # Ganti dengan path key-mu
