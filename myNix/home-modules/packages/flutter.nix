@@ -1,12 +1,10 @@
-{ pkgs, ... }:
-with pkgs;
+{ pkgs, ... }: with pkgs;
 [
   scrcpy
   fvm
 
   # jdk21
 
-  # adb-sync  # Temporarily disabled due to broken go-mtpfs dependency
   android-tools
 
   # #linux tool chain
@@ -15,15 +13,16 @@ with pkgs;
   clang
   pkg-config
 
-]
-++ (
-  if pkgs.stdenv.isLinux then
-    [
-      # Linux-specific application
-      android-studio
-      gtk3
+  scrcpy
 
-      # google-chrome
+  # firebase-tools  # broken with nodejs 24
+]
+++ (if pkgs.stdenv.isLinux then [
+  adb-sync
+
+  # Linux-specific application
+  android-studio
+  gtk3
 
       firebase-tools
 

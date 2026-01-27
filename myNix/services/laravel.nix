@@ -9,9 +9,22 @@ let
   inherit (inputs.services-flake.lib) multiService;
   inherit (inputs.self.util) getEnv;
 
+  projectDir = getEnv "PROJECT_DIR" "";
+  projectName = getEnv "PROJECT_NAME" "default";
+
+  # postgres settings
+  enablePostgres = getEnv "ENABLE_POSTGRES" "";
+  postgresDbName = getEnv "POSTGRES_DB_NAME" "sample";
+  postgresPort = getEnv "POSTGRES_PORT" "5432";
+  postgresListen = getEnv "POSTGRES_LISTEN" "127.0.0.1";
+  postgresSchema = getEnv "POSTGRES_SCHEMA" "";
+
+  postgresUser = getEnv "POSTGRES_USER" "dev_user";
+  postgresPass = getEnv "POSTGRES_PASS" "my_password";
+
+  # php fpm and nginx settings
   phpFpmPort = getEnv "PHPFPM_PORT" "9000";
   nginxPort = getEnv "NGINX_PORT" "8081";
-  projectDir = getEnv "PROJECT_DIR" "";
   enableMysql = getEnv "ENABLE_MYSQL" "";
   mysqlPort = getEnv "MYSQL_PORT" "3306";
   memcachedPort = getEnv "MEMCACHED_PORT" "11211";
@@ -22,7 +35,8 @@ let
   enableLaravelQueue = getEnv "LARAVEL_QUEUE" "";
 
   # Avoid using `builtins.currentTime` for compatibility with older Nix versions
-  dataDir = getEnv "DATA_DIR" "/tmp/myfolder";
+  # Replace spaces with underscores to avoid bash escaping issues in services-flake
+  dataDir = getEnv "DATA_DIR" "/tmp/myfolder-${toString (inputs.self.util.currentTime or 0)}";
 in
 {
   imports = [
@@ -30,6 +44,29 @@ in
     (multiService ./extentions/php-fpm.nix)
     (multiService ./extentions/php-artisan-background.nix)
   ];
+
+  services.postgres."pg-${projectName}" = lib.mkIf (enablePostgres != "") {
+    enable = true;
+    # dataDir = dataDir + "/postgres-${projectName}";
+    port = builtins.fromJSON postgresPort;
+    initialScript.before = ''
+      CREATE USER ${postgresUser} WITH password '${postgresPass}';
+      CREATE EXTENSION system_stats;
+    '';
+    extensions = exts: [
+      exts.system_stats
+    ];
+    initialDatabases = [
+      (
+        {
+          name = postgresDbName;
+        }
+        // lib.optionalAttrs (postgresSchema != "") {
+          schemas = [ postgresSchema ];
+        }
+      )
+    ];
+  };
 
   services.nginx."nginx" = {
     enable = true;
@@ -69,7 +106,7 @@ in
 
   services.php-fpm."phpFpm" = {
     enable = true;
-    package = pkgs.php82;
+    package = pkgs.php82.withExtensions ({ enabled, all }: enabled ++ [ all.memcached ]);
     dataDir = dataDir + "/php";
     listen = builtins.fromJSON phpFpmPort;
     extraConfig = {
@@ -83,15 +120,19 @@ in
     };
   };
 
-  services.mysql."php_mysql" = lib.mkIf (enableMysql != "") ({
-    enable = true;
-    dataDir = dataDir + "mysql";
-    settings.mysqld.port = mysqlPort;
-    socketDir = mysqlSocketDir;
-    initialDatabases = [
-      { name = databaseName; }
-    ];
-  });
+  services.mysql."php_mysql" = lib.mkIf (enableMysql != "") (
+    {
+      enable = true;
+      dataDir = dataDir + "/mysql";
+      settings.mysqld.port = mysqlPort;
+      initialDatabases = [
+        { name = databaseName; }
+      ];
+    }
+    // lib.optionalAttrs (mysqlSocketDir != "") {
+      socketDir = mysqlSocketDir;
+    }
+  );
 
   services.memcached."memcached" = {
     enable = true;
