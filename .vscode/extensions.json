@@ -1,0 +1,9 @@
+{
+    // Rekomendasi ekstensi (pasang dari Marketplace)
+    "recommendations": [
+        // Nix language support (main entry – search "Nix" if your marketplace differs)
+        "nix-community.vscode-nix",
+        // direnv integration
+        "direnv.direnv"
+    ]
+}

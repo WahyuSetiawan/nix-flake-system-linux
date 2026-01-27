@@ -1,9 +1,16 @@
-{ inputs, system, pkgs, ... }:
+{
+  inputs,
+  system,
+  pkgs,
+  ...
+}:
 with pkgs;
 mkShell {
   buildInputs = with pkgs; [
     php82
     php82Packages.composer
+    php82Packages.memcached
+    php82Packages.pdo_mysql
     nginx
     mysql80
     nodejs_20
@@ -12,7 +19,7 @@ mkShell {
   ];
 
   packages = [
-    (writeShellScriptBin "migrate_database" #bash
+    (writeShellScriptBin "migrate_database" # bash
       ''
         MYSQL_HOST="localhost"
         TIMEOUT=60  # dalam detik
@@ -44,13 +51,20 @@ mkShell {
           ${pkgs.php82}/bin/php artisan migrate --force
         fi
 
-      '')
-    (writeShellScriptBin "start_services" #bash
       ''
-        alacritty -e nix run ~/.nix#laravel --impure > /dev/null 2>&1 & 
+    )
+    (writeShellScriptBin "start_services" # bash
+      ''
+        # Ensure base directory exists first
+        if [ -z "$TMP_DIR" ] || [ ! -d "$TMP_DIR" ]; then 
+          export TMP_DIR=/tmp/laravel-dev-$(date +%s)-$$
+          mkdir -p "$TMP_DIR"
+        fi
+
+        alacritty -e nix run ~/.nix#laravel --impure 2>&1 | tee "$LOGS_DIR/server.log" &
         ALACRITTY_PID=$!
-        touch $TMP_DIR/server.pid;
-        echo $ALACRITTY_PID > $TMP_DIR/server.pid 
+        touch "$TMP_DIR/server.pid"
+        echo $ALACRITTY_PID > "$TMP_DIR/server.pid"
 
         # Install Laravel dependencies jika belum ada
         if [ ! -d "vendor" ]; then
@@ -66,12 +80,14 @@ mkShell {
         fi
 
         # Update .env for development
-        sed -i "s/DB_HOST=.*/DB_HOST=127.0.0.1/" .env
-        sed -i "s/DB_PORT=.*/DB_PORT=$MYSQL_PORT/" .env
-        sed -i "s/DB_DATABASE=.*/DB_DATABASE=laravel/" .env
-        sed -i "s/DB_USERNAME=.*/DB_USERNAME=root/" .env
-        sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=/" .env
-        
+        if [ -f $ENABLE_MYSQL ]; then
+          sed -i "s/DB_HOST=.*/DB_HOST=127.0.0.1/" .env
+          sed -i "s/DB_PORT=.*/DB_PORT=$MYSQL_PORT/" .env
+          sed -i "s/DB_DATABASE=.*/DB_DATABASE=laravel/" .env
+          sed -i "s/DB_USERNAME=.*/DB_USERNAME=root/" .env
+          sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=/" .env
+        fi
+
         migrate_database
 
         echo -e "''${GREEN}✅ Laravel Development Environment Started!''${NC}"
@@ -81,26 +97,88 @@ mkShell {
         echo -e "''${YELLOW}📝 Logs directory: $LOGS_DIR''${NC}"
         echo -e "''${BLUE}💡 Run 'stop_services' to stop all services''${NC}"
 
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "open_mysql" #bash
+    (writeShellScriptBin "open_mysql" # bash
       ''
         ${pkgs.mysql80}/bin/mysql --socket="$TMP_DIR/mysql.sock" -u root 
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "stop_services" #bash
+    (writeShellScriptBin "stop_services" # bash
       ''
         echo -e "''${YELLOW}🛑 Stopping services...''${NC}"
 
-        # Stop Nginx
+        # Stop Alacritty and all child processes
         if [ -f "$TMP_DIR/server.pid" ]; then
-            kill $(cat "$TMP_DIR/server.pid") 2>/dev/null || true
+            MAIN_PID=$(cat "$TMP_DIR/server.pid")
+            if ps -p $MAIN_PID > /dev/null 2>&1; then
+                echo -e "''${YELLOW}🛑 Stopping Alacritty (PID: $MAIN_PID) and all child processes...''${NC}"
+                # Kill the process group to ensure all children are terminated
+                pkill -P $MAIN_PID 2>/dev/null || true
+                kill $MAIN_PID 2>/dev/null || true
+                sleep 1
+                # Force kill if still running
+                kill -9 $MAIN_PID 2>/dev/null || true
+            fi
             rm -f "$TMP_DIR/server.pid"
         fi
 
-      '')
+        # Stop MySQL explicitly
+        if [ -f "$MYSQL_DIR/mysql.pid" ]; then
+            MYSQL_PID=$(cat "$MYSQL_DIR/mysql.pid")
+            if ps -p $MYSQL_PID > /dev/null 2>&1; then
+                echo -e "''${YELLOW}🛑 Stopping MySQL (PID: $MYSQL_PID)...''${NC}"
+                kill $MYSQL_PID 2>/dev/null || true
+                sleep 1
+                kill -9 $MYSQL_PID 2>/dev/null || true
+            fi
+            rm -f "$MYSQL_DIR/mysql.pid"
+        fi
 
-    (writeShellScriptBin "cleanup_on_exit" #bash 
+        # Stop Nginx explicitly
+        if [ -f "$NGINX_DIR/nginx.pid" ]; then
+            NGINX_PID=$(cat "$NGINX_DIR/nginx.pid")
+            if ps -p $NGINX_PID > /dev/null 2>&1; then
+                echo -e "''${YELLOW}🛑 Stopping Nginx (PID: $NGINX_PID)...''${NC}"
+                kill $NGINX_PID 2>/dev/null || true
+                sleep 1
+                kill -9 $NGINX_PID 2>/dev/null || true
+            fi
+            rm -f "$NGINX_DIR/nginx.pid"
+        fi
+
+        # Stop PHP-FPM explicitly
+        if [ -f "$PHP_DIR/php-fpm.pid" ]; then
+            PHP_PID=$(cat "$PHP_DIR/php-fpm.pid")
+            if ps -p $PHP_PID > /dev/null 2>&1; then
+                echo -e "''${YELLOW}🛑 Stopping PHP-FPM (PID: $PHP_PID)...''${NC}"
+                kill $PHP_PID 2>/dev/null || true
+                sleep 1
+                kill -9 $PHP_PID 2>/dev/null || true
+            fi
+            rm -f "$PHP_DIR/php-fpm.pid"
+        fi
+
+        # Kill any remaining MySQL processes using our socket
+        pkill -f "mysql.*$MYSQL_SOCKET_DIR" 2>/dev/null || true
+
+        # Kill any remaining Nginx processes on our port
+        pkill -f "nginx.*$NGINX_PORT" 2>/dev/null || true
+
+        # Kill any remaining PHP-FPM processes
+        pkill -f "php-fpm.*$PROJECT_NAME" 2>/dev/null || true
+
+        # Clean up socket files
+        rm -f "$TMP_DIR/mysql.sock" 2>/dev/null || true
+        rm -f "$TMP_DIR/mysql.sock.lock" 2>/dev/null || true
+
+        echo -e "''${GREEN}✅ All services stopped!''${NC}"
+      ''
+    )
+
+    (writeShellScriptBin "cleanup_on_exit" # bash
       ''
         echo -e "\n''${YELLOW}🔄 Cleaning up on exit...''${NC}"
         stop_services
@@ -110,9 +188,10 @@ mkShell {
         rm -rf "$RUNTIME_DIR"
 
         echo -e "''${GREEN}✅ All services stopped and cleaned up!''${NC}"
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "helpme" #bash
+    (writeShellScriptBin "helpme" # bash
       ''
         echo -e "\n''${BLUE}🎉 Welcome to Laravel Development Environment!''${NC}"
         echo -e "''${BLUE}Available commands:''${NC}"
@@ -123,44 +202,44 @@ mkShell {
         echo -e "  • ''${GREEN}php artisan''${NC}     - Laravel artisan commands"
         echo -e "  • ''${GREEN}composer''${NC}        - Composer package manager"
         echo -e "  • ''${GREEN}npm/yarn''${NC}        - Node package managers"
-      '')
+      ''
+    )
   ];
 
-  shellHook = #bash 
+  shellHook = # bash
     ''
-      # Warna untuk output
-      export RED='\033[0;31m'
-      export GREEN='\033[0;32m'
-      export YELLOW='\033[1;33m'
-      export BLUE='\033[0;34m'
-      export NC='\033[0m' # No Color
+      # if [ -z "$SHELL_INITIALIZED" ]; then
+      #   export SHELL_INITIALIZED=1
 
-      # Variabel konfigurasi
-      export PROJECT_NAME="laravel-dev"
-      export PROJECT_DIR="$(pwd)"
-      export NGINX_PORT="8086"
-      export MYSQL_PORT="3306"
-      export LARAVEL_PORT="8000"
+        # Warna untuk output
+        export RED='\033[0;31m'
+        export GREEN='\033[0;32m'
+        export YELLOW='\033[1;33m'
+        export BLUE='\033[0;34m'
+        export NC='\033[0m' # No Color
 
-      export ENABLE_MYSQL=true
+        # Variabel konfigurasi
+        export PROJECT_NAME="laravel-dev"
+        export PROJECT_DIR="$(pwd)"
+        export NGINX_PORT="8086"
+        export MYSQL_PORT="3306"
+        export LARAVEL_PORT="8000"
 
-      # Direktori untuk runtime files
-      export TMP_DIR=$(mktemp -d -t "myapp-$(date +%s)-XXXXXX")
+        # Direktori untuk runtime files
+        export RUNTIME_DIR="$PROJECT_DIR/.nix-runtime"
+        export NGINX_DIR="$RUNTIME_DIR/nginx"
+        export MYSQL_DIR="$RUNTIME_DIR/mysql"
+        export LOGS_DIR="$RUNTIME_DIR/logs"
+        export PHP_DIR="$RUNTIME_DIR/php"
 
-      export RUNTIME_DIR="$TMP_DIR"
-      export NGINX_DIR="$RUNTIME_DIR/nginx"
-      export MYSQL_DIR="$RUNTIME_DIR/mysql"
-      export LOGS_DIR="$RUNTIME_DIR/logs"
-      export PHP_DIR="$RUNTIME_DIR/php"
-      export MYSQL_SOCKET_DIR="$TMP_DIR"
+        mkdir -p "$NGINX_DIR" "$MYSQL_DIR" "$LOGS_DIR" "$PHP_DIR"
 
-      mkdir $TMP_DIR;
+        # Register cleanup function
+        # trap cleanup_on_exit EXIT INT TERM
 
-      # Register cleanup function
-      trap cleanup_on_exit EXIT INT TERM
-
-      # Auto-start services
-      # start_services
-      helpme;
+        # Auto-start services
+        # start_services
+        helpme;
+      # fi
     '';
 }

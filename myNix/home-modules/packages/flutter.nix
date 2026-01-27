@@ -2,7 +2,10 @@
   scrcpy
   fvm
 
-  jdk17
+  # jdk21
+
+  adb-sync
+  android-tools
 
   # #linux tool chain
   cmake

@@ -1,5 +1,6 @@
 { pkgs, ... }:
-with pkgs; mkShell {
+with pkgs;
+mkShell {
   name = "development golang";
 
   # Paket-paket yang dibutuhkan
@@ -25,22 +26,22 @@ with pkgs; mkShell {
     # Version control
     git
 
-    mysql-client
+    mariadb.client
     postgresql
 
   ];
 
-
   packages = [
-    (writeShellScriptBin "start_services" #bash
+    (writeShellScriptBin "start_services" # bash
       ''
         alacritty -e nix run ~/.nix#server-dev --impure > /dev/null 2>&1 & 
             ALACRITTY_PID=$!
             touch $TMP_DIR/server.pid;
             echo $ALACRITTY_PID > $TMP_DIR/server.pid 
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "stop_services" #bash
+    (writeShellScriptBin "stop_services" # bash
       ''
         echo -e "''${YELLOW}🛑 Stopping services...''${NC}"
 
@@ -50,31 +51,35 @@ with pkgs; mkShell {
             rm -f "$TMP_DIR/server.pid"
         fi
 
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "help_me" #bash
+    (writeShellScriptBin "help_me" # bash
       ''
         echo "🚀 Golang development shell ready!"
 
         echo "Go development environment ready!"
         echo "Go version: $(go version)"
-      '')
+      ''
+    )
 
   ];
 
   # Environment variables untuk Golang
   shellHook = ''
-        direnv allow .
-
+    if [ -z "$SHELL_INITIALIZED" ]; then
+        export SHELL_INITIALIZED=1
         export TMP_DIR=$(mktemp -d -t "myapp-$(date +%s)-XXXXXX")
-    w
 
         export GOPATH="$HOME/go"
         export PATH=$PATH:$(go env GOPATH)/bin
         export PATH="$GOPATH/bin:$PATH"
 
         go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
-    
+
+        go install github.com/go-delve/delve/cmd/dlv@latest
+
         help_me
+    fi
   '';
 }

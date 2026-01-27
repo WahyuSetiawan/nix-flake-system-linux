@@ -9,9 +9,11 @@ in
 {
   home.sessionVariables = {
     PATH = "$HOME/fvm/default/bin:$PATH";
+    GOCACHE="/tmp/go-cache";
+    GOMODCACHE="/tmp/go-modcache";
   };
 
-  home = {
+  home = {  
     shellAliases =
       allAllias //
       {
