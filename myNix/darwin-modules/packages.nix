@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }: {
   fonts.packages = with pkgs; [
-    sketchybar-app-font
+    # sketchybar-app-font  # disabled: npm install fails with SSL cert error in sandbox
     # sf-mono-liga-bin
     sf-symbols-font
 
@@ -32,7 +32,7 @@
     home-manager
 
     nixd
-    firebase-tools
+    # firebase-tools  # broken with nodejs 24
     alacritty
 
     docker

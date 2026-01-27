@@ -9,10 +9,7 @@ stdenv.mkDerivation {
   name = "menus";
   src = lib.cleanSource ./.;
 
-  buildInputs = with darwin.apple_sdk.frameworks; [
-    Carbon
-    SkyLight
-  ];
+  buildInputs = [ ];
 
   installPhase = ''
     mkdir -p $out/bin

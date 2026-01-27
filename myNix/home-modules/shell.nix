@@ -31,6 +31,7 @@ in
 
   home.packages = with pkgs; [
     fish
+    starship
   ];
 
   programs = {

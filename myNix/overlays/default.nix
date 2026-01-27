@@ -36,12 +36,12 @@
     sketchybar-app-font = prev.stdenv.mkDerivation {
       name = "sketchybar-app-font";
       src = inputs.sketchybar-app-font;
-      buildInputs = [
+      nativeBuildInputs = [
         final.nodejs
-        final.nodePackages.svgtofont
       ];
       buildPhase = ''
-        ln -s ${final.nodePackages.svgtofont}/lib/node_modules ./node_modules
+        export HOME=$TMPDIR
+        npm install --legacy-peer-deps
         node ./build.js
       '';
       installPhase = ''

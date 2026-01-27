@@ -44,7 +44,7 @@ in
 
 
   # Desktop entries for applications
-  xdg.desktopEntries = {
+  xdg.desktopEntries = lib.mkIf pkgs.stdenv.isLinux {
     postman = {
       name = "Postman";
       comment = "API Development Environment";
