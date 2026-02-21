@@ -26,7 +26,7 @@ in
     xclip
 
     lua-language-server
-    inputs.oxalica-nil.packages.${pkgs.stdenv.hostPlatform.system}.nil  # Fix system reference
+    # inputs.oxalica-nil.packages.${pkgs.stdenv.hostPlatform.system}.nil  # Fix system reference
 
     nodejs
   ] ++ (if pkgs.stdenv.isLinux then [
@@ -59,7 +59,7 @@ in
   home.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}";
     GOPROXY = "https://proxy.golang.org,direct";
-    GOPATH = "$HOME/go/bin";
+    GOPATH = "$HOME/go";
     # GOROOT = "$HOME/go";
   };
 }

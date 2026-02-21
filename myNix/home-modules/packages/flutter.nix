@@ -25,7 +25,7 @@ with pkgs;
 
       # google-chrome
 
-      firebase-tools
+      # firebase-tools
 
       xorg.libX11
       xorg.libXext

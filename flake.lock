@@ -1052,22 +1052,6 @@
     },
     "nixpkgs_10": {
       "locked": {
-        "lastModified": 1749619289,
-        "narHash": "sha256-qX6gXVjaCXXbcn6A9eSLUf8Fm07MgPGe5ir3++y2O1Q=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "f72be405a10668b8b00937b452f2145244103ebc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_11": {
-      "locked": {
         "lastModified": 1768569498,
         "narHash": "sha256-bB6Nt99Cj8Nu5nIUq0GLmpiErIT5KFshMQJGMZwgqUo=",
         "owner": "NixOS",
@@ -1209,24 +1193,6 @@
         "type": "github"
       }
     },
-    "oxalica-nil": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_10"
-      },
-      "locked": {
-        "lastModified": 1765326831,
-        "narHash": "sha256-18j8X2Nbe0Wg1+7YrWRlYzmjZ5Wq0NCVwJHJlBIw/dc=",
-        "owner": "oxalica",
-        "repo": "nil",
-        "rev": "504599f7e555a249d6754698473124018b80d121",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oxalica",
-        "repo": "nil",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -1283,7 +1249,6 @@
         "nixpkgs": "nixpkgs_9",
         "nixpkgs-old": "nixpkgs-old",
         "nixpkgs-old-20": "nixpkgs-old-20",
-        "oxalica-nil": "oxalica-nil",
         "process-compose-flake": "process-compose-flake",
         "services-flake": "services-flake",
         "sops-nix": "sops-nix"
@@ -1306,7 +1271,7 @@
     },
     "sops-nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs_11"
+        "nixpkgs": "nixpkgs_10"
       },
       "locked": {
         "lastModified": 1768863606,

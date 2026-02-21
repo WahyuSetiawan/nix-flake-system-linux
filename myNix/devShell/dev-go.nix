@@ -26,6 +26,10 @@ mkShell {
     # Version control
     git
 
+    # library c
+    glibc
+    gcc
+
     mariadb.client
     # postgresql - marked as broken in nixpkgs-unstable
 

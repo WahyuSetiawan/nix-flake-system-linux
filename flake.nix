@@ -31,9 +31,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    oxalica-nil = {
-      url = "github:oxalica/nil";
-    };
+    # oxalica-nil = {
+    #   url = "github:oxalica/nil";
+    # };
 
     ### -- nix related tools
     process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";

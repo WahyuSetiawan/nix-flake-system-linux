@@ -148,7 +148,13 @@ mkShell {
       export TMP_DIR=$(mktemp -d -t "myapp-$(date +%s)-XXXXXX")
 
       # Prisma configuration
-      export PRISMA_QUERY_ENGINE_LIBRARY="${pkgs.prisma-engines}/lib/libquery_engine.node"
+      if [ -f "${pkgs.prisma-engines}/lib/libquery_engine.node" ]; then
+        export PRISMA_QUERY_ENGINE_LIBRARY="${pkgs.prisma-engines}/lib/libquery_engine.node"
+      elif [ -f "${pkgs.prisma-engines}/lib/libquery_engine.so.node" ]; then
+        export PRISMA_QUERY_ENGINE_LIBRARY="${pkgs.prisma-engines}/lib/libquery_engine.so.node"
+      else
+        unset PRISMA_QUERY_ENGINE_LIBRARY
+      fi
       export PRISMA_SCHEMA_ENGINE_BINARY="${pkgs.prisma-engines}/bin/schema-engine"
       export PKG_CONFIG_PATH="${pkgs.sqlite.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
       export SQLITE3_INCLUDE_DIR="${pkgs.sqlite.dev}/include"
