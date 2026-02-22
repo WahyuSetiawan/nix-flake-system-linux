@@ -67,6 +67,31 @@ mkShell {
       ''
     )
 
+    (writeShellScriptBin "nswag" # bash
+      ''
+        go install github.com/swaggo/swag/cmd/swag@latest
+        swag --version
+
+        # menambahkan parameter untuk generate docs
+        echo "Generating Swagger docs..."
+        swag init -g cmd/main.go -o docs
+      ''
+    )
+
+    (writeShellScriptBin "migrate" # bash
+      ''
+        go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+        migrate -version
+      ''
+    )
+
+    (writeShellScriptBin "nair" # bash
+      ''
+                go install github.com/air-verse/air@latest
+        	      air
+      ''
+    )
+
   ];
 
   # Environment variables untuk Golang
@@ -79,7 +104,7 @@ mkShell {
         export PATH=$PATH:$(go env GOPATH)/bin
         export PATH="$GOPATH/bin:$PATH"
 
-        go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+        # go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
         go install github.com/go-delve/delve/cmd/dlv@latest
 
