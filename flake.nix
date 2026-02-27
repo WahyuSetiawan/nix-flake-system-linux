@@ -20,7 +20,7 @@
     cachix.url = "github:cachix/cachix";
 
     nixgl.url = "github:nix-community/nixGL?ref=main";
-    
+
     ### security
     sops-nix.url = "github:Mic92/sops-nix";
     # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -31,9 +31,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # oxalica-nil = {
-    #   url = "github:oxalica/nil";
-    # };
+    nil = {
+      url = "github:oxalica/nil";
+      inputs.nixpkgs.follows = "nixpkgs"; # Gunakan nixpkgs yang sama
+    };
 
     ### -- nix related tools
     process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";
@@ -66,22 +67,21 @@
       flake = false;
     };
 
-
     mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = { flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; }
-      {
-        systems = [
-          "x86_64-linux"
-          "aarch64-darwin"
-        ];
+  outputs =
+    { flake-parts, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
 
-        imports = [
-          inputs.process-compose-flake.flakeModule
-          inputs.ez-configs.flakeModule
-          ./myNix
-        ];
-      };
+      imports = [
+        inputs.process-compose-flake.flakeModule
+        inputs.ez-configs.flakeModule
+        ./myNix
+      ];
+    };
 }

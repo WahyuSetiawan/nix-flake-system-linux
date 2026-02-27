@@ -1,4 +1,11 @@
-{ inputs, pkgs, config, lib, args, ... }:
+{
+  inputs,
+  pkgs,
+  config,
+  lib,
+  args,
+  ...
+}:
 let
   nixConfigDirectory = config.home.user-info.nixConfigDirectory;
   dirAllias = ./packages;
@@ -11,37 +18,47 @@ in
 {
   # nixGL configuration - only for Linux
   nixGL = lib.mkIf pkgs.stdenv.isLinux {
-    packages = import inputs.nixgl { 
-      inherit pkgs; 
-      enable32bits = false;  # Add this to avoid some issues
+    packages = import inputs.nixgl {
+      inherit pkgs;
+      enable32bits = false; # Add this to avoid some issues
     };
-    defaultWrapper = "mesa";  # Change from nvidiaPrime to mesa for better compatibility
+    defaultWrapper = "mesa"; # Change from nvidiaPrime to mesa for better compatibility
     offloadWrapper = "mesa";
-    installScripts = [ "mesa" ];  # Remove nvidiaPrime for now
+    installScripts = [ "mesa" ]; # Remove nvidiaPrime for now
   };
 
-  home.packages = with pkgs; listPackages ++ [
-    # development
-    killall
-    xclip
+  home.packages =
+    with pkgs;
+    listPackages
+    ++ [
+      # development
+      killall
+      xclip
 
-    lua-language-server
-    # inputs.oxalica-nil.packages.${pkgs.stdenv.hostPlatform.system}.nil  # Fix system reference
+      lua-language-server
 
-    nodejs
-  ] ++ (if pkgs.stdenv.isLinux then [
-    arandr
-    wl-clipboard
+      nodejs
 
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.fira-code
-    nerd-fonts.hack
-    nerd-fonts.symbols-only
-    nerd-fonts.meslo-lg
-  ] else [ ]);
+      nixd
+      nil
+    ]
+    ++ (
+      if pkgs.stdenv.isLinux then
+        [
+          arandr
+          wl-clipboard
+
+          nerd-fonts.jetbrains-mono
+          nerd-fonts.fira-code
+          nerd-fonts.hack
+          nerd-fonts.symbols-only
+          nerd-fonts.meslo-lg
+        ]
+      else
+        [ ]
+    );
 
   fonts.fontconfig.enable = true;
-
 
   # Desktop entries for applications - only for Linux
   xdg.desktopEntries = lib.mkIf pkgs.stdenv.isLinux {
@@ -51,8 +68,25 @@ in
       exec = "postman";
       icon = "postman";
       terminal = false;
-      categories = [ "Development" "Network" "WebDevelopment" ];
+      categories = [
+        "Development"
+        "Network"
+        "WebDevelopment"
+      ];
       mimeType = [ "application/json" ];
+    };
+    antares = {
+      name = "Antares";
+      comment = "Antares Database Manager";
+      exec = "antares";
+      icon = "antares";
+      terminal = false;
+      categories = [
+        "Development"
+        "Database"
+        "Network"
+      ];
+      mimeType = [ "application/sql" ];
     };
   };
 
