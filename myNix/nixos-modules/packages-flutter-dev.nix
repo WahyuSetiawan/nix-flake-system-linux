@@ -15,7 +15,7 @@
     pkg-config
     gtk3
 
-    firebase-tools
+    # firebase-tools
 
     google-chrome
 

@@ -8,7 +8,7 @@ with pkgs;
 mkShell {
   buildInputs = with pkgs; [
     php82
-    php82Packages.composer
+    # php82Packages.composer
     # php82Packages.memcached
     # php82Packages.pdo_mysql
     nginx

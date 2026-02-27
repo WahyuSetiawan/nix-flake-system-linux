@@ -24,7 +24,7 @@
   android-studio
   gtk3
 
-      firebase-tools
+      # firebase-tools
 
       xorg.libX11
       xorg.libXext
