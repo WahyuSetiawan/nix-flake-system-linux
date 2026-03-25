@@ -68,27 +68,60 @@ in
       exec = "postman";
       icon = "postman";
       terminal = false;
+      type = "Application";
       categories = [
         "Development"
         "Network"
         "WebDevelopment"
       ];
       mimeType = [ "application/json" ];
-    };
-    antares = {
-      name = "Antares";
-      comment = "Antares Database Manager";
-      exec = "antares";
-      icon = "antares";
-      terminal = false;
-      categories = [
-        "Development"
-        "Database"
-        "Network"
-      ];
-      mimeType = [ "application/sql" ];
+      settings = {
+        StartupWMClass = "postman";
+      };
     };
   };
+
+  home.file = lib.mkIf pkgs.stdenv.isLinux {
+    # postman
+
+    # beaver
+    ".local/share/applications/dbeaver.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+      text = ''
+        [Desktop Entry]
+        Name=DBeaver
+        GenericName=DBeaver
+        X-GNOME-FullName=DBeaver Community Edition
+        Comment=Universal Database Manager
+        Keywords=database;sql;
+        Exec=${pkgs.dbeaver-bin}/bin/dbeaver
+        Terminal=false
+        Type=Application
+        Icon=${pkgs.dbeaver-bin}/share/icons/hicolor/256x256/apps/dbeaver.png
+        Categories=Development;Database;Utilities;
+        StartupWMClass=DBeaver
+        MimeType=application/sql;
+      '';
+    };
+
+    # zed editor
+    ".local/share/applications/zed-editor.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+      text = ''
+        [Desktop Entry]
+        Name=Zed Editor
+        Comment=Next-Generation Code Editor
+        Exec=${pkgs.zed-editor}/bin/zeditor
+        Terminal=false
+        Type=Application
+        Icon=${pkgs.zed-editor}/share/icons/hicolor/512x512/apps/zed.png
+        Categories=Development;TextEditor;Utilities;
+        StartupWMClass=Zed
+        MimeType=text/plain;
+      '';
+    };
+  };
+
+  # Ensure XDG directories are properly set for Ubuntu desktop integration
+  xdg.enable = true;
 
   home.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}";
