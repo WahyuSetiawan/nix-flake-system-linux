@@ -1,11 +1,17 @@
-{ pkgs, lib, config, osConfig ? null, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  osConfig ? null,
+  ...
+}:
 let
   nixConfigDirectory = config.home.user-info.nixConfigDirectory;
   concatString' = lib.strings.concatStringsSep " && ";
-  username = 
-    if osConfig != null && osConfig ? users && osConfig.users ? primaryUser then 
-      osConfig.users.primaryUser.username 
-    else 
+  username =
+    if osConfig != null && osConfig ? users && osConfig.users ? primaryUser then
+      osConfig.users.primaryUser.username
+    else
       config.home.username;
 in
 {
@@ -22,18 +28,22 @@ in
   nixda = "direnv allow";
   nixdr = "direnv reload";
   nixopensecrets = "nix-shell -p sops --run \"sops ${nixConfigDirectory}/secrets/secrets.yaml\"";
+  nixupdate = "nix flake update ${nixConfigDirectory}";
   nixhomeswitch = "home-manager switch --flake ${nixConfigDirectory}";
   nixbuild =
-    if pkgs.stdenv.isDarwin
-    then "sudo darwin-rebuild build --flake ${nixConfigDirectory}#${username}" else
+    if pkgs.stdenv.isDarwin then
+      "sudo darwin-rebuild build --flake ${nixConfigDirectory}#${username}"
+    else
       "nixos-rebuild build --flake ${nixConfigDirectory}#${username} --sudo";
   nixdryrun =
-    if pkgs.stdenv.isDarwin
-    then "sudo darwin-rebuild dry-run --flake ${nixConfigDirectory}#${username}" else
+    if pkgs.stdenv.isDarwin then
+      "sudo darwin-rebuild dry-run --flake ${nixConfigDirectory}#${username}"
+    else
       "nixos-rebuild dry-run --flake ${nixConfigDirectory}#${username} --sudo";
   nixswitch =
-    if pkgs.stdenv.isDarwin
-    then "sudo darwin-rebuild switch --flake ${nixConfigDirectory}#${username}" else
+    if pkgs.stdenv.isDarwin then
+      "sudo darwin-rebuild switch --flake ${nixConfigDirectory}#${username}"
+    else
       "nixos-rebuild switch --flake ${nixConfigDirectory}#${username} --sudo";
 
 }

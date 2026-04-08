@@ -11,7 +11,7 @@
     pkg-config
     openssl
     openssl.dev
-    rustls-libssl
+    # rustls-libssl
   ];
   # Variabel environment
   RUST_BACKTRACE = "1";

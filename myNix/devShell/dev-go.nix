@@ -26,8 +26,12 @@ mkShell {
     # Version control
     git
 
+    # library c
+    glibc
+    gcc
+
     mariadb.client
-    postgresql
+    # postgresql - marked as broken in nixpkgs-unstable
 
   ];
 
@@ -60,6 +64,31 @@ mkShell {
 
         echo "Go development environment ready!"
         echo "Go version: $(go version)"
+      ''
+    )
+
+    (writeShellScriptBin "nswag" # bash
+      ''
+        go install github.com/swaggo/swag/cmd/swag@latest
+        swag --version
+        
+        # menambahkan parameter untuk generate docs
+        echo "Generating Swagger docs..."
+        swag init -g cmd/main.go -o docs
+      ''
+    )
+
+    (writeShellScriptBin "migrate" # bash
+      ''
+        go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+        migrate -version
+      ''
+    )
+
+    (writeShellScriptBin "nair" # bash
+      ''
+        go install github.com/air-verse/air@latest
+	      air
       ''
     )
 

@@ -1,4 +1,5 @@
-{ config, ... }: {
+{ config, ... }:
+{
   programs.ssh = {
     enable = true;
     matchBlocks = {
@@ -6,16 +7,19 @@
         hostname = "gitlab.com";
         identityFile = config.sops.secrets."ssh_gitlab".path; # Ganti dengan path key-mu
         user = "git";
+        identitiesOnly = true;
       };
       "github.com" = {
         hostname = "github.com";
         identityFile = config.sops.secrets."ssh_github".path;
         user = "git";
+        identitiesOnly = true;
       };
       "gitlab.digitalsiber.id" = {
         hostname = "gitlab.digitalsiber.id";
         identityFile = config.sops.secrets."ssh_gitlab_siber".path;
         user = "git";
+        identitiesOnly = true;
       };
       "sentra.github.com" = {
         hostname = "github.com";

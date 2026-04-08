@@ -1,4 +1,11 @@
-{ inputs, system, pkgs, ... }: with pkgs ;mkShell {
+{
+  inputs,
+  system,
+  pkgs,
+  ...
+}:
+with pkgs;
+mkShell {
   name = "Development Laravel 6";
 
   # Paket yang diinstal di environment
@@ -9,17 +16,16 @@
 
     vscode-langservers-extracted
 
-    inputs.nixpkgs-old-20.legacyPackages.${pkgs.system}.php74
-    inputs.nixpkgs-old-20.legacyPackages.${pkgs.system}.php74Packages.composer
+    php84
+    php84Packages.composer
     nginx
     mysql80
     nmap
   ];
 
-
   packages = [
 
-    (writeShellScriptBin "prepare_file" #bash
+    (writeShellScriptBin "prepare_file" # bash
       ''
         # Membuat direktori runtime
         mkdir -p "$RUNTIME_DIR"
@@ -110,7 +116,7 @@
       ''
     )
 
-    (writeShellScriptBin "start_services" #bash
+    (writeShellScriptBin "start_services" # bash
       ''
         echo -e "''${BLUE}🚀 Starting Laravel Development Environment...''${NC}"
 
@@ -178,8 +184,9 @@
         echo -e "''${GREEN}🗄️  MySQL: localhost:$MYSQL_PORT (user: root, no password)''${NC}"
         echo -e "''${YELLOW}📝 Logs directory: $LOGS_DIR''${NC}"
         echo -e "''${BLUE}💡 Run 'stop_services' to stop all services''${NC}"
-      '')
-    (writeShellScriptBin "stop_services" #bash
+      ''
+    )
+    (writeShellScriptBin "stop_services" # bash
       ''
         echo -e "''${YELLOW}🛑 Stopping services...''${NC}"
 
@@ -201,8 +208,9 @@
             rm -f "$RUNTIME_DIR/mysql.pid"
         fi
 
-      '')
-    (writeShellScriptBin "cleanup_on_exit" #bash 
+      ''
+    )
+    (writeShellScriptBin "cleanup_on_exit" # bash
       ''
         echo -e "\n''${YELLOW}🔄 Cleaning up on exit...''${NC}"
         stop_services
@@ -212,9 +220,10 @@
         rm -rf "$RUNTIME_DIR"
 
         echo -e "''${GREEN}✅ All services stopped and cleaned up!''${NC}"
-      '')
+      ''
+    )
 
-    (writeShellScriptBin "helpme" #bash
+    (writeShellScriptBin "helpme" # bash
       ''
         echo "Node: $(node --version)"
         echo "Pnpm: $(pnpm --version)"
@@ -227,14 +236,13 @@
         echo -e "  • ''${GREEN}php artisan''${NC}     - Laravel artisan commands"
         echo -e "  • ''${GREEN}composer''${NC}        - Composer package manager"
         echo -e "  • ''${GREEN}npm/yarn''${NC}        - Node package managers"
-      '')
+      ''
+    )
   ];
-
-
 
   # Variabel environment (opsional)
   shellHook =
-    #bash 
+    #bash
     ''
       # Warna untuk output
       export RED='\033[0;31m'
@@ -267,4 +275,3 @@
       helpme;
     '';
 }
-

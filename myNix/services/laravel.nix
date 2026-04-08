@@ -30,7 +30,8 @@ let
   memcachedPort = getEnv "MEMCACHED_PORT" "11211";
 
   databaseName = getEnv "DB_DATABASE" "laravel";
-  mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "";
+  # Use very short socket path to stay under Unix socket limit (104 chars)
+  mysqlSocketDir = getEnv "MYSQL_SOCKET_DIR" "/tmp/ms";
   enableLaravelQueue = getEnv "LARAVEL_QUEUE" "";
 
   # Avoid using `builtins.currentTime` for compatibility with older Nix versions
