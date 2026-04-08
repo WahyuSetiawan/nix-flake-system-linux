@@ -6,8 +6,6 @@ with pkgs;
     exec ${postman}/bin/postman --no-sandbox "$@"
   '')
 
-  deskflow
-
   dbeaver-bin
   # zed-editor
   # zed-zed-editor
@@ -20,6 +18,8 @@ with pkgs;
 ++ (
   if pkgs.stdenv.isLinux then
     [
+      deskflow
+
       # Linux-specific applications
       nemo
       gnome-calculator
