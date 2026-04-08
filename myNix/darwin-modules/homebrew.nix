@@ -1,24 +1,23 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 let
   inherit (lib) mkIf;
 in
 {
-  environment.shellInit =
-    ''
-      eval "$(${config.homebrew.brewPrefix}/brew shellenv)"
-    '';
+  environment.shellInit = ''
+    eval "$(${config.homebrew.prefix}/bin/brew shellenv)"
+  '';
 
-  system.activationScripts.postActivation.text =
-    ''
-      if [ ! -f ${config.homebrew.brewPrefix}/brew ]; then
-        ${pkgs.bash}/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      fi
-    '';
+  system.activationScripts.postActivation.text = ''
+    if [ ! -f ${config.homebrew.prefix}/bin/brew ]; then
+      ${pkgs.bash}/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+  '';
 
   homebrew = {
     enable = true;
@@ -32,6 +31,6 @@ in
       WhatsApp = 310633997;
     };
 
-    casks = [];
+    casks = [ ];
   };
 }

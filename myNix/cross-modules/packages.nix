@@ -12,6 +12,6 @@
   environment.systemPackages = with pkgs; [
     age
     lua-language-server
-    inputs.oxalica-nil.packages.${pkgs.system}.nil
+    inputs.nil.packages.${pkgs.system}.nil
   ];
 }

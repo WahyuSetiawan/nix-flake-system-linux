@@ -32,6 +32,23 @@
         cp -R $src/*.otf $out/share/fonts/opentype
       '';
     });
+
+    sketchybar-app-font = prev.stdenv.mkDerivation {
+      name = "sketchybar-app-font";
+      src = inputs.sketchybar-app-font;
+      nativeBuildInputs = [
+        final.nodejs
+      ];
+      buildPhase = ''
+        export HOME=$TMPDIR
+        npm install --legacy-peer-deps
+        node ./build.js
+      '';
+      installPhase = ''
+        mkdir -p $out/share/fonts
+        cp -r dist/*.ttf $out/share/fonts
+      '';
+    };
   };
 }
 

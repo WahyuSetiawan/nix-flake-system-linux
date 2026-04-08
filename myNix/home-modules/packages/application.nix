@@ -6,6 +6,8 @@ with pkgs;
     exec ${postman}/bin/postman --no-sandbox "$@"
   '')
 
+  deskflow
+
   dbeaver-bin
   # zed-editor
   # zed-zed-editor
