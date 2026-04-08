@@ -33,5 +33,3 @@ in
   sops.secrets.ssh_vps_spada = { };
   sops.secrets.ssh_vps_prod = { };
 }
-
-

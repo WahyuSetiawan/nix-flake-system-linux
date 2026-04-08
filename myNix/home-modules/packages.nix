@@ -41,6 +41,8 @@ in
 
       nixd
       nil
+      # mcp server nix
+      mcp-nixos
     ]
     ++ (
       if pkgs.stdenv.isLinux then
@@ -68,27 +70,95 @@ in
       exec = "postman";
       icon = "postman";
       terminal = false;
+      type = "Application";
       categories = [
         "Development"
         "Network"
         "WebDevelopment"
       ];
       mimeType = [ "application/json" ];
-    };
-    antares = {
-      name = "Antares";
-      comment = "Antares Database Manager";
-      exec = "antares";
-      icon = "antares";
-      terminal = false;
-      categories = [
-        "Development"
-        "Database"
-        "Network"
-      ];
-      mimeType = [ "application/sql" ];
+      settings = {
+        StartupWMClass = "postman";
+      };
     };
   };
+
+  home.file = lib.mkIf pkgs.stdenv.isLinux {
+    # postman
+
+    # beaver
+    ".local/share/applications/dbeaver.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+      text = ''
+        [Desktop Entry]
+        Name=DBeaver
+        GenericName=DBeaver
+        X-GNOME-FullName=DBeaver Community Edition
+        Comment=Universal Database Manager
+        Keywords=database;sql;
+        Exec=${pkgs.dbeaver-bin}/bin/dbeaver
+        Terminal=false
+        Type=Application
+        Icon=${pkgs.dbeaver-bin}/share/icons/hicolor/256x256/apps/dbeaver.png
+        Categories=Development;Database;Utilities;
+        StartupWMClass=DBeaver
+        MimeType=application/sql;
+      '';
+    };
+
+    # breave
+    ".local/share/applications/brave.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+      text = ''
+        [Desktop Entry]
+        Name=Brave
+        GenericName=Brave
+        X-GNOME-FullName=Brave Browser
+        Comment=Web Browser
+        Keywords=browser;web;internet;
+        Exec=brave
+        Terminal=false
+        Type=Application
+        Icon=${pkgs.brave}/share/icons/hicolor/256x256/apps/brave-browser.png
+        Categories=Network;WebBrowser;Utilities;
+        StartupWMClass=Brave
+        MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/atom+xml;
+      '';
+    };
+
+    # zed editor
+    # ".local/share/applications/zed-editor.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+    #   text = ''
+    #     [Desktop Entry]
+    #     Name=Zed Editor
+    #     Comment=Next-Generation Code Editor
+    #     Exec=${pkgs.zed-editor}/bin/zeditor
+    #     Terminal=false
+    #     Type=Application
+    #     Icon=${pkgs.zed-editor}/share/icons/hicolor/512x512/apps/zed.png
+    #     Categories=Development;TextEditor;Utilities;
+    #     StartupWMClass=Zed
+    #     MimeType=text/plain;
+    #   '';
+    # };
+
+    # beekeeper studio
+    ".local/share/applications/beekeeper-studio.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+      text = ''
+        [Desktop Entry]
+        Name=Beekeeper Studio
+        Comment=SQL Editor and Database Manager
+        Exec=${pkgs.beekeeper-studio}/bin/beekeeper-studio --no-sandbox
+        Terminal=false
+        Type=Application
+        Icon=${pkgs.beekeeper-studio}/share/icons/hicolor/512x512/apps/beekeeper-studio.png
+        Categories=Development;Database;Utilities;
+        StartupWMClass=BeekeeperStudio
+        MimeType=application/sql;
+      '';
+    };
+  };
+
+  # Ensure XDG directories are properly set for Ubuntu desktop integration
+  xdg.enable = true;
 
   home.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}";

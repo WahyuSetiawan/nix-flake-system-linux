@@ -1,9 +1,8 @@
-{ pkgs, ... }: with pkgs;
+{ pkgs, ... }:
+with pkgs;
 [
   scrcpy
   fvm
-
-  # jdk21
 
   android-tools
 
@@ -17,12 +16,15 @@
 
   # firebase-tools  # broken with nodejs 24
 ]
-++ (if pkgs.stdenv.isLinux then [
-  adb-sync
+++ (
+  if pkgs.stdenv.isLinux then
+    [
+      adb-sync
+      jdk21
 
-  # Linux-specific application
-  android-studio
-  gtk3
+      # Linux-specific application
+      android-studio
+      gtk3
 
       # firebase-tools
 

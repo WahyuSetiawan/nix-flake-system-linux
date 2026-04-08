@@ -1,4 +1,8 @@
-{ pkgs, lib, stdenv }:
+{
+  pkgs,
+  lib,
+  stdenv,
+}:
 stdenv.mkDerivation rec {
   pname = "workfolio";
   version = "0.1.46";
@@ -27,7 +31,7 @@ stdenv.mkDerivation rec {
     libxkbcommon
 
     # Basic system libraries
-    glibc
+    # glibc
     stdenv.cc.cc.lib
     nss
     nspr

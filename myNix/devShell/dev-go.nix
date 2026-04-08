@@ -27,7 +27,6 @@ mkShell {
     git
 
     # library c
-    glibc
     gcc
 
     mariadb.client
@@ -38,10 +37,10 @@ mkShell {
   packages = [
     (writeShellScriptBin "start_services" # bash
       ''
-        alacritty -e nix run ~/.nix#server-dev --impure > /dev/null 2>&1 & 
+        alacritty -e nix run ~/.nix#server-dev --impure > /dev/null 2>&1 &
             ALACRITTY_PID=$!
             touch $TMP_DIR/server.pid;
-            echo $ALACRITTY_PID > $TMP_DIR/server.pid 
+            echo $ALACRITTY_PID > $TMP_DIR/server.pid
       ''
     )
 
@@ -71,7 +70,7 @@ mkShell {
       ''
         go install github.com/swaggo/swag/cmd/swag@latest
         swag --version
-        
+
         # menambahkan parameter untuk generate docs
         echo "Generating Swagger docs..."
         swag init -g cmd/main.go -o docs
@@ -87,8 +86,8 @@ mkShell {
 
     (writeShellScriptBin "nair" # bash
       ''
-        go install github.com/air-verse/air@latest
-	      air
+                go install github.com/air-verse/air@latest
+        	      air
       ''
     )
 
