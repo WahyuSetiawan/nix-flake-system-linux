@@ -6,12 +6,14 @@ with pkgs;
     exec ${postman}/bin/postman --no-sandbox "$@"
   '')
 
-  # (writeShellScriptBin "antares" ''
-  #   exec ${antares}/bin/antares --no-sandbox "$@"
-  # '')
-
   dbeaver-bin
-  zed-editor
+  # zed-editor
+  # zed-zed-editor
+  beekeeper-studio
+
+  (writeShellScriptBin "brave" ''
+    exec ${brave}/bin/brave --no-sandbox "$@"
+  '')
 ]
 ++ (
   if pkgs.stdenv.isLinux then

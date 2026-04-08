@@ -41,6 +41,8 @@ in
 
       nixd
       nil
+      # mcp server nix
+      mcp-nixos
     ]
     ++ (
       if pkgs.stdenv.isLinux then
@@ -103,19 +105,54 @@ in
       '';
     };
 
-    # zed editor
-    ".local/share/applications/zed-editor.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+    # breave
+    ".local/share/applications/brave.desktop" = lib.mkIf pkgs.stdenv.isLinux {
       text = ''
         [Desktop Entry]
-        Name=Zed Editor
-        Comment=Next-Generation Code Editor
-        Exec=${pkgs.zed-editor}/bin/zeditor
+        Name=Brave
+        GenericName=Brave
+        X-GNOME-FullName=Brave Browser
+        Comment=Web Browser
+        Keywords=browser;web;internet;
+        Exec=brave
         Terminal=false
         Type=Application
-        Icon=${pkgs.zed-editor}/share/icons/hicolor/512x512/apps/zed.png
-        Categories=Development;TextEditor;Utilities;
-        StartupWMClass=Zed
-        MimeType=text/plain;
+        Icon=${pkgs.brave}/share/icons/hicolor/256x256/apps/brave-browser.png
+        Categories=Network;WebBrowser;Utilities;
+        StartupWMClass=Brave
+        MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/atom+xml;
+      '';
+    };
+
+    # zed editor
+    # ".local/share/applications/zed-editor.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+    #   text = ''
+    #     [Desktop Entry]
+    #     Name=Zed Editor
+    #     Comment=Next-Generation Code Editor
+    #     Exec=${pkgs.zed-editor}/bin/zeditor
+    #     Terminal=false
+    #     Type=Application
+    #     Icon=${pkgs.zed-editor}/share/icons/hicolor/512x512/apps/zed.png
+    #     Categories=Development;TextEditor;Utilities;
+    #     StartupWMClass=Zed
+    #     MimeType=text/plain;
+    #   '';
+    # };
+
+    # beekeeper studio
+    ".local/share/applications/beekeeper-studio.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+      text = ''
+        [Desktop Entry]
+        Name=Beekeeper Studio
+        Comment=SQL Editor and Database Manager
+        Exec=${pkgs.beekeeper-studio}/bin/beekeeper-studio --no-sandbox
+        Terminal=false
+        Type=Application
+        Icon=${pkgs.beekeeper-studio}/share/icons/hicolor/512x512/apps/beekeeper-studio.png
+        Categories=Development;Database;Utilities;
+        StartupWMClass=BeekeeperStudio
+        MimeType=application/sql;
       '';
     };
   };

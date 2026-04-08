@@ -4,7 +4,7 @@ with pkgs;
   scrcpy
   fvm
 
-  # jdk21
+  jdk21
 
   # adb-sync  # Temporarily disabled due to broken go-mtpfs dependency
   android-tools
@@ -20,7 +20,7 @@ with pkgs;
   if pkgs.stdenv.isLinux then
     [
       # Linux-specific application
-      android-studio
+      # android-studio
       gtk3
 
       # google-chrome
