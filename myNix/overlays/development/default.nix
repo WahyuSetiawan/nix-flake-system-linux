@@ -6,5 +6,6 @@
     zsh-bench = prev.callPackage ./zsh-bench.nix { };
     workfolio = prev.callPackage ./getworkfolio.nix { };
     workfolionix = prev.callPackage ./workfolio-nix.nix { };
+    gsd-opencode = prev.callPackage ./gsd-opencode.nix { };
   };
 }

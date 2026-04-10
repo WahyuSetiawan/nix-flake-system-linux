@@ -7,11 +7,14 @@
   ];
 
   flake.overlays.default = final: prev: {
+    gsd-opencode = prev.callPackage ./development/gsd-opencode.nix { };
     fvm = prev.callPackage ./development/fvm.nix { };
 
     vivaldi = prev.vivaldi.overrideAttrs (old: {
       postInstall = old.postInstall or "" + ''
-        sed -i 's|Exec=.*|Exec=${old.passthru.wrapperPath or "/run/current-system/sw/bin/vivaldi"} --ozone-platform=x11 %U|' $out/share/applications/vivaldi-stable.desktop
+        sed -i 's|Exec=.*|Exec=${
+          old.passthru.wrapperPath or "/run/current-system/sw/bin/vivaldi"
+        } --ozone-platform=x11 %U|' $out/share/applications/vivaldi-stable.desktop
       '';
     });
 
@@ -51,4 +54,3 @@
     };
   };
 }
-
