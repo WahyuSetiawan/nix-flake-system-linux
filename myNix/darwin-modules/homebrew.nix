@@ -23,6 +23,9 @@ in
     enable = true;
     brews = [
     ];
+    taps = [
+      "deskflow/tap"
+    ];
     onActivation.cleanup = "zap";
     global.brewfile = true;
 
@@ -31,6 +34,8 @@ in
       WhatsApp = 310633997;
     };
 
-    casks = [ ];
+    casks = [
+      "deskflow"
+    ];
   };
 }
