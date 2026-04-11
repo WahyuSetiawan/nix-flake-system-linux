@@ -1,8 +1,10 @@
-{ pkgs
-, self
-, inputs
-, ...
-}: {
+{
+  pkgs,
+  self,
+  inputs,
+  ...
+}:
+{
   imports = [
     ./overlays
     ./devShell
@@ -17,7 +19,7 @@
 
     nixos.hosts.juragankoding.userHomeModules = [ "juragankoding" ];
     darwin.hosts.wahyu.userHomeModules = [ "wahyu" ];
-    
+
     home.users.juragankoding = {
       standalone = {
         enable = true;
@@ -29,7 +31,15 @@
     };
   };
 
-  perSystem = { self', lib, system, input', pkgs, ... }:
+  perSystem =
+    {
+      self',
+      lib,
+      system,
+      input',
+      pkgs,
+      ...
+    }:
     {
       _module.args =
         let
@@ -56,6 +66,7 @@
               };
               android_sdk.accept_license = true;
               allowUnfree = true;
+              allowUnsupportedSystem = true;
 
               substituters = [
                 "https://juragankoding-cachix.cachix.org" # Ganti dengan nama cache Anda
@@ -77,16 +88,21 @@
             inherit overlays;
           };
 
-          nix.settings.trusted-users = [ "root" "juragankoding" ];
+          nix.settings.trusted-users = [
+            "root"
+            "juragankoding"
+          ];
 
-          basePackageFor = pkgs: builtins.attrValues {
-            inherit (pkgs)
-              vim
-              curl
-              wget
-              git
-              ;
-          };
+          basePackageFor =
+            pkgs:
+            builtins.attrValues {
+              inherit (pkgs)
+                vim
+                curl
+                wget
+                git
+                ;
+            };
         };
     };
 }
