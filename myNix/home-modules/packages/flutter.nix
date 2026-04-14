@@ -4,7 +4,7 @@ with pkgs;
   scrcpy
   fvm
 
-  android-tools
+  # android-tools
 
   # #linux tool chain
   cmake
@@ -23,7 +23,7 @@ with pkgs;
       jdk21
 
       # Linux-specific application
-      android-studio
+      # android-studio
       gtk3
 
       # firebase-tools

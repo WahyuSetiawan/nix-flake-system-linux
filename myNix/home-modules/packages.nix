@@ -17,7 +17,7 @@ let
 in
 {
   # nixGL configuration - only for Linux
-  nixGL = lib.mkIf pkgs.stdenv.isLinux {
+  targets.genericLinux.nixGL = lib.mkIf pkgs.stdenv.isLinux {
     packages = import inputs.nixgl {
       inherit pkgs;
       enable32bits = false; # Add this to avoid some issues
