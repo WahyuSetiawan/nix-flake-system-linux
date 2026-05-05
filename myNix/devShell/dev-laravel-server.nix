@@ -8,14 +8,14 @@ with pkgs;
 mkShell {
   buildInputs = with pkgs; [
     php82
-    # php82Packages.composer
-    # php82Packages.memcached
-    # php82Packages.pdo_mysql
+    php82Packages.composer
     nginx
     mysql80
     nodejs_20
     pnpm
     nmap
+
+    phpactor
   ];
 
   packages = [
@@ -38,7 +38,7 @@ mkShell {
                 MYSQL_READY=true
                 break;
             fi
-            
+
             # Tunggu sebelum cek lagi
             sleep $INTERVAL
         done
@@ -56,7 +56,7 @@ mkShell {
     (writeShellScriptBin "start_services" # bash
       ''
         # Ensure base directory exists first
-        if [ -z "$TMP_DIR" ] || [ ! -d "$TMP_DIR" ]; then 
+        if [ -z "$TMP_DIR" ] || [ ! -d "$TMP_DIR" ]; then
           export TMP_DIR=/tmp/laravel-dev-$(date +%s)-$$
           mkdir -p "$TMP_DIR"
         fi
@@ -102,7 +102,7 @@ mkShell {
 
     (writeShellScriptBin "open_mysql" # bash
       ''
-        ${pkgs.mysql80}/bin/mysql --socket="$TMP_DIR/mysql.sock" -u root 
+        ${pkgs.mysql80}/bin/mysql --socket="$TMP_DIR/mysql.sock" -u root
       ''
     )
 
